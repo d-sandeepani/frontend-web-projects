@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WordCount — Instant Word & Character Counter</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #0f0f12;
+    --ink-soft: #5a5a6e;
+    --surface: #f7f7fb;
+    --white: #ffffff;
+    --accent: #5b4cff;
+    --accent-light: #ede9ff;
+    --accent-glow: rgba(91,76,255,0.12);
+    --twitter: #1d9bf0;
+    --instagram: #e1306c;
+    --linkedin: #0a66c2;
+    --border: #e4e4ef;
+    --radius: 14px;
+    --shadow: 0 2px 16px rgba(15,15,18,0.07);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--surface);
+    color: var(--ink);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    padding: 0 24px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .header-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.25rem;
+    color: var(--ink);
+    text-decoration: none;
+    letter-spacing: -0.02em;
+  }
+  .logo span { color: var(--accent); }
+  .tagline {
+    font-size: 0.78rem;
+    color: var(--ink-soft);
+    font-weight: 500;
+    letter-spacing: 0.01em;
+  }
+
+  /* ── MAIN ── */
+  main {
+    flex: 1;
+    max-width: 900px;
+    margin: 0 auto;
+    width: 100%;
+    padding: 32px 24px 48px;
+  }
+
+  /* ── TEXTAREA ── */
+  .editor-wrap {
+    background: var(--white);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+  .editor-wrap:focus-within {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 4px var(--accent-glow), var(--shadow);
+  }
+  .editor-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border);
+    background: #fafafd;
+  }
+  .editor-label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--ink-soft);
+  }
+  .btn-clear {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--ink-soft);
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 4px 12px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .btn-clear:hover { color: var(--accent); border-color: var(--accent); background: var(--accent-light); }
+
+  textarea {
+    width: 100%;
+    min-height: 220px;
+    resize: vertical;
+    border: none;
+    outline: none;
+    padding: 18px 20px;
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--ink);
+    background: var(--white);
+  }
+  textarea::placeholder { color: #b0b0c4; }
+
+  /* ── STAT CARDS ── */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+    margin-top: 20px;
+  }
+  .stat-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px 14px;
+    text-align: center;
+    box-shadow: var(--shadow);
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .stat-card:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(15,15,18,0.1); }
+  .stat-card.accent { border-color: var(--accent); background: var(--accent-light); }
+  .stat-value {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.9rem;
+    font-weight: 800;
+    color: var(--accent);
+    line-height: 1;
+    transition: all 0.2s;
+  }
+  .stat-card:not(.accent) .stat-value { color: var(--ink); }
+  .stat-label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--ink-soft);
+    margin-top: 6px;
+  }
+
+  /* ── SECTION TITLE ── */
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--ink-soft);
+    margin: 32px 0 14px;
+  }
+
+  /* ── SOCIAL LIMITS ── */
+  .social-bars { display: flex; flex-direction: column; gap: 14px; }
+  .social-row {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px 18px;
+    box-shadow: var(--shadow);
+  }
+  .social-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+  }
+  .social-name {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .social-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .social-count {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--ink-soft);
+  }
+  .bar-track {
+    height: 6px;
+    background: var(--border);
+    border-radius: 99px;
+    overflow: hidden;
+  }
+  .bar-fill {
+    height: 100%;
+    border-radius: 99px;
+    transition: width 0.3s ease;
+    min-width: 0;
+  }
+  .bar-fill.over { background: #f04438 !important; }
+  .social-status {
+    font-size: 0.72rem;
+    margin-top: 5px;
+    font-weight: 500;
+    color: var(--ink-soft);
+  }
+  .social-status.ok { color: #12b76a; }
+  .social-status.warn { color: #f79009; }
+  .social-status.over { color: #f04438; }
+
+  /* ── KEYWORD DENSITY ── */
+  .keyword-table {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+  .kw-row {
+    display: flex;
+    align-items: center;
+    padding: 11px 18px;
+    border-bottom: 1px solid var(--border);
+    gap: 12px;
+    transition: background 0.12s;
+  }
+  .kw-row:last-child { border-bottom: none; }
+  .kw-row:hover { background: var(--surface); }
+  .kw-rank {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--accent);
+    width: 20px;
+    flex-shrink: 0;
+  }
+  .kw-word { font-weight: 600; font-size: 0.9rem; flex: 1; }
+  .kw-count {
+    font-size: 0.8rem;
+    color: var(--ink-soft);
+    font-weight: 500;
+    margin-right: 8px;
+    white-space: nowrap;
+  }
+  .kw-bar-wrap { width: 80px; }
+  .kw-bar-track { height: 4px; background: var(--border); border-radius: 99px; }
+  .kw-bar-fill { height: 100%; border-radius: 99px; background: var(--accent); }
+  .kw-empty {
+    padding: 20px 18px;
+    color: var(--ink-soft);
+    font-size: 0.85rem;
+    text-align: center;
+  }
+
+  /* ── AD BANNER ── */
+  .ad-wrap {
+    margin-top: 40px;
+    display: flex;
+    justify-content: center;
+  }
+  .ad-banner {
+    width: 100%;
+    max-width: 728px;
+    height: 90px;
+    background: var(--white);
+    border: 1px dashed var(--border);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--ink-soft);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--white);
+    border-top: 1px solid var(--border);
+    padding: 16px 24px;
+    text-align: center;
+    font-size: 0.75rem;
+    color: var(--ink-soft);
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 680px) {
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .stats-grid .stat-card:first-child { grid-column: 1 / -1; }
+    .tagline { display: none; }
+  }
+  @media (max-width: 400px) {
+    .stats-grid { grid-template-columns: 1fr 1fr; }
+  }
+
+  /* ── ANIMATE NUMBER ── */
+  @keyframes pop { 0%{transform:scale(1)} 50%{transform:scale(1.15)} 100%{transform:scale(1)} }
+  .popping { animation: pop 0.2s ease; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <a class="logo" href="#">Word<span>Count</span></a>
+    <span class="tagline">Instant word &amp; character counter for writers</span>
+  </div>
+</header>
+
+<main>
+
+  <!-- TEXTAREA -->
+  <div class="editor-wrap">
+    <div class="editor-toolbar">
+      <span class="editor-label">Paste or type your text</span>
+      <button class="btn-clear" id="btnClear">Clear</button>
+    </div>
+    <textarea id="textInput" placeholder="Start typing or paste your text here…" spellcheck="true"></textarea>
+  </div>
+
+  <!-- STAT CARDS -->
+  <div class="stats-grid">
+    <div class="stat-card accent">
+      <div class="stat-value" id="wordCount">0</div>
+      <div class="stat-label">Words</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value" id="charCount">0</div>
+      <div class="stat-label">Characters</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value" id="charNoSpace">0</div>
+      <div class="stat-label">No Spaces</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value" id="sentenceCount">0</div>
+      <div class="stat-label">Sentences</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value" id="readTime">0m</div>
+      <div class="stat-label">Read Time</div>
+    </div>
+  </div>
+
+  <!-- SOCIAL LIMITS -->
+  <div class="section-title">Social Media Character Limits</div>
+  <div class="social-bars">
+
+    <div class="social-row" id="row-twitter">
+      <div class="social-meta">
+        <div class="social-name">
+          <span class="social-dot" style="background:var(--twitter)"></span>
+          Twitter / X
+        </div>
+        <div class="social-count"><span id="tw-used">0</span> / 280</div>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" id="tw-bar" style="width:0%;background:var(--twitter)"></div>
+      </div>
+      <div class="social-status ok" id="tw-status">280 characters remaining</div>
+    </div>
+
+    <div class="social-row" id="row-instagram">
+      <div class="social-meta">
+        <div class="social-name">
+          <span class="social-dot" style="background:var(--instagram)"></span>
+          Instagram Caption
+        </div>
+        <div class="social-count"><span id="ig-used">0</span> / 2,200</div>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" id="ig-bar" style="width:0%;background:var(--instagram)"></div>
+      </div>
+      <div class="social-status ok" id="ig-status">2,200 characters remaining</div>
+    </div>
+
+    <div class="social-row" id="row-linkedin">
+      <div class="social-meta">
+        <div class="social-name">
+          <span class="social-dot" style="background:var(--linkedin)"></span>
+          LinkedIn Post
+        </div>
+        <div class="social-count"><span id="li-used">0</span> / 3,000</div>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" id="li-bar" style="width:0%;background:var(--linkedin)"></div>
+      </div>
+      <div class="social-status ok" id="li-status">3,000 characters remaining</div>
+    </div>
+
+  </div>
+
+  <!-- KEYWORD DENSITY -->
+  <div class="section-title">Top Keywords</div>
+  <div class="keyword-table" id="kwTable">
+    <div class="kw-empty">Start typing to see keyword frequency…</div>
+  </div>
+
+  <!-- AD BANNER -->
+  <div class="ad-wrap">
+    <div class="ad-banner">Advertisement — 728 × 90</div>
+  </div>
+
+</main>
+
+<footer>
+  © 2026 WordCount &nbsp;·&nbsp; Free tool for writers, students &amp; marketers
+</footer>
+
+<script>
+  const ta = document.getElementById('textInput');
+
+  function animatePop(el) {
+    el.classList.remove('popping');
+    void el.offsetWidth;
+    el.classList.add('popping');
+    el.addEventListener('animationend', () => el.classList.remove('popping'), {once:true});
+  }
+
+  function setVal(id, val) {
+    const el = document.getElementById(id);
+    if (el.textContent !== String(val)) {
+      el.textContent = val;
+      animatePop(el);
+    }
+  }
+
+  function socialBar(usedId, barId, statusId, chars, limit, colorVar, label) {
+    const used = Math.min(chars, limit);
+    const pct = Math.min((chars / limit) * 100, 100);
+    const rem = limit - chars;
+    const bar = document.getElementById(barId);
+    const status = document.getElementById(statusId);
+    document.getElementById(usedId).textContent = chars.toLocaleString();
+    bar.style.width = pct + '%';
+    if (chars > limit) {
+      bar.classList.add('over');
+      status.className = 'social-status over';
+      status.textContent = `${Math.abs(rem).toLocaleString()} characters over limit`;
+    } else if (pct >= 80) {
+      bar.classList.remove('over');
+      status.className = 'social-status warn';
+      status.textContent = `${rem.toLocaleString()} characters remaining`;
+    } else {
+      bar.classList.remove('over');
+      status.className = 'social-status ok';
+      status.textContent = `${rem.toLocaleString()} characters remaining`;
+    }
+  }
+
+  function stopWords() {
+    return new Set(['the','a','an','and','or','but','in','on','at','to','for',
+      'of','with','is','are','was','were','be','been','have','has','had',
+      'do','does','did','will','would','could','should','may','might','it',
+      'its','this','that','these','those','i','you','he','she','we','they',
+      'my','your','his','her','our','their','not','by','from','as','so',
+      'if','up','out','about','into','than','then','when','which','who',
+      'what','all','can','just','more','also','been','very','get','use',
+      'how','no','yes','me','him','us','them','any','each','some','such',
+      'only','own','same','too','s','re','t','ll','ve','d','m']);
+  }
+
+  function topKeywords(text, n=5) {
+    if (!text.trim()) return [];
+    const stops = stopWords();
+    const words = text.toLowerCase().match(/\b[a-z']{3,}\b/g) || [];
+    const freq = {};
+    words.forEach(w => { if(!stops.has(w)) freq[w]=(freq[w]||0)+1; });
+    return Object.entries(freq)
+      .sort((a,b)=>b[1]-a[1])
+      .slice(0,n);
+  }
+
+  function renderKeywords(pairs) {
+    const table = document.getElementById('kwTable');
+    if (!pairs.length) {
+      table.innerHTML = '<div class="kw-empty">Start typing to see keyword frequency…</div>';
+      return;
+    }
+    const max = pairs[0][1];
+    table.innerHTML = pairs.map(([word, count], i) => `
+      <div class="kw-row">
+        <span class="kw-rank">${i+1}</span>
+        <span class="kw-word">${word}</span>
+        <span class="kw-count">${count}×</span>
+        <div class="kw-bar-wrap">
+          <div class="kw-bar-track">
+            <div class="kw-bar-fill" style="width:${(count/max)*100}%"></div>
+          </div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function analyze() {
+    const text = ta.value;
+    const chars = text.length;
+    const charsNoSpace = text.replace(/\s/g,'').length;
+    const words = text.trim() === '' ? 0 : (text.trim().match(/\S+/g)||[]).length;
+    const sentences = text.trim() === '' ? 0 : (text.match(/[^.!?]*[.!?]+/g)||[]).length || (text.trim() ? 1 : 0);
+
+    // reading time: avg 200 wpm
+    const mins = Math.ceil(words / 200);
+    const readStr = words === 0 ? '0m' : mins < 1 ? '<1m' : mins + 'm';
+
+    setVal('wordCount', words.toLocaleString());
+    setVal('charCount', chars.toLocaleString());
+    setVal('charNoSpace', charsNoSpace.toLocaleString());
+    setVal('sentenceCount', sentences.toLocaleString());
+    setVal('readTime', readStr);
+
+    socialBar('tw-used','tw-bar','tw-status', chars, 280, '--twitter', 'Twitter');
+    socialBar('ig-used','ig-bar','ig-status', chars, 2200, '--instagram', 'Instagram');
+    socialBar('li-used','li-bar','li-status', chars, 3000, '--linkedin', 'LinkedIn');
+
+    renderKeywords(topKeywords(text));
+  }
+
+  ta.addEventListener('input', analyze);
+  document.getElementById('btnClear').addEventListener('click', () => {
+    ta.value = '';
+    analyze();
+    ta.focus();
+  });
+
+  analyze();
+</script>
+</body>
+</html>

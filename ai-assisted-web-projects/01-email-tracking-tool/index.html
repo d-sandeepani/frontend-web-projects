@@ -1,0 +1,2160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Email Account Activity Tracker</title>
+<style>
+  /* ============================================================
+     DESIGN TOKENS
+     Palette: quiet slate/ink with a calm teal accent (trust,
+     privacy, "logbook" feel) — deliberately avoiding the default
+     cream+terracotta and near-black+neon looks.
+     Type: system UI stack for display/body, system mono for
+     time/duration data (a distinct "utility" voice for numbers).
+     ============================================================ */
+  :root{
+    --ink-950:#12151c;
+    --ink-900:#1b1f2a;
+    --ink-800:#242938;
+    --ink-700:#333a4d;
+    --ink-500:#6b7280;
+    --ink-300:#c3c8d2;
+    --ink-100:#e9ebf0;
+    --paper:#f6f7fa;
+    --card:#ffffff;
+    --border:#e2e5eb;
+    --teal-700:#1f5a5a;
+    --teal-600:#2d7a7a;
+    --teal-500:#3a9494;
+    --teal-100:#e3f2f2;
+    --plum-500:#6b5b95;
+    --plum-100:#ece8f4;
+    --amber-500:#c98a2c;
+    --amber-100:#faf1df;
+    --red-600:#c0453a;
+    --red-100:#fbe9e7;
+    --green-600:#2f8f5b;
+    --green-100:#e5f5ec;
+
+    --bg:var(--paper);
+    --surface:var(--card);
+    --surface-2:var(--ink-100);
+    --text:var(--ink-950);
+    --text-muted:var(--ink-500);
+    --line:var(--border);
+    --accent:var(--teal-600);
+    --accent-ink:#ffffff;
+    --accent-soft:var(--teal-100);
+    --shadow-sm:0 1px 2px rgba(18,21,28,.06);
+    --shadow-md:0 6px 20px rgba(18,21,28,.08);
+    --shadow-lg:0 16px 40px rgba(18,21,28,.14);
+    --radius-sm:8px;
+    --radius-md:14px;
+    --radius-lg:20px;
+    --font-ui: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --font-mono: ui-monospace, "SF Mono", "Cascadia Mono", "Consolas", "Roboto Mono", monospace;
+  }
+
+  html[data-theme="dark"]{
+    --bg:var(--ink-950);
+    --surface:var(--ink-900);
+    --surface-2:var(--ink-800);
+    --text:#eef0f4;
+    --text-muted:#9aa1b1;
+    --line:#2b3040;
+    --accent:#48a8a8;
+    --accent-ink:#08201f;
+    --accent-soft:rgba(72,168,168,.14);
+    --shadow-sm:0 1px 2px rgba(0,0,0,.3);
+    --shadow-md:0 6px 20px rgba(0,0,0,.35);
+    --shadow-lg:0 20px 48px rgba(0,0,0,.5);
+  }
+
+  *,*::before,*::after{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{
+    margin:0;
+    font-family:var(--font-ui);
+    background:var(--bg);
+    color:var(--text);
+    transition:background .25s ease, color .25s ease;
+    -webkit-font-smoothing:antialiased;
+  }
+  *{transition:background-color .2s ease, border-color .2s ease, color .2s ease, box-shadow .2s ease;}
+  @media (prefers-reduced-motion: reduce){
+    *{transition:none !important; animation:none !important;}
+  }
+
+  h1,h2,h3,h4{margin:0; font-weight:700; letter-spacing:-.01em;}
+  p{margin:0;}
+  button{font-family:inherit;}
+  a{color:inherit;}
+  input,select,textarea{font-family:inherit;}
+
+  :focus-visible{
+    outline:2px solid var(--accent);
+    outline-offset:2px;
+  }
+
+  .visually-hidden{
+    position:absolute; width:1px; height:1px; padding:0; margin:-1px;
+    overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0;
+  }
+
+  /* ---------------- App shell ---------------- */
+  .app-shell{
+    min-height:100vh;
+  }
+
+  /* ---------------- Sidebar ---------------- */
+  .sidebar{
+    background:var(--surface);
+    border-right:1px solid var(--line);
+    padding:16px 10px 14px;
+    display:flex;
+    flex-direction:column;
+    gap:18px;
+    position:sticky;
+    top:0;
+    height:100vh;
+    overflow-y:auto;
+  }
+  .brand{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:4px 6px;
+  }
+  .brand-mark{
+    width:34px;height:34px;border-radius:10px;
+    background:linear-gradient(155deg, var(--teal-600), var(--teal-700));
+    display:flex;align-items:center;justify-content:center;
+    color:#fff; flex-shrink:0;
+  }
+  .brand-text h1{font-size:15px; line-height:1.2;}
+  .brand-text span{font-size:11px; color:var(--text-muted);}
+
+  .nav{display:flex; flex-direction:column; gap:2px;}
+  .nav-item{
+    display:flex; align-items:center; gap:9px;
+    padding:9px 10px;
+    border-radius:var(--radius-sm);
+    background:transparent; border:none;
+    color:var(--text-muted);
+    font-size:12.8px; font-weight:600;
+    cursor:pointer; text-align:left;
+    width:100%;
+  }
+  .nav-item svg{flex-shrink:0; width:16px; height:16px;}
+  .nav-item:hover{background:var(--surface-2); color:var(--text);}
+  .nav-item.active{background:var(--accent-soft); color:var(--accent-700, var(--accent)); color:var(--text);}
+  .nav-item.active{background:var(--accent-soft);}
+  .nav-item.active svg{color:var(--accent);}
+  .nav-item.active{font-weight:700;}
+
+  .sidebar-footer{
+    margin-top:auto;
+    display:flex; flex-direction:column; gap:8px;
+    padding-top:14px; border-top:1px solid var(--line);
+  }
+  .theme-toggle{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:8px 10px; border-radius:var(--radius-sm);
+    background:var(--surface-2); border:1px solid var(--line);
+    cursor:pointer; font-size:12.5px; font-weight:600; color:var(--text);
+  }
+  .privacy-pill{
+    font-size:11px; color:var(--text-muted);
+    padding:8px 10px; line-height:1.4;
+  }
+
+  /* ---------------- Main ---------------- */
+  .main{
+    padding:22px clamp(16px, 3vw, 36px) 60px;
+    max-width:1440px;
+    width:100%;
+    margin:0 auto;
+  }
+  .topbar{
+    display:flex; align-items:flex-start; justify-content:space-between;
+    gap:16px; margin-bottom:20px; flex-wrap:wrap;
+  }
+  .topbar h2{font-size:22px;}
+  .topbar p{color:var(--text-muted); font-size:13px; margin-top:4px;}
+  .mobile-menu-btn{display:none;}
+
+  .view{display:none;}
+  .view.active{display:block; animation:fadeIn .25s ease;}
+  @keyframes fadeIn{from{opacity:0; transform:translateY(4px);} to{opacity:1; transform:translateY(0);}}
+
+  /* ---------------- Cards ---------------- */
+  .card{
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:var(--radius-md);
+    box-shadow:var(--shadow-sm);
+  }
+  .card-pad{padding:20px;}
+  .section-title{
+    font-size:14px; font-weight:700; margin-bottom:4px;
+  }
+  .section-sub{font-size:12.5px; color:var(--text-muted); margin-bottom:16px;}
+
+  /* ---------------- Stat cards ---------------- */
+  .stats-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(170px, 1fr));
+    gap:14px;
+    margin-bottom:22px;
+  }
+  .stat-card{
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:var(--radius-md);
+    padding:16px;
+    box-shadow:var(--shadow-sm);
+    position:relative;
+    overflow:hidden;
+  }
+  .stat-card::after{
+    content:"";
+    position:absolute; left:0; top:0; bottom:0; width:3px;
+    background:var(--accent);
+  }
+  .stat-card .label{font-size:11.5px; color:var(--text-muted); font-weight:600; text-transform:uppercase; letter-spacing:.04em;}
+  .stat-card .value{font-family:var(--font-mono); font-size:24px; font-weight:700; margin-top:6px;}
+  .stat-card .sub{font-size:11px; color:var(--text-muted); margin-top:2px;}
+
+  /* ---------------- Account section ---------------- */
+  .account-row{
+    display:flex; align-items:flex-end; gap:14px; flex-wrap:wrap;
+  }
+  .account-row .field{flex:1; min-width:220px;}
+  .privacy-note{
+    display:flex; align-items:center; gap:8px;
+    font-size:12px; color:var(--text-muted);
+    margin-top:12px;
+    background:var(--accent-soft); padding:8px 12px; border-radius:var(--radius-sm);
+  }
+
+  /* ---------------- Form elements ---------------- */
+  .field{display:flex; flex-direction:column; gap:6px; margin-bottom:16px;}
+  .field label{font-size:12.5px; font-weight:700; color:var(--text);}
+  .field .hint{font-size:11px; color:var(--text-muted); font-weight:400;}
+  input[type="text"],input[type="email"],input[type="date"],input[type="time"],
+  select, textarea{
+    background:var(--bg);
+    border:1px solid var(--line);
+    color:var(--text);
+    border-radius:var(--radius-sm);
+    padding:10px 12px;
+    font-size:13.5px;
+    width:100%;
+  }
+  textarea{resize:vertical; min-height:90px; font-family:inherit;}
+  input.invalid, select.invalid{border-color:var(--red-600); background:var(--red-100);}
+  .error-msg{font-size:11.5px; color:var(--red-600); font-weight:600; min-height:14px;}
+
+  .form-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));
+    gap:16px 18px;
+  }
+  .form-grid .full{grid-column:1 / -1;}
+
+  /* ---------------- Platform picker ---------------- */
+  .platform-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(104px, 1fr));
+    gap:10px;
+  }
+  .platform-card{
+    display:flex; flex-direction:column; align-items:center; gap:6px;
+    padding:12px 8px;
+    border:1.5px solid var(--line);
+    border-radius:var(--radius-sm);
+    background:var(--bg);
+    cursor:pointer;
+    text-align:center;
+    font-size:11.5px; font-weight:600;
+    user-select:none;
+  }
+  .platform-card svg{width:20px; height:20px;}
+  .platform-card:hover{border-color:var(--accent);}
+  .platform-card.selected{
+    border-color:var(--accent);
+    background:var(--accent-soft);
+    box-shadow:0 0 0 1px var(--accent) inset;
+  }
+  .platform-card input{position:absolute; opacity:0; pointer-events:none;}
+  .custom-platform-input{margin-top:10px;}
+
+  /* ---------------- Custom fields ---------------- */
+  .custom-field-row{
+    display:grid;
+    grid-template-columns:1fr 1fr auto;
+    gap:10px;
+    align-items:center;
+    margin-bottom:10px;
+  }
+  .icon-btn{
+    display:inline-flex; align-items:center; justify-content:center;
+    width:36px; height:36px;
+    border-radius:var(--radius-sm);
+    border:1px solid var(--line);
+    background:var(--bg);
+    color:var(--text-muted);
+    cursor:pointer;
+  }
+  .icon-btn:hover{color:var(--red-600); border-color:var(--red-600);}
+  .reminder-check{
+    display:flex; align-items:center; gap:8px;
+    font-size:13px; font-weight:600; cursor:pointer;
+    width:fit-content;
+  }
+  .reminder-check input{
+    width:17px; height:17px; accent-color:var(--accent); cursor:pointer; margin:0;
+  }
+  .reminder-badge{
+    display:inline-flex; align-items:center; gap:5px;
+    font-size:11px; font-weight:700;
+    padding:3px 9px; border-radius:20px;
+    background:var(--amber-100); color:#8a5f16;
+    white-space:nowrap;
+  }
+  html[data-theme="dark"] .reminder-badge{background:rgba(201,138,44,.16); color:#e0b262;}
+  .reminder-badge.fired{background:var(--surface-2); color:var(--text-muted);}
+  .reminder-badge svg{width:11px; height:11px;}
+
+  .add-custom-btn{
+    display:inline-flex; align-items:center; gap:6px;
+    font-size:12.5px; font-weight:700; color:var(--accent);
+    background:var(--accent-soft); border:1px dashed var(--accent);
+    padding:9px 14px; border-radius:var(--radius-sm); cursor:pointer;
+  }
+
+  /* ---------------- Buttons ---------------- */
+  .btn{
+    display:inline-flex; align-items:center; justify-content:center; gap:8px;
+    padding:11px 18px;
+    border-radius:var(--radius-sm);
+    font-size:13.5px; font-weight:700;
+    cursor:pointer; border:1px solid transparent;
+    white-space:nowrap;
+  }
+  .btn-primary{background:var(--accent); color:var(--accent-ink);}
+  .btn-primary:hover{filter:brightness(1.08);}
+  .btn-secondary{background:var(--surface-2); color:var(--text); border-color:var(--line);}
+  .btn-secondary:hover{background:var(--line);}
+  .btn-outline{background:transparent; border-color:var(--line); color:var(--text);}
+  .btn-outline:hover{border-color:var(--accent); color:var(--accent);}
+  .btn-danger{background:var(--red-100); color:var(--red-600); border-color:transparent;}
+  .btn-danger:hover{background:var(--red-600); color:#fff;}
+  .btn-sm{padding:7px 12px; font-size:12px;}
+  .btn-block{width:100%;}
+  .btn[disabled]{opacity:.5; cursor:not-allowed;}
+
+  .form-actions{
+    display:flex; gap:10px; justify-content:flex-end; margin-top:8px; flex-wrap:wrap;
+  }
+
+  /* ---------------- History toolbar ---------------- */
+  .history-toolbar{
+    display:flex; gap:12px; align-items:center; margin-bottom:16px; flex-wrap:wrap;
+  }
+  .search-box{
+    flex:1; min-width:200px;
+    display:flex; align-items:center; gap:8px;
+    background:var(--surface); border:1px solid var(--line);
+    border-radius:var(--radius-sm); padding:9px 12px;
+  }
+  .search-box svg{color:var(--text-muted); flex-shrink:0;}
+  .search-box input{border:none; background:transparent; padding:0; font-size:13.5px;}
+  .search-box input:focus-visible{outline:none;}
+  .filter-select{width:auto; min-width:140px;}
+  .view-toggle{display:flex; border:1px solid var(--line); border-radius:var(--radius-sm); overflow:hidden;}
+  .view-toggle button{
+    padding:9px 14px; font-size:12.5px; font-weight:700; border:none;
+    background:var(--surface); color:var(--text-muted); cursor:pointer;
+  }
+  .view-toggle button.active{background:var(--accent); color:var(--accent-ink);}
+
+  .date-range-row{display:flex; gap:10px; margin-top:10px; flex-wrap:wrap;}
+  .date-range-row.hidden{display:none;}
+
+  /* ---------------- Activity cards ---------------- */
+  .history-list{display:flex; flex-direction:column; gap:12px;}
+  .activity-card{
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:var(--radius-md);
+    padding:16px 18px;
+    box-shadow:var(--shadow-sm);
+  }
+  .activity-head{
+    display:flex; justify-content:space-between; align-items:flex-start; gap:12px; flex-wrap:wrap;
+  }
+  .activity-email{font-weight:700; font-size:13.5px;}
+  .activity-date{font-size:12px; color:var(--text-muted); font-family:var(--font-mono);}
+  .activity-actions{display:flex; gap:6px;}
+
+  .time-ribbon{
+    margin:12px 0;
+    display:flex; align-items:center; gap:10px;
+  }
+  .time-ribbon .t{font-family:var(--font-mono); font-size:12px; color:var(--text-muted); white-space:nowrap;}
+  .time-ribbon .track{
+    flex:1; height:6px; border-radius:4px; background:var(--surface-2); position:relative; overflow:hidden;
+  }
+  .time-ribbon .fill{
+    position:absolute; top:0; bottom:0; left:0;
+    background:linear-gradient(90deg, var(--accent), var(--plum-500));
+    border-radius:4px;
+  }
+  .duration-badge{
+    font-family:var(--font-mono); font-size:11.5px; font-weight:700;
+    background:var(--accent-soft); color:var(--accent);
+    padding:3px 9px; border-radius:20px; white-space:nowrap;
+  }
+
+  .platform-tags{display:flex; flex-wrap:wrap; gap:6px; margin:10px 0;}
+  .platform-tag{
+    font-size:11px; font-weight:700; padding:4px 10px; border-radius:20px;
+    background:var(--surface-2); color:var(--text);
+  }
+  .activity-notes{font-size:12.5px; color:var(--text-muted); line-height:1.5; margin-bottom:8px;}
+  .custom-fields-list{display:flex; flex-wrap:wrap; gap:8px;}
+  .custom-field-chip{
+    font-size:11px; background:var(--plum-100); color:var(--plum-500);
+    padding:3px 9px; border-radius:20px; font-weight:600;
+  }
+  html[data-theme="dark"] .custom-field-chip{background:rgba(107,91,149,.2); color:#b3a4dd;}
+
+  /* ---------------- Empty state ---------------- */
+  .empty-state{
+    text-align:center; padding:60px 20px;
+    display:flex; flex-direction:column; align-items:center; gap:10px;
+  }
+  .empty-state svg{width:56px; height:56px; color:var(--text-muted); opacity:.6;}
+  .empty-state h3{font-size:16px;}
+  .empty-state p{font-size:13px; color:var(--text-muted); max-width:320px;}
+
+  /* ---------------- Calendar ---------------- */
+  .calendar-header{
+    display:flex; align-items:center; justify-content:space-between; margin-bottom:14px;
+  }
+  .calendar-header h3{font-size:15px;}
+  .calendar-grid{
+    display:grid; grid-template-columns:repeat(7,1fr); gap:6px;
+  }
+  .calendar-dow{font-size:10.5px; font-weight:700; color:var(--text-muted); text-align:center; padding-bottom:4px; text-transform:uppercase;}
+  .calendar-day{
+    aspect-ratio:1/1; border-radius:var(--radius-sm);
+    border:1px solid var(--line);
+    background:var(--bg);
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    font-size:12px; cursor:pointer; position:relative; gap:2px;
+  }
+  .calendar-day.empty{visibility:hidden;}
+  .calendar-day:hover{border-color:var(--accent);}
+  .calendar-day.has-activity{font-weight:700;}
+  .calendar-day .dot{width:5px; height:5px; border-radius:50%; background:var(--accent);}
+  .calendar-day.today{outline:2px solid var(--accent); outline-offset:-2px;}
+  .calendar-day.selected{background:var(--accent); color:var(--accent-ink);}
+  .calendar-day.selected .dot{background:var(--accent-ink);}
+
+  .calendar-day-detail{margin-top:18px;}
+
+  /* ---------------- Data management ---------------- */
+  .data-grid{
+    display:grid; grid-template-columns:repeat(auto-fit, minmax(240px,1fr)); gap:14px;
+  }
+  .data-action-card{
+    padding:16px; border:1px solid var(--line); border-radius:var(--radius-md);
+    background:var(--bg); display:flex; flex-direction:column; gap:10px;
+  }
+  .data-action-card h4{font-size:13.5px;}
+  .data-action-card p{font-size:12px; color:var(--text-muted); line-height:1.5;}
+  .danger-card{border-color:rgba(192,69,58,.35); background:var(--red-100);}
+  html[data-theme="dark"] .danger-card{background:rgba(192,69,58,.1);}
+  .danger-card h4{color:var(--red-600);}
+
+  /* ---------------- Privacy section ---------------- */
+  .privacy-list{display:flex; flex-direction:column; gap:8px; margin-top:8px;}
+  .privacy-list-item{
+    display:flex; align-items:center; gap:10px; font-size:13px;
+  }
+  .privacy-list-item svg{color:var(--green-600); flex-shrink:0; width:16px; height:16px;}
+  .privacy-warning{
+    margin-top:16px; padding:12px 14px; border-radius:var(--radius-sm);
+    background:var(--amber-100); color:#7a5417; font-size:12.5px; line-height:1.5;
+    display:flex; gap:8px;
+  }
+  html[data-theme="dark"] .privacy-warning{background:rgba(201,138,44,.15); color:#e0b262;}
+
+  /* ---------------- Toast ---------------- */
+  #toast-region{
+    position:fixed; bottom:20px; right:20px; z-index:999;
+    display:flex; flex-direction:column; gap:10px;
+  }
+  .toast{
+    background:var(--ink-950); color:#fff;
+    padding:12px 16px; border-radius:var(--radius-sm);
+    font-size:13px; font-weight:600;
+    box-shadow:var(--shadow-lg);
+    display:flex; align-items:center; gap:8px;
+    animation:toastIn .25s ease;
+    max-width:320px;
+  }
+  html[data-theme="dark"] .toast{background:var(--surface-2); border:1px solid var(--line);}
+  .toast.success svg{color:#5fd39a;}
+  .toast.error svg{color:#f08a80;}
+  @keyframes toastIn{from{opacity:0; transform:translateY(10px);} to{opacity:1; transform:translateY(0);}}
+
+  /* ---------------- Modal ---------------- */
+  .modal-overlay{
+    position:fixed; inset:0; background:rgba(15,17,23,.55);
+    display:none; align-items:center; justify-content:center; z-index:998; padding:20px;
+  }
+  .modal-overlay.active{display:flex;}
+  .modal{
+    background:var(--surface); border-radius:var(--radius-md);
+    max-width:420px; width:100%; padding:22px;
+    box-shadow:var(--shadow-lg);
+  }
+  .modal h3{font-size:15px; margin-bottom:8px;}
+  .modal p{font-size:13px; color:var(--text-muted); line-height:1.5; margin-bottom:18px;}
+  .modal-actions{display:flex; gap:10px; justify-content:flex-end;}
+
+  /* ---------------- Settings modal fields ---------------- */
+  .settings-body .field:last-child{margin-bottom:0;}
+
+  /* ---------------- Misc ---------------- */
+  .divider{height:1px; background:var(--line); margin:20px 0;}
+  .flex-between{display:flex; align-items:center; justify-content:space-between;}
+  .gap-8{gap:8px;}
+
+  /* ---------------- Responsive ----------------
+     Grids above use auto-fit/minmax so they reflow fluidly at any
+     desktop or laptop width without hard breakpoints. The rules
+     below add desktop/tablet adjustments before the mobile shell shift. */
+  @media (max-width: 1180px){
+    .app-shell{grid-template-columns:100px 1fr;}
+    .sidebar{padding:18px 12px;}
+    .main{padding-left:20px; padding-right:20px;}
+    .history-toolbar{align-items:stretch;}
+    .view-toggle{width:50%;}
+    .view-toggle button{flex:1;}
+  }
+
+  @media (max-width: 960px){
+    .app-shell{grid-template-columns:180px 1fr;}
+    .brand{padding-left:4px; padding-right:4px;}
+    .brand-text h1{font-size:14px;}
+    .nav-item{padding:9px 10px; font-size:12.8px;}
+    .topbar{align-items:center;}
+    .stats-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
+    .history-toolbar{flex-direction:column; align-items:stretch;}
+    .search-box, .filter-select, .view-toggle{width:100%;}
+    .date-range-row{flex-direction:column;}
+    .date-range-row .field{margin-bottom:0; width:100%;}
+    .account-row{flex-direction:column; align-items:stretch;}
+  }
+
+  @media (max-width: 860px){
+    .app-shell{grid-template-columns:1fr;}
+    .sidebar{
+      position:fixed; left:0; top:0; bottom:0; width:230px; z-index:900;
+      transform:translateX(-100%);
+      box-shadow:var(--shadow-lg);
+    }
+    .sidebar.open{transform:translateX(0);}
+    .sidebar-backdrop{
+      display:none; position:fixed; inset:0; background:rgba(0,0,0,.4); z-index:890;
+    }
+    .sidebar-backdrop.active{display:block;}
+    .mobile-menu-btn{
+      display:inline-flex; align-items:center; justify-content:center;
+      width:38px; height:38px; border-radius:var(--radius-sm);
+      background:var(--surface); border:1px solid var(--line); cursor:pointer;
+    }
+    .main{padding:16px 14px 90px;}
+    .stats-grid{grid-template-columns:repeat(2,1fr);}
+    .platform-grid{grid-template-columns:repeat(3,1fr);}
+    .form-grid{grid-template-columns:1fr;}
+    .account-row{flex-direction:column; align-items:stretch;}
+  }
+
+  @media (max-width: 480px){
+    .stats-grid{grid-template-columns:1fr 1fr;}
+    .platform-grid{grid-template-columns:repeat(2,1fr);}
+    .custom-field-row{grid-template-columns:1fr; gap:6px;}
+    .icon-btn{justify-self:flex-end; width:36px;}
+    .history-toolbar{flex-direction:column; align-items:stretch;}
+    .filter-select{width:100%;}
+    .activity-actions{width:100%; justify-content:flex-start;}
+    .btn{padding:11px 14px;}
+    #toast-region{left:14px; right:14px; bottom:14px;}
+    .toast{max-width:none;}
+  }
+
+  /* ---------------- Fixed top navigation ---------------- */
+  .sidebar{
+    position:fixed;
+    top:0; left:0; right:0;
+    width:100%;
+    height:64px;
+    min-height:64px;
+    z-index:900;
+    padding:8px clamp(12px, 2vw, 24px);
+    border-right:none;
+    border-bottom:1px solid var(--line);
+    display:flex;
+    flex-direction:row;
+    align-items:center;
+    gap:18px;
+    overflow:visible;
+    box-shadow:var(--shadow-sm);
+  }
+  .brand{padding:0; flex-shrink:0;}
+  .nav{
+    flex:1;
+    flex-direction:row;
+    align-items:center;
+    gap:4px;
+    overflow-x:auto;
+    overflow-y:hidden;
+    scrollbar-width:none;
+  }
+  .nav::-webkit-scrollbar{display:none;}
+  .nav-item{width:auto; flex:0 0 auto; white-space:nowrap;}
+  .sidebar-footer{
+    margin-top:0;
+    margin-left:auto;
+    padding-top:0;
+    padding-left:12px;
+    border-top:none;
+    border-left:1px solid var(--line);
+    flex-direction:row;
+    align-items:center;
+  }
+  .privacy-pill{display:none;}
+  .main{
+    padding-top:86px;
+    max-width:1440px;
+  }
+
+  @media (max-width:1180px){
+    .sidebar{padding:8px 14px;}
+    .sidebar-footer{padding-left:8px;}
+    .main{padding-top:82px;}
+  }
+
+  @media (max-width:860px){
+    .sidebar{
+      position:fixed;
+      top:0; left:0; right:0; bottom:auto;
+      width:100%; height:58px; min-height:58px;
+      transform:none;
+      flex-wrap:nowrap;
+      padding:7px 10px;
+    }
+    .sidebar.open{transform:none;}
+    .sidebar-backdrop{display:none !important;}
+    .brand-text span{display:none;}
+    .brand-text h1{font-size:13px;}
+    .nav{gap:2px;}
+    .nav-item{padding:8px 9px; font-size:12px;}
+    .nav-item svg{width:15px; height:15px;}
+    .sidebar-footer{gap:4px; padding-left:6px;}
+    .sidebar-footer .theme-toggle{padding:7px 8px;}
+    .sidebar-footer .theme-toggle span:first-child{font-size:0;}
+    .sidebar-footer .theme-toggle span:first-child::first-letter{font-size:15px;}
+    .mobile-menu-btn{display:none !important;}
+    .main{padding:74px 14px 90px;}
+  }
+
+  @media (max-width:620px){
+    .sidebar{gap:8px;}
+    .brand-mark{width:32px;height:32px;}
+    .brand-text h1{display:none;}
+    .nav-item{font-size:0; padding:9px;}
+    .nav-item svg{width:18px;height:18px;}
+    .nav{justify-content:flex-start;}
+    .sidebar-footer .theme-toggle{width:34px;height:34px; justify-content:center; padding:0;}
+    .sidebar-footer .theme-toggle span:last-child{display:none;}
+  }
+
+</style>
+</head>
+<body>
+
+<div class="app-shell">
+
+  <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+  <!-- ===================== SIDEBAR ===================== -->
+  <aside class="sidebar" id="sidebar">
+    <div class="brand">
+      <div class="brand-mark">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z" opacity="0"/><path d="M22 6 12 13 2 6"/><rect x="2" y="4" width="20" height="16" rx="2"/></svg>
+      </div>
+      <div class="brand-text">
+        <h1>Activity Tracker</h1>
+        <span>Local &amp; offline</span>
+      </div>
+    </div>
+
+    <nav class="nav" aria-label="Main navigation">
+      <button class="nav-item active" data-view="dashboard">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>
+        Dashboard
+      </button>
+      <button class="nav-item" data-view="add">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg>
+        Add Activity
+      </button>
+      <button class="nav-item" data-view="history">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/><path d="M12 7v5l3 3"/></svg>
+        History
+      </button>
+      <button class="nav-item" data-view="data">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
+        Data Management
+      </button>
+      <button class="nav-item" data-view="privacy">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4 6v6c0 5 3.4 8.5 8 9 4.6-.5 8-4 8-9V6l-8-3Z"/></svg>
+        Privacy
+      </button>
+    </nav>
+
+    <div class="sidebar-footer">
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+        <span id="themeLabel">☀ Light Mode</span>
+        <span aria-hidden="true">⇄</span>
+      </button>
+      <button class="theme-toggle" id="settingsBtn" aria-label="Open settings">
+        <span>⚙ Settings</span>
+        <span aria-hidden="true">›</span>
+      </button>
+      <p class="privacy-pill">Your data is stored locally on this device.</p>
+    </div>
+  </aside>
+
+  <!-- ===================== MAIN ===================== -->
+  <main class="main">
+    <div class="topbar">
+      <div style="display:flex; align-items:center; gap:12px;">
+        <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Open menu">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+        </button>
+        <div>
+          <h2 id="viewTitle">Email Account Activity Tracker</h2>
+          <p id="viewSubtitle">Track your account activity privately, locally, and offline.</p>
+        </div>
+      </div>
+      <button class="btn btn-primary" id="quickAddBtn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+        Add Activity
+      </button>
+    </div>
+
+    <!-- ================= DASHBOARD VIEW ================= -->
+    <section class="view active" id="view-dashboard">
+
+      <div class="card card-pad" style="margin-bottom:22px;">
+        <div class="section-title">Email Account</div>
+        <div class="section-sub">This is the account you're logging activity for. It's stored locally only.</div>
+        <div class="account-row">
+          <div class="field" style="margin-bottom:0;">
+            <label for="accountEmail">Email address</label>
+            <input type="email" id="accountEmail" placeholder="email@gmail.com">
+          </div>
+          <button class="btn btn-secondary" id="saveAccountBtn">Save Account</button>
+        </div>
+        <div class="privacy-note">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3 4 6v6c0 5 3.4 8.5 8 9 4.6-.5 8-4 8-9V6l-8-3Z"/></svg>
+          Your data is stored locally on this device.
+        </div>
+      </div>
+
+      <div class="stats-grid" id="statsGrid"><!-- populated by JS --></div>
+
+      <div class="card card-pad">
+        <div class="flex-between" style="margin-bottom:12px;">
+          <div>
+            <div class="section-title" style="margin-bottom:0;">Recent Activity</div>
+            <div class="section-sub" style="margin-bottom:0;">Your most recently logged records.</div>
+          </div>
+          <button class="btn btn-outline btn-sm" data-view-link="history">View all</button>
+        </div>
+        <div id="recentActivityList" class="history-list"></div>
+      </div>
+    </section>
+
+    <!-- ================= ADD ACTIVITY VIEW ================= -->
+    <section class="view" id="view-add">
+      <div class="card card-pad">
+        <div class="section-title" id="formModeTitle">New Activity</div>
+        <div class="section-sub">Fields marked with * are required.</div>
+
+        <form id="activityForm" novalidate>
+          <input type="hidden" id="recordId">
+
+          <div class="form-grid">
+            <div class="field full">
+              <label for="formEmail">Email Account *</label>
+              <input type="email" id="formEmail" placeholder="email@gmail.com" required>
+              <div class="error-msg" id="err-formEmail"></div>
+            </div>
+
+            <div class="field">
+              <label for="formDate">Activity Date *</label>
+              <input type="date" id="formDate" required>
+              <div class="error-msg" id="err-formDate"></div>
+            </div>
+            <div class="field">
+              <label for="formEndTime">End Time * <span class="hint">(time you stopped)</span></label>
+              <input type="time" id="formEndTime" required>
+              <div class="error-msg" id="err-formEndTime"></div>
+            </div>
+            <div class="field">
+              <label for="formComebackTime">Comeback Time * <span class="hint">(time you returned)</span></label>
+              <input type="time" id="formComebackTime" required>
+              <div class="error-msg" id="err-formComebackTime"></div>
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Duration</label>
+            <div id="durationPreview" class="duration-badge" style="width:fit-content;">Not calculated yet</div>
+          </div>
+
+          <div class="field">
+            <label class="reminder-check">
+              <input type="checkbox" id="formReminder">
+              <span>Remind me at comeback time</span>
+            </label>
+            <div class="hint" id="reminderHint">Shows a notification in this browser tab when the comeback time arrives. Only works while this tab stays open.</div>
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="field">
+            <label>Platform / Service *</label>
+            <div class="hint" style="margin-bottom:10px;">Select one or more platforms this activity relates to.</div>
+            <div class="platform-grid" id="platformGrid"></div>
+            <div class="error-msg" id="err-platforms"></div>
+            <div class="field custom-platform-input" id="customPlatformWrap" style="display:none;">
+              <label for="customPlatformName">Custom platform name</label>
+              <input type="text" id="customPlatformName" placeholder="e.g. Notion, Slack, Discord">
+            </div>
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="field">
+            <label for="formNotes">Notes</label>
+            <textarea id="formNotes" placeholder="Add details about this activity… e.g. Checked messages, Worked on project, Used ChatGPT for research, Took a break, Returned after dinner"></textarea>
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="field">
+            <div class="flex-between" style="margin-bottom:10px;">
+              <label style="margin-bottom:0;">Custom Fields</label>
+              <button type="button" class="add-custom-btn" id="addCustomFieldBtn">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+                Add Custom Field
+              </button>
+            </div>
+            <div id="customFieldsContainer"></div>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="btn btn-outline" id="loadDemoBtn">Load Demo Data</button>
+            <button type="button" class="btn btn-secondary" id="cancelFormBtn">Clear Form</button>
+            <button type="submit" class="btn btn-primary" id="submitBtn">Save Activity</button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- ================= HISTORY VIEW ================= -->
+    <section class="view" id="view-history">
+      <div class="card card-pad">
+        <div class="history-toolbar">
+          <div class="search-box">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+            <input type="text" id="searchInput" placeholder="Search activity..." aria-label="Search activity">
+          </div>
+          <select class="filter-select" id="dateFilter" aria-label="Filter by date">
+            <option value="all">All Dates</option>
+            <option value="today">Today</option>
+            <option value="yesterday">Yesterday</option>
+            <option value="week">This Week</option>
+            <option value="month">This Month</option>
+            <option value="custom">Custom Range</option>
+          </select>
+          <select class="filter-select" id="platformFilter" aria-label="Filter by platform">
+            <option value="all">All Platforms</option>
+          </select>
+          <div class="view-toggle">
+            <button type="button" class="active" id="listViewBtn">List</button>
+            <button type="button" id="calendarViewBtn">Calendar</button>
+          </div>
+        </div>
+
+        <div class="date-range-row hidden" id="dateRangeRow">
+          <div class="field" style="margin-bottom:0;">
+            <label for="rangeStart">From</label>
+            <input type="date" id="rangeStart">
+          </div>
+          <div class="field" style="margin-bottom:0;">
+            <label for="rangeEnd">To</label>
+            <input type="date" id="rangeEnd">
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- List view -->
+        <div id="listViewPane">
+          <div class="history-list" id="historyList"></div>
+        </div>
+
+        <!-- Calendar view -->
+        <div id="calendarViewPane" style="display:none;">
+          <div class="calendar-header">
+            <button class="btn btn-outline btn-sm" id="prevMonthBtn">‹ Prev</button>
+            <h3 id="calendarMonthLabel"></h3>
+            <button class="btn btn-outline btn-sm" id="nextMonthBtn">Next ›</button>
+          </div>
+          <div class="calendar-grid" id="calendarGrid"></div>
+          <div class="calendar-day-detail" id="calendarDayDetail"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= DATA MANAGEMENT VIEW ================= -->
+    <section class="view" id="view-data">
+      <div class="card card-pad">
+        <div class="section-title">Backup &amp; Restore</div>
+        <div class="section-sub">Everything stays on this device. Export regularly so you never lose your records.</div>
+
+        <div class="data-grid">
+          <div class="data-action-card">
+            <h4>Export Backup (JSON)</h4>
+            <p>Download all of your account info, activity records, and settings as a JSON file.</p>
+            <button class="btn btn-secondary" id="exportJsonBtn">Export Backup</button>
+          </div>
+          <div class="data-action-card">
+            <h4>Import Backup (JSON)</h4>
+            <p>Restore data from a previously exported JSON backup file.</p>
+            <input type="file" id="importFileInput" accept="application/json" class="visually-hidden">
+            <button class="btn btn-secondary" id="importJsonBtn">Choose File to Import</button>
+          </div>
+          <div class="data-action-card">
+            <h4>Export CSV</h4>
+            <p>Export your activity history as a CSV spreadsheet for use elsewhere.</p>
+            <button class="btn btn-secondary" id="exportCsvBtn">Export CSV</button>
+          </div>
+          <div class="data-action-card danger-card">
+            <h4>Clear All Data</h4>
+            <p>Permanently delete your account info and every saved activity record from this browser.</p>
+            <button class="btn btn-danger" id="clearAllBtn">Clear All Data</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= PRIVACY VIEW ================= -->
+    <section class="view" id="view-privacy">
+      <div class="card card-pad">
+        <div class="section-title">Private by Design</div>
+        <div class="section-sub">This app is a manual, personal logbook. It never connects to your accounts.</div>
+
+        <div class="privacy-list">
+          <div class="privacy-list-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> No account required, no sign-up, no login</div>
+          <div class="privacy-list-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> No server, no cloud database</div>
+          <div class="privacy-list-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> No analytics or tracking scripts</div>
+          <div class="privacy-list-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> No external API calls or data collection</div>
+          <div class="privacy-list-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Data stays in this browser's local storage</div>
+          <div class="privacy-list-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Works fully offline</div>
+        </div>
+
+        <p style="margin-top:16px; font-size:13px; color:var(--text-muted); line-height:1.6;">
+          Your data is stored locally in this browser and is not transmitted by this app.
+        </p>
+
+        <div class="privacy-warning">
+          <span>⚠</span>
+          <span>Clearing your browser or site data may delete your saved records. Export a backup regularly from Data Management.</span>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- ===================== SETTINGS MODAL ===================== -->
+<div class="modal-overlay" id="settingsModal">
+  <div class="modal">
+    <h3>Settings</h3>
+    <p>Adjust preferences for this tracker. Changes are saved locally.</p>
+    <div class="settings-body">
+      <div class="field">
+        <label for="settingWeekStart">Week starts on</label>
+        <select id="settingWeekStart">
+          <option value="0">Sunday</option>
+          <option value="1">Monday</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="settingDefaultView">Default History View</label>
+        <select id="settingDefaultView">
+          <option value="list">List</option>
+          <option value="calendar">Calendar</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" id="closeSettingsBtn">Close</button>
+      <button class="btn btn-primary" id="saveSettingsBtn">Save Settings</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== CONFIRM MODAL (generic) ===================== -->
+<div class="modal-overlay" id="confirmModal">
+  <div class="modal">
+    <h3 id="confirmTitle">Are you sure?</h3>
+    <p id="confirmMessage">This action cannot be undone.</p>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" id="confirmCancelBtn">Cancel</button>
+      <button class="btn btn-danger" id="confirmOkBtn">Confirm</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast-region" aria-live="polite"></div>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ============================================================
+     CONSTANTS & STORAGE KEYS
+     ============================================================ */
+  const STORAGE_KEYS = {
+    account: 'eat_account_v1',
+    records: 'eat_records_v1',
+    settings: 'eat_settings_v1',
+    theme: 'eat_theme_v1'
+  };
+
+  const PLATFORMS = [
+    { id:'chatgpt', label:'ChatGPT', icon:'M12 2 2 7l10 5 10-5-10-5Z M2 17l10 5 10-5 M2 12l10 5 10-5' },
+    { id:'flow', label:'Flow', icon:'M4 12h16 M4 6h16 M4 18h10' },
+    { id:'gmail', label:'Gmail', icon:'M4 6h16v12H4z M4 6l8 7 8-7' },
+    { id:'gdrive', label:'Google Drive', icon:'M12 2 2 20h20L12 2Z' },
+    { id:'gdocs', label:'Google Docs', icon:'M6 2h9l5 5v15H6z M15 2v5h5' },
+    { id:'youtube', label:'YouTube', icon:'M4 6h16v12H4z M10 9l5 3-5 3z' },
+    { id:'instagram', label:'Instagram', icon:'M4 4h16v16H4z M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8Z' },
+    { id:'facebook', label:'Facebook', icon:'M14 8h3V4h-3a5 5 0 0 0-5 5v3H6v4h3v8h4v-8h3l1-4h-4V9a1 1 0 0 1 1-1Z' },
+    { id:'tiktok', label:'TikTok', icon:'M9 4v12a3 3 0 1 1-2-2.8 M9 4a5 5 0 0 0 5 5V6a3 3 0 0 1-3-2Z' },
+    { id:'custom', label:'Custom Platform', icon:'M12 5v14M5 12h14' }
+  ];
+
+  const DEFAULT_SETTINGS = { weekStart:0, defaultHistoryView:'list' };
+
+  /* ============================================================
+     STATE
+     ============================================================ */
+  let account = { email:'' };
+  let records = [];
+  let settings = { ...DEFAULT_SETTINGS };
+  let selectedPlatforms = new Set();
+  let editingId = null;
+  let customFieldSeq = 0;
+  let historyViewMode = 'list';
+  let calendarCursor = new Date();
+  let selectedCalendarDate = null;
+  let confirmCallback = null;
+  const reminderTimers = {}; // recordId -> timeout handle, live only while this tab is open
+
+  /* ============================================================
+     UTILITIES
+     ============================================================ */
+  function uid(){
+    return 'rec_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2,9);
+  }
+
+  function escapeHtml(str){
+    if(str === null || str === undefined) return '';
+    return String(str)
+      .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+      .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+  }
+
+  function isValidEmail(email){
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  }
+
+  function pad2(n){ return String(n).padStart(2,'0'); }
+
+  function formatDateHuman(dateStr){
+    if(!dateStr) return '';
+    const [y,m,d] = dateStr.split('-').map(Number);
+    const dt = new Date(y, m-1, d);
+    return dt.toLocaleDateString(undefined, { year:'numeric', month:'short', day:'numeric' });
+  }
+
+  function formatTimeHuman(t){
+    if(!t) return '--:--';
+    const [h,m] = t.split(':').map(Number);
+    const period = h >= 12 ? 'PM' : 'AM';
+    let h12 = h % 12; if(h12 === 0) h12 = 12;
+    return `${h12}:${pad2(m)} ${period}`;
+  }
+
+  function todayStr(){
+    const d = new Date();
+    return `${d.getFullYear()}-${pad2(d.getMonth()+1)}-${pad2(d.getDate())}`;
+  }
+
+  // Duration = comeback time - end time, handling overnight rollover.
+  function calcDurationMinutes(endTime, comebackTime){
+    if(!endTime || !comebackTime) return null;
+    const [eh, em] = endTime.split(':').map(Number);
+    const [ch, cm] = comebackTime.split(':').map(Number);
+    if([eh,em,ch,cm].some(isNaN)) return null;
+    let endMin = eh*60 + em;
+    let backMin = ch*60 + cm;
+    let diff = backMin - endMin;
+    if(diff < 0) diff += 24*60; // overnight rollover
+    return diff;
+  }
+
+  function formatDuration(mins){
+    if(mins === null || mins === undefined || isNaN(mins)) return 'Not calculated yet';
+    const h = Math.floor(mins/60);
+    const m = mins % 60;
+    if(h === 0) return `${m}m`;
+    if(m === 0) return `${h}h`;
+    return `${h}h ${m}m`;
+  }
+
+  /* ============================================================
+     PERSISTENCE
+     ============================================================ */
+  function loadAll(){
+    try{
+      const a = localStorage.getItem(STORAGE_KEYS.account);
+      account = a ? JSON.parse(a) : { email:'' };
+    }catch(e){ account = { email:'' }; }
+
+    try{
+      const r = localStorage.getItem(STORAGE_KEYS.records);
+      records = r ? JSON.parse(r) : [];
+    }catch(e){ records = []; }
+
+    try{
+      const s = localStorage.getItem(STORAGE_KEYS.settings);
+      settings = s ? { ...DEFAULT_SETTINGS, ...JSON.parse(s) } : { ...DEFAULT_SETTINGS };
+    }catch(e){ settings = { ...DEFAULT_SETTINGS }; }
+  }
+
+  function saveAccount(){ localStorage.setItem(STORAGE_KEYS.account, JSON.stringify(account)); }
+  function saveRecords(){ localStorage.setItem(STORAGE_KEYS.records, JSON.stringify(records)); }
+  function saveSettings(){ localStorage.setItem(STORAGE_KEYS.settings, JSON.stringify(settings)); }
+
+  /* ============================================================
+     THEME
+     ============================================================ */
+  function initTheme(){
+    const saved = localStorage.getItem(STORAGE_KEYS.theme) || 'light';
+    applyTheme(saved);
+  }
+  function applyTheme(theme){
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem(STORAGE_KEYS.theme, theme);
+    document.getElementById('themeLabel').textContent = theme === 'dark' ? '🌙 Dark Mode' : '☀ Light Mode';
+  }
+  document.getElementById('themeToggle').addEventListener('click', function(){
+    const current = document.documentElement.getAttribute('data-theme') || 'light';
+    applyTheme(current === 'dark' ? 'light' : 'dark');
+  });
+
+  /* ============================================================
+     TOASTS
+     ============================================================ */
+  function showToast(message, type){
+    type = type || 'success';
+    const region = document.getElementById('toast-region');
+    const toast = document.createElement('div');
+    toast.className = 'toast ' + type;
+    const iconPath = type === 'success'
+      ? '<path d="M20 6 9 17l-5-5"/>'
+      : '<path d="M12 9v4M12 17h.01"/><circle cx="12" cy="12" r="9"/>';
+    toast.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">${iconPath}</svg><span></span>`;
+    toast.querySelector('span').textContent = message;
+    region.appendChild(toast);
+    setTimeout(()=>{
+      toast.style.opacity = '0';
+      toast.style.transform = 'translateY(6px)';
+      setTimeout(()=> toast.remove(), 220);
+    }, 3000);
+  }
+
+  /* ============================================================
+     COMEBACK TIME REMINDERS
+     Reminders live entirely in this browser tab: a setTimeout is
+     scheduled for each future comeback time, and on firing we show
+     a Notification (if permitted) plus an in-page toast and beep.
+     Because there is no server or background worker, reminders only
+     fire while this tab stays open — that limit is stated in the UI.
+     ============================================================ */
+  function notificationsSupported(){
+    return typeof window !== 'undefined' && 'Notification' in window;
+  }
+
+  function requestNotificationPermission(){
+    if(!notificationsSupported()) return;
+    if(Notification.permission === 'default'){
+      Notification.requestPermission().then(perm=>{
+        if(perm === 'denied'){
+          showToast('Notifications are blocked. Reminders will still show as an in-app alert.', 'error');
+        }
+      });
+    }
+  }
+
+  // Simple two-tone beep using the Web Audio API — no external audio files.
+  function playReminderBeep(){
+    try{
+      const Ctx = window.AudioContext || window.webkitAudioContext;
+      if(!Ctx) return;
+      const ctx = new Ctx();
+      [880, 660].forEach((freq, i)=>{
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.value = freq;
+        gain.gain.setValueAtTime(0.001, ctx.currentTime);
+        const start = ctx.currentTime + i * 0.22;
+        gain.gain.exponentialRampToValueAtTime(0.18, start + 0.02);
+        gain.gain.exponentialRampToValueAtTime(0.001, start + 0.2);
+        osc.connect(gain).connect(ctx.destination);
+        osc.start(start);
+        osc.stop(start + 0.22);
+      });
+      setTimeout(()=> ctx.close(), 700);
+    }catch(e){ /* audio not available, ignore */ }
+  }
+
+  function reminderTargetMs(record){
+    if(!record.date || !record.comebackTime) return null;
+    const [y,m,d] = record.date.split('-').map(Number);
+    const [h,min] = record.comebackTime.split(':').map(Number);
+    if([y,m,d,h,min].some(isNaN)) return null;
+    return new Date(y, m-1, d, h, min, 0, 0).getTime();
+  }
+
+  function clearReminderTimer(id){
+    if(reminderTimers[id]){
+      clearTimeout(reminderTimers[id]);
+      delete reminderTimers[id];
+    }
+  }
+
+  function scheduleReminder(record){
+    clearReminderTimer(record.id);
+    if(!record.reminderEnabled || record.reminderFired) return;
+    const targetMs = reminderTargetMs(record);
+    if(targetMs === null) return;
+    const delay = targetMs - Date.now();
+    if(delay <= 0) return; // don't retroactively fire reminders for past times
+    // setTimeout caps around ~24.8 days; activity reminders are same-day so this is safe.
+    reminderTimers[record.id] = setTimeout(()=> fireReminder(record.id), delay);
+  }
+
+  function scheduleAllReminders(){
+    Object.keys(reminderTimers).forEach(clearReminderTimer);
+    records.forEach(scheduleReminder);
+  }
+
+  function fireReminder(id){
+    const record = records.find(r=>r.id === id);
+    if(!record || record.reminderFired) return;
+
+    const title = 'Comeback time reminder';
+    const body = `${record.email} — ${record.platforms.join(', ') || 'activity'} at ${formatTimeHuman(record.comebackTime)}`;
+
+    if(notificationsSupported() && Notification.permission === 'granted'){
+      try{ new Notification(title, { body }); }catch(e){ /* ignore */ }
+    }
+    showToast(`⏰ ${body}`, 'success');
+    playReminderBeep();
+
+    record.reminderFired = true;
+    saveRecords();
+    renderDashboard();
+    if(document.getElementById('view-history').classList.contains('active')) renderHistory();
+  }
+
+  /* ============================================================
+     CONFIRM MODAL (generic reusable)
+     ============================================================ */
+  function openConfirm(title, message, onConfirm){
+    document.getElementById('confirmTitle').textContent = title;
+    document.getElementById('confirmMessage').textContent = message;
+    confirmCallback = onConfirm;
+    document.getElementById('confirmModal').classList.add('active');
+  }
+  document.getElementById('confirmCancelBtn').addEventListener('click', ()=>{
+    document.getElementById('confirmModal').classList.remove('active');
+    confirmCallback = null;
+  });
+  document.getElementById('confirmOkBtn').addEventListener('click', ()=>{
+    document.getElementById('confirmModal').classList.remove('active');
+    if(typeof confirmCallback === 'function') confirmCallback();
+    confirmCallback = null;
+  });
+
+  /* ============================================================
+     NAVIGATION / VIEWS
+     ============================================================ */
+  const viewTitles = {
+    dashboard: ['Email Account Activity Tracker', 'Track your account activity privately, locally, and offline.'],
+    add: ['Add Activity', 'Log time away, platforms used, and notes for your account.'],
+    history: ['Activity History', 'Search, filter, and review everything you\u2019ve logged.'],
+    data: ['Data Management', 'Back up, restore, or clear your locally stored data.'],
+    privacy: ['Privacy', 'How this tracker handles (and never transmits) your data.']
+  };
+
+  function switchView(viewName){
+    document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+    document.getElementById('view-' + viewName).classList.add('active');
+    document.querySelectorAll('.nav-item').forEach(b=>b.classList.toggle('active', b.dataset.view === viewName));
+    const [title, sub] = viewTitles[viewName];
+    document.getElementById('viewTitle').textContent = title;
+    document.getElementById('viewSubtitle').textContent = sub;
+    closeSidebarMobile();
+    if(viewName === 'history'){ renderHistory(); }
+    if(viewName === 'dashboard'){ renderDashboard(); }
+  }
+
+  document.querySelectorAll('.nav-item').forEach(btn=>{
+    btn.addEventListener('click', ()=> switchView(btn.dataset.view));
+  });
+  document.querySelectorAll('[data-view-link]').forEach(btn=>{
+    btn.addEventListener('click', ()=> switchView(btn.dataset.viewLink));
+  });
+  document.getElementById('quickAddBtn').addEventListener('click', ()=>{
+    resetForm();
+    switchView('add');
+  });
+
+  // Mobile sidebar
+  const sidebar = document.getElementById('sidebar');
+  const sidebarBackdrop = document.getElementById('sidebarBackdrop');
+  document.getElementById('mobileMenuBtn').addEventListener('click', ()=>{
+    sidebar.classList.add('open');
+    sidebarBackdrop.classList.add('active');
+  });
+  sidebarBackdrop.addEventListener('click', closeSidebarMobile);
+  function closeSidebarMobile(){
+    sidebar.classList.remove('open');
+    sidebarBackdrop.classList.remove('active');
+  }
+
+  /* ============================================================
+     SETTINGS MODAL
+     ============================================================ */
+  document.getElementById('settingsBtn').addEventListener('click', ()=>{
+    document.getElementById('settingWeekStart').value = String(settings.weekStart);
+    document.getElementById('settingDefaultView').value = settings.defaultHistoryView;
+    document.getElementById('settingsModal').classList.add('active');
+  });
+  document.getElementById('closeSettingsBtn').addEventListener('click', ()=>{
+    document.getElementById('settingsModal').classList.remove('active');
+  });
+  document.getElementById('saveSettingsBtn').addEventListener('click', ()=>{
+    settings.weekStart = Number(document.getElementById('settingWeekStart').value);
+    settings.defaultHistoryView = document.getElementById('settingDefaultView').value;
+    saveSettings();
+    historyViewMode = settings.defaultHistoryView;
+    document.getElementById('settingsModal').classList.remove('active');
+    showToast('Settings saved.');
+  });
+
+  /* ============================================================
+     ACCOUNT SECTION
+     ============================================================ */
+  function renderAccount(){
+    document.getElementById('accountEmail').value = account.email || '';
+  }
+  document.getElementById('saveAccountBtn').addEventListener('click', ()=>{
+    const val = document.getElementById('accountEmail').value.trim();
+    if(val && !isValidEmail(val)){
+      showToast('Please enter a valid email address.', 'error');
+      return;
+    }
+    account.email = val;
+    saveAccount();
+    showToast('Account saved.');
+    renderDashboard();
+  });
+
+  /* ============================================================
+     PLATFORM PICKER (Add Activity form)
+     ============================================================ */
+  function platformIconSvg(d){
+    return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="${d}"/></svg>`;
+  }
+  function renderPlatformGrid(){
+    const grid = document.getElementById('platformGrid');
+    grid.innerHTML = PLATFORMS.map(p => `
+      <label class="platform-card" data-platform="${p.id}" tabindex="0" role="checkbox" aria-checked="false">
+        ${platformIconSvg(p.icon)}
+        <span>${p.label}</span>
+        <input type="checkbox" value="${p.id}">
+      </label>
+    `).join('');
+
+    grid.querySelectorAll('.platform-card').forEach(card=>{
+      card.addEventListener('click', (e)=>{
+        e.preventDefault();
+        togglePlatform(card.dataset.platform, card);
+      });
+      card.addEventListener('keydown', (e)=>{
+        if(e.key === 'Enter' || e.key === ' '){
+          e.preventDefault();
+          togglePlatform(card.dataset.platform, card);
+        }
+      });
+    });
+  }
+  function togglePlatform(id, card){
+    if(selectedPlatforms.has(id)){
+      selectedPlatforms.delete(id);
+      card.classList.remove('selected');
+      card.setAttribute('aria-checked','false');
+    }else{
+      selectedPlatforms.add(id);
+      card.classList.add('selected');
+      card.setAttribute('aria-checked','true');
+    }
+    document.getElementById('customPlatformWrap').style.display = selectedPlatforms.has('custom') ? 'flex' : 'none';
+    document.getElementById('err-platforms').textContent = '';
+  }
+  function setSelectedPlatforms(ids){
+    selectedPlatforms = new Set(ids);
+    document.querySelectorAll('.platform-card').forEach(card=>{
+      const on = selectedPlatforms.has(card.dataset.platform);
+      card.classList.toggle('selected', on);
+      card.setAttribute('aria-checked', on ? 'true' : 'false');
+    });
+    document.getElementById('customPlatformWrap').style.display = selectedPlatforms.has('custom') ? 'flex' : 'none';
+  }
+
+  /* ============================================================
+     CUSTOM FIELDS (Add Activity form)
+     ============================================================ */
+  function addCustomFieldRow(name, value){
+    name = name || ''; value = value || '';
+    const id = 'cf_' + (customFieldSeq++);
+    const container = document.getElementById('customFieldsContainer');
+    const row = document.createElement('div');
+    row.className = 'custom-field-row';
+    row.dataset.fieldId = id;
+    row.innerHTML = `
+      <input type="text" placeholder="Field name (e.g. Project)" class="cf-name" value="${escapeHtml(name)}" aria-label="Custom field name">
+      <input type="text" placeholder="Field value (e.g. Website redesign)" class="cf-value" value="${escapeHtml(value)}" aria-label="Custom field value">
+      <button type="button" class="icon-btn" aria-label="Remove custom field">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg>
+      </button>
+    `;
+    row.querySelector('.icon-btn').addEventListener('click', ()=> row.remove());
+    container.appendChild(row);
+  }
+  document.getElementById('addCustomFieldBtn').addEventListener('click', ()=> addCustomFieldRow());
+
+  function getCustomFieldsFromForm(){
+    const rows = document.querySelectorAll('#customFieldsContainer .custom-field-row');
+    const fields = [];
+    rows.forEach(row=>{
+      const name = row.querySelector('.cf-name').value.trim();
+      const value = row.querySelector('.cf-value').value.trim();
+      if(name || value) fields.push({ name, value });
+    });
+    return fields;
+  }
+
+  /* ============================================================
+     DURATION LIVE PREVIEW
+     ============================================================ */
+  function updateDurationPreview(){
+    const end = document.getElementById('formEndTime').value;
+    const back = document.getElementById('formComebackTime').value;
+    const mins = calcDurationMinutes(end, back);
+    document.getElementById('durationPreview').textContent = formatDuration(mins);
+  }
+  document.getElementById('formEndTime').addEventListener('input', updateDurationPreview);
+  document.getElementById('formComebackTime').addEventListener('input', updateDurationPreview);
+
+  document.getElementById('formReminder').addEventListener('change', function(){
+    if(this.checked) requestNotificationPermission();
+  });
+
+  /* ============================================================
+     FORM VALIDATION
+     ============================================================ */
+  function clearFormErrors(){
+    ['formEmail','formDate','formEndTime','formComebackTime'].forEach(id=>{
+      document.getElementById(id).classList.remove('invalid');
+      document.getElementById('err-' + id).textContent = '';
+    });
+    document.getElementById('err-platforms').textContent = '';
+  }
+
+  function validateForm(){
+    clearFormErrors();
+    let valid = true;
+
+    const email = document.getElementById('formEmail').value.trim();
+    if(!email){
+      setFieldError('formEmail', 'Email account is required.'); valid = false;
+    }else if(!isValidEmail(email)){
+      setFieldError('formEmail', 'Enter a valid email address.'); valid = false;
+    }
+
+    const date = document.getElementById('formDate').value;
+    if(!date){ setFieldError('formDate', 'Activity date is required.'); valid = false; }
+
+    const endTime = document.getElementById('formEndTime').value;
+    if(!endTime){ setFieldError('formEndTime', 'End time is required.'); valid = false; }
+
+    const comebackTime = document.getElementById('formComebackTime').value;
+    if(!comebackTime){ setFieldError('formComebackTime', 'Comeback time is required.'); valid = false; }
+
+    if(selectedPlatforms.size === 0){
+      document.getElementById('err-platforms').textContent = 'Select at least one platform.';
+      valid = false;
+    }
+    if(selectedPlatforms.has('custom')){
+      const cName = document.getElementById('customPlatformName').value.trim();
+      if(!cName){
+        document.getElementById('err-platforms').textContent = 'Enter a name for the custom platform.';
+        valid = false;
+      }
+    }
+
+    return valid;
+  }
+  function setFieldError(id, msg){
+    document.getElementById(id).classList.add('invalid');
+    document.getElementById('err-' + id).textContent = msg;
+  }
+
+  /* ============================================================
+     FORM SUBMIT (Save / Update Activity)
+     ============================================================ */
+  document.getElementById('activityForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    if(!validateForm()) return;
+
+    const email = document.getElementById('formEmail').value.trim();
+    const date = document.getElementById('formDate').value;
+    const endTime = document.getElementById('formEndTime').value;
+    const comebackTime = document.getElementById('formComebackTime').value;
+    const notes = document.getElementById('formNotes').value.trim();
+    const customPlatformName = document.getElementById('customPlatformName').value.trim();
+    const customFields = getCustomFieldsFromForm();
+    const durationMinutes = calcDurationMinutes(endTime, comebackTime);
+    const reminderEnabled = document.getElementById('formReminder').checked;
+
+    const platformLabels = Array.from(selectedPlatforms).map(id=>{
+      if(id === 'custom') return customPlatformName || 'Custom';
+      const p = PLATFORMS.find(pl=>pl.id === id);
+      return p ? p.label : id;
+    });
+
+    let savedRecordId;
+    if(editingId){
+      const idx = records.findIndex(r=>r.id === editingId);
+      if(idx !== -1){
+        const timeChanged = records[idx].date !== date || records[idx].comebackTime !== comebackTime;
+        records[idx] = {
+          ...records[idx],
+          email, date, endTime, comebackTime, notes,
+          platforms: platformLabels,
+          customFields, durationMinutes,
+          reminderEnabled,
+          // a changed time or a freshly-enabled reminder deserves a fresh chance to fire
+          reminderFired: reminderEnabled ? (timeChanged ? false : (records[idx].reminderFired || false)) : false,
+          updatedAt: Date.now()
+        };
+        savedRecordId = records[idx].id;
+      }
+      showToast('Activity updated successfully.');
+    }else{
+      savedRecordId = uid();
+      records.push({
+        id: savedRecordId,
+        email, date, endTime, comebackTime, notes,
+        platforms: platformLabels,
+        customFields, durationMinutes,
+        reminderEnabled, reminderFired:false,
+        createdAt: Date.now(), updatedAt: Date.now()
+      });
+      showToast('Activity saved successfully.');
+    }
+
+    saveRecords();
+    const savedRecord = records.find(r=>r.id === savedRecordId);
+    if(savedRecord) scheduleReminder(savedRecord);
+    resetForm();
+    renderDashboard();
+    populatePlatformFilterOptions();
+    switchView('dashboard');
+  });
+
+  document.getElementById('cancelFormBtn').addEventListener('click', resetForm);
+
+  function resetForm(){
+    editingId = null;
+    document.getElementById('recordId').value = '';
+    document.getElementById('activityForm').reset();
+    document.getElementById('formEmail').value = account.email || '';
+    document.getElementById('formDate').value = todayStr();
+    document.getElementById('customFieldsContainer').innerHTML = '';
+    document.getElementById('customPlatformWrap').style.display = 'none';
+    document.getElementById('formReminder').checked = false;
+    setSelectedPlatforms([]);
+    clearFormErrors();
+    updateDurationPreview();
+    document.getElementById('formModeTitle').textContent = 'New Activity';
+    document.getElementById('submitBtn').textContent = 'Save Activity';
+  }
+
+  function loadRecordIntoForm(record){
+    editingId = record.id;
+    document.getElementById('recordId').value = record.id;
+    document.getElementById('formEmail').value = record.email;
+    document.getElementById('formDate').value = record.date;
+    document.getElementById('formEndTime').value = record.endTime;
+    document.getElementById('formComebackTime').value = record.comebackTime;
+    document.getElementById('formNotes').value = record.notes || '';
+
+    const ids = record.platforms.map(label=>{
+      const known = PLATFORMS.find(p=>p.label === label);
+      return known ? known.id : null;
+    });
+    const hasCustom = ids.includes(null) || record.platforms.some(l=>!PLATFORMS.find(p=>p.label===l));
+    const finalIds = record.platforms.map(label=>{
+      const known = PLATFORMS.find(p=>p.label === label);
+      return known ? known.id : 'custom';
+    });
+    setSelectedPlatforms(finalIds);
+    if(finalIds.includes('custom')){
+      const customLabel = record.platforms.find(l=>!PLATFORMS.find(p=>p.label===l));
+      document.getElementById('customPlatformName').value = customLabel || '';
+    }
+
+    document.getElementById('customFieldsContainer').innerHTML = '';
+    (record.customFields || []).forEach(f=> addCustomFieldRow(f.name, f.value));
+
+    document.getElementById('formReminder').checked = !!record.reminderEnabled;
+    if(record.reminderEnabled) requestNotificationPermission();
+
+    updateDurationPreview();
+    document.getElementById('formModeTitle').textContent = 'Edit Activity';
+    document.getElementById('submitBtn').textContent = 'Update Activity';
+    switchView('add');
+  }
+
+  /* ============================================================
+     DEMO DATA
+     ============================================================ */
+  document.getElementById('loadDemoBtn').addEventListener('click', ()=>{
+    document.getElementById('formEmail').value = account.email || 'email@gmail.com';
+    document.getElementById('formDate').value = '2026-08-11';
+    document.getElementById('formEndTime').value = '18:30';
+    document.getElementById('formComebackTime').value = '20:00';
+    setSelectedPlatforms(['chatgpt']);
+    document.getElementById('formNotes').value = 'Research and planning';
+    updateDurationPreview();
+    showToast('Demo data loaded into the form. Save it to add as a record.');
+  });
+
+  /* ============================================================
+     RECORD ACTIONS: edit / duplicate / delete
+     ============================================================ */
+  window.__eatEdit = function(id){
+    const rec = records.find(r=>r.id === id);
+    if(rec) loadRecordIntoForm(rec);
+  };
+  window.__eatDuplicate = function(id){
+    const rec = records.find(r=>r.id === id);
+    if(!rec) return;
+    // a duplicated record gets a fresh chance to remind, since it's a new entry
+    const copy = { ...rec, id: uid(), reminderFired:false, createdAt: Date.now(), updatedAt: Date.now() };
+    records.push(copy);
+    saveRecords();
+    scheduleReminder(copy);
+    renderDashboard();
+    renderHistory();
+    showToast('Activity duplicated.');
+  };
+  window.__eatDelete = function(id){
+    openConfirm('Delete this activity?', 'This will permanently delete this activity record. This action cannot be undone.', ()=>{
+      clearReminderTimer(id);
+      records = records.filter(r=>r.id !== id);
+      saveRecords();
+      renderDashboard();
+      renderHistory();
+      showToast('Activity deleted.');
+    });
+  };
+
+  /* ============================================================
+     DASHBOARD: STATS + RECENT LIST
+     ============================================================ */
+  function renderDashboard(){
+    renderAccount();
+    renderStats();
+    renderRecentActivity();
+  }
+
+  function renderStats(){
+    const total = records.length;
+    const today = records.filter(r=>r.date === todayStr()).length;
+    const platformSet = new Set();
+    records.forEach(r=> r.platforms.forEach(p=>platformSet.add(p)));
+    const totalMinutes = records.reduce((sum,r)=> sum + (r.durationMinutes || 0), 0);
+    const sorted = [...records].sort((a,b)=> (b.date+b.endTime).localeCompare(a.date+a.endTime));
+    const last = sorted[0];
+
+    const stats = [
+      { label:'Total Activities', value:String(total), sub:'records saved' },
+      { label:"Today's Activities", value:String(today), sub:todayStr() },
+      { label:'Platforms Used', value:String(platformSet.size), sub:'unique platforms' },
+      { label:'Total Tracked Time', value: formatDuration(totalMinutes === 0 && total === 0 ? null : totalMinutes), sub:'all records combined' },
+      { label:'Last Activity', value: last ? formatDateHuman(last.date) : '—', sub: last ? formatTimeHuman(last.endTime) : 'no records yet' }
+    ];
+
+    document.getElementById('statsGrid').innerHTML = stats.map(s=>`
+      <div class="stat-card">
+        <div class="label">${escapeHtml(s.label)}</div>
+        <div class="value">${escapeHtml(s.value)}</div>
+        <div class="sub">${escapeHtml(s.sub)}</div>
+      </div>
+    `).join('');
+  }
+
+  function renderRecentActivity(){
+    const container = document.getElementById('recentActivityList');
+    const sorted = [...records].sort((a,b)=> b.createdAt - a.createdAt).slice(0,5);
+    if(sorted.length === 0){
+      container.innerHTML = emptyStateHtml();
+      bindEmptyStateBtn(container);
+      return;
+    }
+    container.innerHTML = sorted.map(activityCardHtml).join('');
+    bindActivityCardEvents(container);
+  }
+
+  function emptyStateHtml(){
+    return `
+      <div class="empty-state">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/><path d="M12 7v5l3 3"/></svg>
+        <h3>No activity recorded yet</h3>
+        <p>Start tracking your first activity to see it here.</p>
+        <button class="btn btn-primary" id="emptyStateAddBtn">+ Add Activity</button>
+      </div>
+    `;
+  }
+  function bindEmptyStateBtn(container){
+    const btn = container.querySelector('#emptyStateAddBtn');
+    if(btn) btn.addEventListener('click', ()=>{ resetForm(); switchView('add'); });
+  }
+
+  /* ============================================================
+     ACTIVITY CARD RENDERING (shared by dashboard + history)
+     ============================================================ */
+  function activityCardHtml(r){
+    const durationLabel = formatDuration(r.durationMinutes);
+    // Compute a rough fill % of a 24h ribbon for visual duration context
+    const fillPct = r.durationMinutes ? Math.min(100, (r.durationMinutes / (12*60)) * 100) : 0;
+
+    const platformTags = r.platforms.map(p=>`<span class="platform-tag">${escapeHtml(p)}</span>`).join('');
+    const customChips = (r.customFields||[]).filter(f=>f.name||f.value).map(f=>
+      `<span class="custom-field-chip">${escapeHtml(f.name)}: ${escapeHtml(f.value)}</span>`
+    ).join('');
+
+    const bellIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>';
+    let reminderBadge = '';
+    if(r.reminderEnabled){
+      reminderBadge = r.reminderFired
+        ? `<span class="reminder-badge fired">${bellIcon} Reminder sent</span>`
+        : `<span class="reminder-badge">${bellIcon} Reminder at ${escapeHtml(formatTimeHuman(r.comebackTime))}</span>`;
+    }
+
+    return `
+      <article class="activity-card" data-id="${r.id}">
+        <div class="activity-head">
+          <div>
+            <div class="activity-email">${escapeHtml(r.email)}</div>
+            <div class="activity-date">${escapeHtml(formatDateHuman(r.date))}</div>
+          </div>
+          <div class="activity-actions">
+            ${reminderBadge}
+            <button class="btn btn-outline btn-sm" data-action="edit" aria-label="Edit activity">Edit</button>
+            <button class="btn btn-outline btn-sm" data-action="duplicate" aria-label="Duplicate activity">Duplicate</button>
+            <button class="btn btn-danger btn-sm" data-action="delete" aria-label="Delete activity">Delete</button>
+          </div>
+        </div>
+
+        <div class="time-ribbon">
+          <span class="t">${escapeHtml(formatTimeHuman(r.endTime))}</span>
+          <div class="track"><div class="fill" style="width:${fillPct}%"></div></div>
+          <span class="t">${escapeHtml(formatTimeHuman(r.comebackTime))}</span>
+          <span class="duration-badge">${escapeHtml(durationLabel)}</span>
+        </div>
+
+        <div class="platform-tags">${platformTags}</div>
+        ${r.notes ? `<div class="activity-notes">${escapeHtml(r.notes)}</div>` : ''}
+        ${customChips ? `<div class="custom-fields-list">${customChips}</div>` : ''}
+      </article>
+    `;
+  }
+
+  function bindActivityCardEvents(container){
+    container.querySelectorAll('.activity-card').forEach(card=>{
+      const id = card.dataset.id;
+      card.querySelector('[data-action="edit"]').addEventListener('click', ()=> window.__eatEdit(id));
+      card.querySelector('[data-action="duplicate"]').addEventListener('click', ()=> window.__eatDuplicate(id));
+      card.querySelector('[data-action="delete"]').addEventListener('click', ()=> window.__eatDelete(id));
+    });
+  }
+
+  /* ============================================================
+     HISTORY VIEW: search / filter / list / calendar
+     ============================================================ */
+  function populatePlatformFilterOptions(){
+    const select = document.getElementById('platformFilter');
+    const current = select.value;
+    const base = ['all', ...PLATFORMS.map(p=>p.id)];
+    const labelFor = id => id === 'all' ? 'All Platforms' : (PLATFORMS.find(p=>p.id===id)?.label || id);
+    select.innerHTML = base.map(id=>`<option value="${id}">${escapeHtml(labelFor(id))}</option>`).join('');
+    select.value = base.includes(current) ? current : 'all';
+  }
+
+  function getFilteredRecords(){
+    const query = document.getElementById('searchInput').value.trim().toLowerCase();
+    const dateFilter = document.getElementById('dateFilter').value;
+    const platformFilter = document.getElementById('platformFilter').value;
+
+    let list = [...records];
+
+    if(query){
+      list = list.filter(r=>{
+        const haystack = [
+          r.email, r.notes, ...r.platforms,
+          ...(r.customFields||[]).map(f=>f.name + ' ' + f.value)
+        ].join(' ').toLowerCase();
+        return haystack.includes(query);
+      });
+    }
+
+    if(platformFilter !== 'all'){
+      const label = PLATFORMS.find(p=>p.id===platformFilter)?.label;
+      list = list.filter(r=> r.platforms.some(p=> p === label || (platformFilter==='custom' && !PLATFORMS.find(pl=>pl.label===p))));
+    }
+
+    if(dateFilter !== 'all'){
+      const now = new Date();
+      const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+      list = list.filter(r=>{
+        const [y,m,d] = r.date.split('-').map(Number);
+        const recDate = new Date(y, m-1, d);
+        if(dateFilter === 'today'){
+          return recDate.getTime() === startOfToday.getTime();
+        }
+        if(dateFilter === 'yesterday'){
+          const yest = new Date(startOfToday); yest.setDate(yest.getDate()-1);
+          return recDate.getTime() === yest.getTime();
+        }
+        if(dateFilter === 'week'){
+          const weekAgo = new Date(startOfToday); weekAgo.setDate(weekAgo.getDate()-6);
+          return recDate >= weekAgo && recDate <= startOfToday;
+        }
+        if(dateFilter === 'month'){
+          return recDate.getFullYear() === now.getFullYear() && recDate.getMonth() === now.getMonth();
+        }
+        if(dateFilter === 'custom'){
+          const start = document.getElementById('rangeStart').value;
+          const end = document.getElementById('rangeEnd').value;
+          if(!start && !end) return true;
+          if(start && r.date < start) return false;
+          if(end && r.date > end) return false;
+          return true;
+        }
+        return true;
+      });
+    }
+
+    list.sort((a,b)=> (b.date+b.endTime).localeCompare(a.date+a.endTime));
+    return list;
+  }
+
+  function renderHistory(){
+    populatePlatformFilterOptions();
+    if(historyViewMode === 'list'){
+      renderHistoryList();
+    }else{
+      renderCalendar();
+    }
+  }
+
+  function renderHistoryList(){
+    const container = document.getElementById('historyList');
+    const list = getFilteredRecords();
+    if(list.length === 0){
+      container.innerHTML = records.length === 0 ? emptyStateHtml() : noResultsHtml();
+      bindEmptyStateBtn(container);
+      return;
+    }
+    container.innerHTML = list.map(activityCardHtml).join('');
+    bindActivityCardEvents(container);
+  }
+
+  function noResultsHtml(){
+    return `
+      <div class="empty-state">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+        <h3>No matching activity</h3>
+        <p>Try adjusting your search or filters.</p>
+      </div>
+    `;
+  }
+
+  ['searchInput'].forEach(id=>{
+    document.getElementById(id).addEventListener('input', renderHistoryList);
+  });
+  document.getElementById('platformFilter').addEventListener('change', renderHistoryList);
+  document.getElementById('dateFilter').addEventListener('change', function(){
+    document.getElementById('dateRangeRow').classList.toggle('hidden', this.value !== 'custom');
+    renderHistoryList();
+  });
+  document.getElementById('rangeStart').addEventListener('change', renderHistoryList);
+  document.getElementById('rangeEnd').addEventListener('change', renderHistoryList);
+
+  // List / Calendar toggle
+  document.getElementById('listViewBtn').addEventListener('click', ()=>{
+    historyViewMode = 'list';
+    document.getElementById('listViewBtn').classList.add('active');
+    document.getElementById('calendarViewBtn').classList.remove('active');
+    document.getElementById('listViewPane').style.display = 'block';
+    document.getElementById('calendarViewPane').style.display = 'none';
+    renderHistoryList();
+  });
+  document.getElementById('calendarViewBtn').addEventListener('click', ()=>{
+    historyViewMode = 'calendar';
+    document.getElementById('calendarViewBtn').classList.add('active');
+    document.getElementById('listViewBtn').classList.remove('active');
+    document.getElementById('listViewPane').style.display = 'none';
+    document.getElementById('calendarViewPane').style.display = 'block';
+    renderCalendar();
+  });
+
+  /* ============================================================
+     CALENDAR VIEW
+     ============================================================ */
+  function renderCalendar(){
+    const year = calendarCursor.getFullYear();
+    const month = calendarCursor.getMonth();
+    const monthLabel = calendarCursor.toLocaleDateString(undefined, { month:'long', year:'numeric' });
+    document.getElementById('calendarMonthLabel').textContent = monthLabel;
+
+    const activityDates = new Set(records.map(r=>r.date));
+
+    const firstOfMonth = new Date(year, month, 1);
+    const startOffset = (firstOfMonth.getDay() - settings.weekStart + 7) % 7;
+    const daysInMonth = new Date(year, month+1, 0).getDate();
+
+    const dowLabelsSun = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+    const dow = [];
+    for(let i=0;i<7;i++) dow.push(dowLabelsSun[(i + settings.weekStart) % 7]);
+
+    let html = dow.map(d=>`<div class="calendar-dow">${d}</div>`).join('');
+    for(let i=0;i<startOffset;i++) html += `<div class="calendar-day empty"></div>`;
+
+    const todayS = todayStr();
+    for(let day=1; day<=daysInMonth; day++){
+      const dateStr = `${year}-${pad2(month+1)}-${pad2(day)}`;
+      const has = activityDates.has(dateStr);
+      const isToday = dateStr === todayS;
+      const isSelected = dateStr === selectedCalendarDate;
+      html += `<button type="button" class="calendar-day ${has?'has-activity':''} ${isToday?'today':''} ${isSelected?'selected':''}" data-date="${dateStr}">
+        <span>${day}</span>${has ? '<span class="dot"></span>' : ''}
+      </button>`;
+    }
+
+    document.getElementById('calendarGrid').innerHTML = html;
+    document.querySelectorAll('.calendar-day[data-date]').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        selectedCalendarDate = btn.dataset.date;
+        renderCalendar();
+        renderCalendarDayDetail();
+      });
+    });
+
+    renderCalendarDayDetail();
+  }
+
+  function renderCalendarDayDetail(){
+    const el = document.getElementById('calendarDayDetail');
+    if(!selectedCalendarDate){
+      el.innerHTML = `<p style="font-size:12.5px; color:var(--text-muted);">Select a date to see its activity.</p>`;
+      return;
+    }
+    const dayRecords = records.filter(r=>r.date === selectedCalendarDate)
+      .sort((a,b)=> a.endTime.localeCompare(b.endTime));
+    if(dayRecords.length === 0){
+      el.innerHTML = `<p style="font-size:12.5px; color:var(--text-muted);">No activity on ${escapeHtml(formatDateHuman(selectedCalendarDate))}.</p>`;
+      return;
+    }
+    el.innerHTML = `<h4 style="font-size:13px; margin-bottom:10px;">${escapeHtml(formatDateHuman(selectedCalendarDate))}</h4>
+      <div class="history-list">${dayRecords.map(activityCardHtml).join('')}</div>`;
+    bindActivityCardEvents(el);
+  }
+
+  document.getElementById('prevMonthBtn').addEventListener('click', ()=>{
+    calendarCursor = new Date(calendarCursor.getFullYear(), calendarCursor.getMonth()-1, 1);
+    renderCalendar();
+  });
+  document.getElementById('nextMonthBtn').addEventListener('click', ()=>{
+    calendarCursor = new Date(calendarCursor.getFullYear(), calendarCursor.getMonth()+1, 1);
+    renderCalendar();
+  });
+
+  /* ============================================================
+     DATA MANAGEMENT: export/import JSON, export CSV, clear all
+     ============================================================ */
+  function downloadFile(filename, content, mime){
+    const blob = new Blob([content], { type: mime });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = filename;
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
+
+  document.getElementById('exportJsonBtn').addEventListener('click', ()=>{
+    const payload = { account, records, settings, exportedAt: new Date().toISOString(), version:1 };
+    const d = new Date();
+    const filename = `email-activity-tracker-backup-${d.getFullYear()}-${pad2(d.getMonth()+1)}-${pad2(d.getDate())}.json`;
+    downloadFile(filename, JSON.stringify(payload, null, 2), 'application/json');
+    showToast('Backup exported.');
+  });
+
+  document.getElementById('importJsonBtn').addEventListener('click', ()=>{
+    document.getElementById('importFileInput').click();
+  });
+  document.getElementById('importFileInput').addEventListener('change', function(e){
+    const file = e.target.files[0];
+    if(!file) return;
+    const reader = new FileReader();
+    reader.onload = function(evt){
+      let parsed;
+      try{
+        parsed = JSON.parse(evt.target.result);
+      }catch(err){
+        showToast('That file is not valid JSON.', 'error');
+        e.target.value = '';
+        return;
+      }
+      if(!parsed || typeof parsed !== 'object' || !Array.isArray(parsed.records)){
+        showToast('That file does not look like a valid backup.', 'error');
+        e.target.value = '';
+        return;
+      }
+      openConfirm(
+        'Replace existing data?',
+        `This backup contains ${parsed.records.length} activity record(s). Importing will replace your current data. This cannot be undone.`,
+        ()=>{
+          account = parsed.account && typeof parsed.account === 'object' ? parsed.account : { email:'' };
+          records = parsed.records;
+          settings = parsed.settings ? { ...DEFAULT_SETTINGS, ...parsed.settings } : { ...DEFAULT_SETTINGS };
+          saveAccount(); saveRecords(); saveSettings();
+          scheduleAllReminders();
+          renderDashboard();
+          populatePlatformFilterOptions();
+          showToast('Backup imported successfully.');
+        }
+      );
+      e.target.value = '';
+    };
+    reader.readAsText(file);
+  });
+
+  document.getElementById('exportCsvBtn').addEventListener('click', ()=>{
+    if(records.length === 0){
+      showToast('There is no activity to export yet.', 'error');
+      return;
+    }
+    const headers = ['Email','Date','End Time','Comeback Time','Duration','Platforms','Notes','Custom Fields'];
+    const rows = records.map(r=>[
+      r.email, r.date, r.endTime, r.comebackTime,
+      formatDuration(r.durationMinutes),
+      r.platforms.join('; '),
+      r.notes || '',
+      (r.customFields||[]).map(f=>`${f.name}: ${f.value}`).join('; ')
+    ]);
+    const csvEscape = v => `"${String(v).replace(/"/g,'""')}"`;
+    const csv = [headers, ...rows].map(row=> row.map(csvEscape).join(',')).join('\r\n');
+    const d = new Date();
+    downloadFile(`email-activity-tracker-${d.getFullYear()}-${pad2(d.getMonth()+1)}-${pad2(d.getDate())}.csv`, csv, 'text/csv');
+    showToast('CSV exported.');
+  });
+
+  document.getElementById('clearAllBtn').addEventListener('click', ()=>{
+    openConfirm(
+      'Permanently delete all data?',
+      'Are you sure you want to permanently delete all activity data? This includes your account info and every saved record. This action cannot be undone.',
+      ()=>{
+        Object.keys(reminderTimers).forEach(clearReminderTimer);
+        account = { email:'' };
+        records = [];
+        settings = { ...DEFAULT_SETTINGS };
+        saveAccount(); saveRecords(); saveSettings();
+        renderDashboard();
+        populatePlatformFilterOptions();
+        showToast('All data cleared.');
+      }
+    );
+  });
+
+  /* ============================================================
+     INIT
+     ============================================================ */
+  function init(){
+    initTheme();
+    loadAll();
+    historyViewMode = settings.defaultHistoryView || 'list';
+    renderPlatformGrid();
+    resetForm();
+    renderDashboard();
+    populatePlatformFilterOptions();
+    scheduleAllReminders();
+  }
+
+  init();
+})();
+</script>
+</body>
+</html>
