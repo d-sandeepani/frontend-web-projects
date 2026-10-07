@@ -47,17 +47,15 @@ The contact form is front-end only (`action="#"`): it does not send messages. St
 
 | Desktop | Mobile |
 |---|---|
-| ![Desktop](screenshots/desktop-home.png) | ![Mobile](screenshots/mobile-home.png) |
-
-![Feature](screenshots/feature.png)
+| ![Desktop](home.png) | ![Mobile](mobileview.png) |
 
 ## Live Demo
 
-[Live Demo](https://d-sandeepani.github.io/frontend-web-projects/02-coffee-shop-website/)
+[Live Demo](https://d-sandeepani.github.io/frontend-web-projects/yoga-studio-website/)
 
 ## GitHub Repository
 
-https://github.com/d-sandeepani/frontend-web-projects/tree/main/01-yoga-studio-website
+https://github.com/d-sandeepani/frontend-web-projects/tree/main/yoga-studio-website/
 
 ## Learning Outcomes
 
