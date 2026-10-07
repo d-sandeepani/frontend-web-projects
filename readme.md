@@ -23,7 +23,7 @@ A collection of responsive websites, landing pages, business interfaces, and AI-
 
 | # | Project | Category | Technologies | Status | Live Demo |
 | - | ------- | -------- | ------------ | ------ | --------- |
-| 01 | [Yoga Studio Website](01-yoga-studio-website/) | Frontend Website | HTML, CSS | Completed | [Live Demo](https://d-sandeepani.github.io/frontend-web-projects/02-coffee-shop-website/) |
+| 01 | [Yoga Studio Website](yoga-studio-website/) | Frontend Website | HTML, CSS | Completed | [Live Demo](https://d-sandeepani.github.io/frontend-web-projects/yoga-studio-website/) |
 | 02 | [Coffee Shop Website](02-coffee-shop-website/) | Frontend Website | HTML, CSS | Completed | [Live Demo](https://d-sandeepani.github.io/frontend-web-projects/02-coffee-shop-website/) |
 | 03 | [Fitness Coach Landing Page](03-fitness-coach-landing-page/) | Frontend Landing Page | HTML, CSS | Completed | [Live Demo](https://d-sandeepani.github.io/frontend-web-projects/03-fitness-coach-landing-page/) |
 | 04 | [Wedding Planner Website](04-wedding-planner-website/) | Frontend Website | HTML, CSS | Completed | [Live Demo](https://d-sandeepani.github.io/frontend-web-projects/04-wedding-planner-website/) |
