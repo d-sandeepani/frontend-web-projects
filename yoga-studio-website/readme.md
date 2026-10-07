@@ -47,7 +47,7 @@ The contact form is front-end only (`action="#"`): it does not send messages. St
 
 | Desktop | Mobile |
 |---|---|
-| ![Desktop](home.png) | ![Mobile](mobileview.png) |
+| ![Desktop](home.png) | ![Mobile](mobile-view.png) |
 
 ## Live Demo
 
