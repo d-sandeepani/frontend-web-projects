@@ -46,17 +46,16 @@ Contact form is front-end only. Email (`.example` domain) and phone are placehol
 
 | Desktop | Mobile |
 |---|---|
-| ![Desktop](screenshots/desktop-home.png) | ![Mobile](screenshots/mobile-home.png) |
+| ![Desktop](screenshots/home.png) | ![Mobile](screenshots/mobiilerespnsive.png) |
 
-![Feature](screenshots/feature.png)
 
 ## Live Demo
 
-[Live Demo](https://d-sandeepani.github.io/frontend-web-projects/02-coffee-shop-website/)
+[Live Demo](https://d-sandeepani.github.io/frontend-web-projects/coffee-shop-website/)
 
 ## GitHub Repository
 
-https://d-sandeepani.github.io/frontend-web-projects/02-coffee-shop-website/
+https://d-sandeepani.github.io/frontend-web-projects/coffee-shop-website/
 
 ## Learning Outcomes
 
