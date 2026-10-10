@@ -42,20 +42,12 @@ The search bar is **UI only**: submitting it does not filter the listings. Inqui
 ```
 
 ## Screenshots
-
-| Desktop | Mobile |
-|---|---|
-| ![Desktop](screenshots/desktop-home.png) | ![Mobile](screenshots/mobile-home.png) |
-
-![Feature](screenshots/feature.png)
+ ![Desktop](home.png) 
 
 ## Live Demo
 
-[Live Demo](https://d-sandeepani.github.io/frontend-web-projects/06-real-estate-landing-page/)
+[Live Demo](https://d-sandeepani.github.io/frontend-web-projects/real-estate-landing-page/)
 
-## GitHub Repository
-
-https://github.com/d-sandeepani/frontend-web-projects/tree/main/06-real-estate-landing-page
 
 ## Learning Outcomes
 
