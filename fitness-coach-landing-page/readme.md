@@ -44,19 +44,13 @@ Form is front-end only. On phones the navigation links are shown in a wrapped ro
 
 ## Screenshots
 
-| Desktop | Mobile |
-|---|---|
-| ![Desktop](screenshots/desktop-home.png) | ![Mobile](screenshots/mobile-home.png) |
+ ![Desktop](home.png) 
 
-![Feature](screenshots/feature.png)
 
 ## Live Demo
 
-[Live Demo](https://d-sandeepani.github.io/frontend-web-projects/03-fitness-coach-landing-page/)
+[Live Demo](https://d-sandeepani.github.io/frontend-web-projects/fitness-coach-landing-page/)
 
-## GitHub Repository
-
-https://github.com/d-sandeepani/frontend-web-projects/tree/main/03-fitness-coach-landing-page
 
 ## Learning Outcomes
 
