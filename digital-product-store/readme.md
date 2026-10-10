@@ -42,20 +42,13 @@ Pastel product-card grid with clear pricing and benefit callouts.
 ```
 
 ## Screenshots
+ ![Desktop](home.png) 
 
-| Desktop | Mobile |
-|---|---|
-| ![Desktop](screenshots/desktop-home.png) | ![Mobile](screenshots/mobile-home.png) |
-
-![Feature](screenshots/feature.png)
 
 ## Live Demo
 
-[Live Demo](https://d-sandeepani.github.io/frontend-web-projects/05-digital-product-store/)
+[Live Demo](https://d-sandeepani.github.io/frontend-web-projects/digital-product-store/)
 
-## GitHub Repository
-
-https://github.com/d-sandeepani/frontend-web-projects/tree/main/05-digital-product-store
 
 ## Learning Outcomes
 
