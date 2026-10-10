@@ -46,19 +46,12 @@ Data lives only in one browser on one device; clearing browser data deletes it. 
 
 ## Screenshots
 
-| Desktop | Mobile |
-|---|---|
-| ![Desktop](screenshots/desktop-home.png) | ![Mobile](screenshots/mobile-home.png) |
-
-![Feature](screenshots/feature.png)
+![Desktop](dashboard.png)
 
 ## Live Demo
 
 [Live Demo](https://d-sandeepani.github.io/frontend-web-projects/ai-assisted-web-projects/01-email-tracking-tool/)
 
-## GitHub Repository
-
-https://github.com/d-sandeepani/frontend-web-projects/tree/main/ai-assisted-web-projects/01-email-tracking-tool
 
 ## AI-Assisted Development
 
