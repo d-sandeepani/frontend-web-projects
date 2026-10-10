@@ -43,19 +43,13 @@ Contact form is front-end only. Email (`.example` domain) and phone are placehol
 ```
 
 ## Screenshots
-
-| Desktop | Mobile |
-|---|---|
-| ![Desktop](home.png) | ![Mobile](mobiilerespnsive.png) |
+![Desktop](home.png) 
 
 
 ## Live Demo
 
 [Live Demo](https://github.com/d-sandeepani/frontend-web-projects/edit/main/coffee-shop-website)
 
-## GitHub Repository
-
-https://d-sandeepani.github.io/frontend-web-projects/coffee-shop-website/
 
 ## Learning Outcomes
 
