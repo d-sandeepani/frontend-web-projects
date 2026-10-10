@@ -43,19 +43,14 @@ Sign-up buttons are links to on-page sections: there is no real sign-up or produ
 
 ## Screenshots
 
-| Desktop | Mobile |
-|---|---|
-| ![Desktop](screenshots/desktop-home.png) | ![Mobile](screenshots/mobile-home.png) |
+ ![Desktop](home.png) 
 
-![Feature](screenshots/feature.png)
 
 ## Live Demo
 
-[Live Demo](https://d-sandeepani.github.io/frontend-web-projects/08-saas-landing-page/)
+[Live Demo](https://d-sandeepani.github.io/frontend-web-projects/saas-landing-page/)
 
-## GitHub Repository
 
-https://github.com/d-sandeepani/frontend-web-projects/tree/main/08-saas-landing-page
 
 ## Learning Outcomes
 
