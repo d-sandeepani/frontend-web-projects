@@ -43,18 +43,11 @@ Images are hot-linked from Unsplash, so they need internet and could change or d
 ```
 
 ## Screenshots
-
-_Screenshots to be added (take them from your live GitHub Pages URL)._
-
-`screenshots/desktop-home.png` · `screenshots/mobile-home.png` · `screenshots/feature.png`
-
+![Dekstop](home.png)
 ## Live Demo
 
 [Live Demo](https://d-sandeepani.github.io/frontend-web-projects/ai-assisted-web-projects/03-wallpaper-website/)
 
-## GitHub Repository
-
-https://github.com/d-sandeepani/frontend-web-projects/tree/main/ai-assisted-web-projects/03-wallpaper-website
 
 ## AI-Assisted Development
 
