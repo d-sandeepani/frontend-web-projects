@@ -43,20 +43,13 @@ Inquiry form is front-end only and does not send data. Contact details are place
 ```
 
 ## Screenshots
+ ![Desktop](home.png)
 
-| Desktop | Mobile |
-|---|---|
-| ![Desktop](screenshots/desktop-home.png) | ![Mobile](screenshots/mobile-home.png) |
-
-![Feature](screenshots/feature.png)
 
 ## Live Demo
 
-[Live Demo](https://d-sandeepani.github.io/frontend-web-projects/04-wedding-planner-website/)
+[Live Demo](https://d-sandeepani.github.io/frontend-web-projects/wedding-planner-website/)
 
-## GitHub Repository
-
-https://github.com/d-sandeepani/frontend-web-projects/tree/main/04-wedding-planner-website
 
 ## Learning Outcomes
 
