@@ -41,20 +41,12 @@ The brand name still reads **'YOUR NAME.'** and email is `your@email.com`; repla
 ```
 
 ## Screenshots
+ ![Desktop](home.png) 
 
-| Desktop | Mobile |
-|---|---|
-| ![Desktop](screenshots/desktop-home.png) | ![Mobile](screenshots/mobile-home.png) |
-
-![Feature](screenshots/feature.png)
 
 ## Live Demo
 
-[Live Demo](https://d-sandeepani.github.io/frontend-web-projects/07-freelancer-portfolio/)
-
-## GitHub Repository
-
-https://github.com/d-sandeepani/frontend-web-projects/tree/main/07-freelancer-portfolio
+[Live Demo](https://d-sandeepani.github.io/frontend-web-projects/freelancer-portfolio/)
 
 ## Learning Outcomes
 
