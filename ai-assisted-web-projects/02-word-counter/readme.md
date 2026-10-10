@@ -41,18 +41,11 @@ Uses Google Fonts (needs internet for the intended typefaces; falls back otherwi
 ```
 
 ## Screenshots
-
-_Screenshots to be added (take them from your live GitHub Pages URL)._
-
-`screenshots/desktop-home.png` · `screenshots/mobile-home.png` · `screenshots/feature.png`
-
+  ![Desktop](dashboard.png) 
+  
 ## Live Demo
 
 [Live Demo](https://d-sandeepani.github.io/frontend-web-projects/ai-assisted-web-projects/02-word-counter/)
-
-## GitHub Repository
-
-https://github.com/d-sandeepani/frontend-web-projects/tree/main/ai-assisted-web-projects/02-word-counter
 
 ## AI-Assisted Development
 
