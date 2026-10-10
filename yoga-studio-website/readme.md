@@ -45,17 +45,12 @@ The contact form is front-end only (`action="#"`): it does not send messages. St
 
 ## Screenshots
 
-| Desktop | Mobile |
-|---|---|
-| ![Desktop](home.png) | ![Mobile](mobile-view.png) |
+| ![Desktop](home.png) 
+
 
 ## Live Demo
 
 [Live Demo](https://d-sandeepani.github.io/frontend-web-projects/yoga-studio-website/)
-
-## GitHub Repository
-
-https://github.com/d-sandeepani/frontend-web-projects/tree/main/yoga-studio-website/
 
 ## Learning Outcomes
 
