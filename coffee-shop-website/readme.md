@@ -48,7 +48,7 @@ Contact form is front-end only. Email (`.example` domain) and phone are placehol
 
 ## Live Demo
 
-[Live Demo](https://github.com/d-sandeepani/frontend-web-projects/coffee-shop-website)
+[Live Demo](https://d-sandeepani.github.io/frontend-web-projects/coffee-shop-website/)
 
 
 ## Learning Outcomes
