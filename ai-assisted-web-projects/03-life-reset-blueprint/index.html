@@ -1,0 +1,2472 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>30-Day Life Reset Blueprint</title>
+<style>
+:root {
+  --gold: #D4AF37;
+  --gold-light: #E8CC6A;
+  --gold-dark: #A8881F;
+  --black: #111111;
+  --black-2: #1A1A1A;
+  --black-3: #222222;
+  --black-4: #2A2A2A;
+  --ivory: #FAF9F6;
+  --ivory-2: #F0EDE8;
+  --ivory-3: #E5E0D8;
+  --text-primary: #FAF9F6;
+  --text-secondary: #C9C3B8;
+  --text-muted: #8A8278;
+  --surface: #1A1A1A;
+  --surface-2: #222222;
+  --surface-3: #2A2A2A;
+  --border: rgba(212,175,55,0.2);
+  --border-light: rgba(212,175,55,0.1);
+  --shadow: 0 8px 32px rgba(0,0,0,0.4);
+  --shadow-gold: 0 4px 20px rgba(212,175,55,0.15);
+  --radius: 12px;
+  --radius-lg: 20px;
+  --transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+}
+[data-theme="light"] {
+  --black: #F5F3EE;
+  --black-2: #EDE9E1;
+  --black-3: #E5E0D6;
+  --black-4: #D8D2C6;
+  --text-primary: #1A1A1A;
+  --text-secondary: #3A3530;
+  --text-muted: #6A635A;
+  --surface: #FFFFFF;
+  --surface-2: #F5F3EE;
+  --surface-3: #EDE9E1;
+  --border: rgba(212,175,55,0.3);
+  --border-light: rgba(212,175,55,0.15);
+  --shadow: 0 8px 32px rgba(0,0,0,0.1);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  font-family: 'Georgia', 'Times New Roman', serif;
+  background: var(--black);
+  color: var(--text-primary);
+  min-height: 100vh;
+  line-height: 1.6;
+}
+/* TYPOGRAPHY */
+h1,h2,h3,h4,h5{font-family:'Georgia',serif;line-height:1.2;}
+.sans{font-family:system-ui,-apple-system,sans-serif;}
+/* NAV */
+.nav{
+  position:sticky;top:0;z-index:1000;
+  background:rgba(17,17,17,0.95);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+  padding:0 20px;
+}
+[data-theme="light"] .nav{background:rgba(245,243,238,0.95);}
+.nav-inner{
+  max-width:1400px;margin:0 auto;
+  display:flex;align-items:center;justify-content:space-between;
+  height:60px;gap:10px;
+}
+.nav-brand{
+  display:flex;align-items:center;gap:10px;
+  font-size:1.1rem;font-weight:700;color:var(--gold);
+  letter-spacing:0.02em;white-space:nowrap;
+  flex-shrink:0;
+}
+.nav-brand .crown{font-size:1.3rem;}
+.nav-links{
+  display:flex;gap:4px;overflow-x:auto;
+  scrollbar-width:none;flex:1;justify-content:center;
+}
+.nav-links::-webkit-scrollbar{display:none;}
+.nav-link{
+  padding:6px 12px;border-radius:8px;
+  font-size:0.78rem;font-family:system-ui,sans-serif;
+  color:var(--text-secondary);cursor:pointer;
+  transition:var(--transition);white-space:nowrap;
+  background:none;border:none;font-weight:500;
+}
+.nav-link:hover,.nav-link.active{color:var(--gold);background:rgba(212,175,55,0.1);}
+.nav-actions{display:flex;gap:8px;flex-shrink:0;align-items:center;}
+.btn-icon{
+  width:36px;height:36px;border-radius:8px;
+  border:1px solid var(--border);background:var(--surface-2);
+  color:var(--text-secondary);cursor:pointer;
+  font-size:1rem;transition:var(--transition);
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+}
+.btn-icon:hover{color:var(--gold);border-color:var(--gold);}
+.nav-toggle{display:none;}
+/* MAIN */
+.main{max-width:1400px;margin:0 auto;padding:30px 20px;width:100%;}
+/* HERO */
+.hero{
+  text-align:center;padding:60px 20px 40px;
+  background:linear-gradient(135deg,rgba(212,175,55,0.05) 0%,transparent 50%,rgba(212,175,55,0.03) 100%);
+  border-radius:var(--radius-lg);
+  border:1px solid var(--border-light);
+  margin-bottom:30px;
+  position:relative;overflow:hidden;
+}
+.hero::before{
+  content:'';position:absolute;top:-50%;left:-50%;
+  width:200%;height:200%;
+  background:radial-gradient(circle at 50% 0%,rgba(212,175,55,0.08) 0%,transparent 60%);
+  pointer-events:none;
+}
+.hero-eyebrow{
+  font-family:system-ui,sans-serif;
+  font-size:0.75rem;font-weight:700;letter-spacing:0.15em;
+  color:var(--gold);text-transform:uppercase;margin-bottom:16px;
+}
+.hero h1{font-size:clamp(2rem,5vw,3.5rem);color:var(--ivory);margin-bottom:12px;}
+.hero h1 .accent{color:var(--gold);}
+.hero-sub{font-size:1.1rem;color:var(--text-secondary);max-width:600px;margin:0 auto 30px;}
+.hero-stats{
+  display:flex;gap:30px;justify-content:center;flex-wrap:wrap;margin-top:30px;
+}
+.hero-stat{text-align:center;}
+.hero-stat-val{font-size:2rem;font-weight:700;color:var(--gold);line-height:1;}
+.hero-stat-label{font-size:0.75rem;font-family:system-ui,sans-serif;color:var(--text-muted);margin-top:4px;text-transform:uppercase;letter-spacing:0.1em;}
+/* SECTIONS */
+.section{margin-bottom:40px;}
+.section-header{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:20px;flex-wrap:wrap;gap:10px;
+}
+.section-title{
+  font-size:1.5rem;color:var(--ivory);
+  display:flex;align-items:center;gap:10px;
+}
+.section-title .icon{font-size:1.2rem;}
+/* CARDS */
+.card{
+  background:var(--surface);
+  border:1px solid var(--border-light);
+  border-radius:var(--radius);
+  padding:24px;
+  transition:var(--transition);
+}
+.card:hover{border-color:var(--border);box-shadow:var(--shadow-gold);}
+.card-gold{
+  background:linear-gradient(135deg,rgba(212,175,55,0.12) 0%,rgba(212,175,55,0.04) 100%);
+  border-color:var(--border);
+}
+.glass{
+  background:rgba(255,255,255,0.03);
+  backdrop-filter:blur(10px);
+  border:1px solid rgba(255,255,255,0.06);
+}
+[data-theme="light"] .glass{background:rgba(0,0,0,0.02);border-color:rgba(0,0,0,0.06);}
+.grid{display:grid;gap:20px;}
+.grid-2{grid-template-columns:repeat(auto-fit,minmax(280px,1fr));}
+.grid-3{grid-template-columns:repeat(auto-fit,minmax(220px,1fr));}
+.grid-4{grid-template-columns:repeat(auto-fit,minmax(180px,1fr));}
+/* BUTTONS */
+.btn{
+  padding:10px 20px;border-radius:8px;
+  font-family:system-ui,sans-serif;
+  font-size:0.85rem;font-weight:600;
+  cursor:pointer;transition:var(--transition);
+  display:inline-flex;align-items:center;gap:8px;
+  border:none;letter-spacing:0.02em;
+}
+.btn-gold{
+  background:linear-gradient(135deg,var(--gold-dark),var(--gold));
+  color:#111;
+}
+.btn-gold:hover{background:linear-gradient(135deg,var(--gold),var(--gold-light));transform:translateY(-1px);box-shadow:0 4px 16px rgba(212,175,55,0.3);}
+.btn-outline{
+  background:transparent;
+  border:1px solid var(--border);
+  color:var(--text-secondary);
+}
+.btn-outline:hover{border-color:var(--gold);color:var(--gold);}
+.btn-danger{background:rgba(220,38,38,0.1);border:1px solid rgba(220,38,38,0.3);color:#f87171;}
+.btn-danger:hover{background:rgba(220,38,38,0.2);}
+.btn-sm{padding:6px 14px;font-size:0.78rem;}
+.btn-xs{padding:4px 10px;font-size:0.72rem;}
+/* INPUTS */
+.input, .textarea, .select{
+  width:100%;padding:10px 14px;
+  background:var(--surface-2);
+  border:1px solid var(--border-light);
+  border-radius:8px;
+  color:var(--text-primary);
+  font-family:inherit;font-size:0.9rem;
+  transition:var(--transition);
+  outline:none;
+}
+.textarea{resize:vertical;min-height:100px;}
+.input:focus,.textarea:focus,.select:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(212,175,55,0.1);}
+.input::placeholder,.textarea::placeholder{color:var(--text-muted);}
+.select option{background:var(--surface-2);}
+.form-group{margin-bottom:16px;}
+.form-group label{
+  display:block;margin-bottom:6px;
+  font-family:system-ui,sans-serif;
+  font-size:0.8rem;font-weight:600;
+  color:var(--text-secondary);
+  text-transform:uppercase;letter-spacing:0.08em;
+}
+/* SLIDER */
+.slider-wrap{margin-bottom:20px;}
+.slider-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
+.slider-label{font-family:system-ui,sans-serif;font-size:0.85rem;color:var(--text-primary);}
+.slider-val{
+  font-size:1.1rem;font-weight:700;color:var(--gold);
+  min-width:30px;text-align:right;
+}
+input[type="range"]{
+  width:100%;appearance:none;height:4px;
+  background:var(--surface-3);border-radius:2px;outline:none;cursor:pointer;
+}
+input[type="range"]::-webkit-slider-thumb{
+  appearance:none;width:18px;height:18px;
+  background:var(--gold);border-radius:50%;
+  box-shadow:0 2px 8px rgba(212,175,55,0.4);
+  transition:var(--transition);
+}
+input[type="range"]::-webkit-slider-thumb:hover{transform:scale(1.2);}
+/* PROGRESS */
+.progress-bar{height:6px;background:var(--surface-3);border-radius:3px;overflow:hidden;}
+.progress-fill{
+  height:100%;
+  background:linear-gradient(90deg,var(--gold-dark),var(--gold));
+  border-radius:3px;transition:width 0.6s ease;
+}
+/* PROGRESS RING */
+.ring-wrap{display:flex;flex-direction:column;align-items:center;gap:8px;}
+.ring-label{font-family:system-ui,sans-serif;font-size:0.75rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.1em;text-align:center;}
+.ring-val{font-size:1.4rem;font-weight:700;color:var(--gold);}
+/* COLLAPSE */
+.collapsible{border:1px solid var(--border-light);border-radius:var(--radius);overflow:hidden;margin-bottom:12px;}
+.collapsible-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px 20px;cursor:pointer;
+  background:var(--surface);
+  transition:var(--transition);
+  user-select:none;
+}
+.collapsible-header:hover{background:var(--surface-2);}
+.collapsible-title{
+  font-size:1rem;font-weight:600;
+  display:flex;align-items:center;gap:10px;
+}
+.collapsible-arrow{
+  color:var(--text-muted);transition:transform 0.3s;font-size:0.8rem;
+}
+.collapsible.open .collapsible-arrow{transform:rotate(180deg);}
+.collapsible-body{
+  padding:0;max-height:0;overflow:hidden;
+  transition:max-height 0.4s ease,padding 0.3s;
+  background:var(--surface-2);
+}
+.collapsible.open .collapsible-body{max-height:3000px;padding:20px;}
+/* TABS */
+.tabs{display:flex;gap:4px;margin-bottom:20px;flex-wrap:wrap;}
+.tab{
+  padding:8px 16px;border-radius:8px;
+  font-family:system-ui,sans-serif;font-size:0.82rem;font-weight:600;
+  cursor:pointer;transition:var(--transition);
+  background:var(--surface-2);color:var(--text-muted);
+  border:1px solid var(--border-light);
+}
+.tab.active{background:rgba(212,175,55,0.15);color:var(--gold);border-color:var(--border);}
+.tab-panel{display:none;}
+.tab-panel.active{display:block;}
+/* BADGE */
+.badge{
+  display:inline-flex;align-items:center;gap:4px;
+  padding:3px 10px;border-radius:20px;
+  font-family:system-ui,sans-serif;font-size:0.72rem;font-weight:700;
+  text-transform:uppercase;letter-spacing:0.06em;
+}
+.badge-gold{background:rgba(212,175,55,0.15);color:var(--gold);border:1px solid rgba(212,175,55,0.3);}
+.badge-green{background:rgba(34,197,94,0.1);color:#4ade80;border:1px solid rgba(34,197,94,0.2);}
+.badge-blue{background:rgba(59,130,246,0.1);color:#60a5fa;border:1px solid rgba(59,130,246,0.2);}
+.badge-red{background:rgba(239,68,68,0.1);color:#f87171;border:1px solid rgba(239,68,68,0.2);}
+/* CHECKBOX */
+.check-item{
+  display:flex;align-items:flex-start;gap:12px;
+  padding:10px 0;border-bottom:1px solid var(--border-light);
+}
+.check-item:last-child{border-bottom:none;}
+.check-box{
+  width:20px;height:20px;border-radius:4px;
+  border:2px solid var(--border);cursor:pointer;
+  flex-shrink:0;display:flex;align-items:center;justify-content:center;
+  margin-top:2px;transition:var(--transition);background:var(--surface-3);
+}
+.check-box.checked{background:var(--gold);border-color:var(--gold);color:#111;}
+.check-box.checked::after{content:'✓';font-size:0.75rem;font-weight:700;}
+.check-text{flex:1;font-size:0.9rem;}
+.check-item.done .check-text{text-decoration:line-through;color:var(--text-muted);}
+/* HABIT GRID */
+.habit-grid{overflow-x:auto;}
+.habit-table{width:100%;border-collapse:collapse;min-width:600px;}
+.habit-table th{
+  padding:8px 6px;
+  font-family:system-ui,sans-serif;font-size:0.7rem;
+  color:var(--text-muted);text-transform:uppercase;letter-spacing:0.08em;
+  text-align:center;border-bottom:1px solid var(--border-light);
+}
+.habit-table th:first-child{text-align:left;padding-left:0;}
+.habit-table td{padding:6px;text-align:center;vertical-align:middle;}
+.habit-table td:first-child{text-align:left;padding-left:0;font-size:0.85rem;}
+.habit-cell{
+  width:24px;height:24px;border-radius:4px;
+  border:1px solid var(--border-light);
+  background:var(--surface-3);cursor:pointer;
+  margin:0 auto;transition:var(--transition);display:block;
+}
+.habit-cell.done{background:var(--gold);border-color:var(--gold);}
+.habit-cell:hover{border-color:var(--gold);}
+/* MODAL */
+.modal-overlay{
+  display:none;position:fixed;inset:0;
+  background:rgba(0,0,0,0.8);z-index:2000;
+  backdrop-filter:blur(4px);
+  align-items:center;justify-content:center;padding:20px;
+}
+.modal-overlay.open{display:flex;}
+.modal{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--radius-lg);
+  padding:32px;max-width:480px;width:100%;
+  animation:modalIn 0.3s ease;
+}
+@keyframes modalIn{from{opacity:0;transform:scale(0.95) translateY(20px);}to{opacity:1;transform:none;}}
+.modal-title{font-size:1.3rem;margin-bottom:12px;}
+.modal-text{color:var(--text-secondary);margin-bottom:24px;line-height:1.6;}
+.modal-actions{display:flex;gap:10px;justify-content:flex-end;}
+/* PRIVACY NOTICE */
+.privacy-box{
+  background:rgba(212,175,55,0.04);
+  border:1px solid rgba(212,175,55,0.15);
+  border-radius:var(--radius);padding:20px;margin-bottom:30px;
+}
+.privacy-item{
+  display:flex;align-items:flex-start;gap:10px;
+  margin-bottom:8px;font-size:0.85rem;color:var(--text-secondary);
+  font-family:system-ui,sans-serif;
+}
+.privacy-item:last-child{margin-bottom:0;}
+.privacy-item .lock{color:var(--gold);flex-shrink:0;}
+/* WEEK CARDS */
+.week-card{
+  background:var(--surface);
+  border:1px solid var(--border-light);
+  border-radius:var(--radius);padding:24px;
+  border-top:3px solid var(--gold);
+  transition:var(--transition);
+}
+.week-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-gold);}
+.week-num{
+  font-size:0.7rem;font-family:system-ui,sans-serif;
+  font-weight:700;letter-spacing:0.15em;
+  text-transform:uppercase;color:var(--gold);margin-bottom:8px;
+}
+.week-title{font-size:1.15rem;margin-bottom:8px;}
+.week-desc{font-size:0.85rem;color:var(--text-muted);}
+/* ASSESSMENT */
+.score-display{
+  text-align:center;padding:24px;
+  background:rgba(212,175,55,0.05);
+  border-radius:var(--radius);border:1px solid var(--border);
+  margin-top:20px;
+}
+.score-big{font-size:3rem;font-weight:700;color:var(--gold);}
+.score-label{font-size:0.85rem;font-family:system-ui,sans-serif;color:var(--text-muted);}
+/* DAY CARDS */
+.day-header{
+  display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+}
+.day-num{
+  width:40px;height:40px;border-radius:50%;
+  background:rgba(212,175,55,0.15);
+  display:flex;align-items:center;justify-content:center;
+  font-weight:700;color:var(--gold);font-size:0.9rem;flex-shrink:0;
+}
+.day-num.completed{background:var(--gold);color:#111;}
+.day-title{font-size:1rem;font-weight:600;}
+.day-theme{font-size:0.75rem;color:var(--text-muted);}
+/* JOURNAL */
+.journal-entry{
+  background:var(--surface-2);border:1px solid var(--border-light);
+  border-radius:var(--radius);padding:16px;margin-bottom:12px;
+  position:relative;
+}
+.journal-date{
+  font-size:0.72rem;font-family:system-ui,sans-serif;
+  color:var(--text-muted);margin-bottom:8px;
+}
+.journal-text{font-size:0.88rem;line-height:1.6;}
+.entry-actions{display:flex;gap:6px;margin-top:10px;}
+/* TOAST */
+.toast-container{position:fixed;bottom:24px;right:24px;z-index:3000;display:flex;flex-direction:column;gap:8px;}
+.toast{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:10px;padding:12px 18px;
+  font-family:system-ui,sans-serif;font-size:0.85rem;
+  display:flex;align-items:center;gap:10px;
+  animation:toastIn 0.3s ease;min-width:240px;
+  box-shadow:var(--shadow);
+}
+@keyframes toastIn{from{opacity:0;transform:translateX(100%);}to{opacity:1;transform:none;}}
+.toast.gold{border-left:3px solid var(--gold);}
+.toast.success{border-left:3px solid #4ade80;}
+.toast.error{border-left:3px solid #f87171;}
+/* STREAK */
+.streak-box{
+  display:flex;align-items:center;gap:8px;
+  padding:8px 14px;background:rgba(212,175,55,0.08);
+  border-radius:8px;border:1px solid rgba(212,175,55,0.2);
+}
+.streak-fire{font-size:1.2rem;}
+.streak-val{font-weight:700;color:var(--gold);}
+.streak-label{font-size:0.75rem;color:var(--text-muted);}
+/* HISTORY */
+.history-item{
+  display:flex;align-items:flex-start;gap:14px;
+  padding:14px 0;border-bottom:1px solid var(--border-light);
+}
+.history-dot{
+  width:10px;height:10px;border-radius:50%;
+  background:var(--gold);flex-shrink:0;margin-top:6px;
+}
+.history-content{flex:1;}
+.history-title{font-size:0.9rem;font-weight:600;}
+.history-time{font-size:0.72rem;font-family:system-ui,sans-serif;color:var(--text-muted);}
+/* RADAR */
+canvas{max-width:100%;height:auto;display:block;margin:0 auto;}
+/* PLANNER */
+.planner-header{
+  display:flex;align-items:center;gap:10px;margin-bottom:16px;
+  flex-wrap:wrap;
+}
+.planner-date{font-size:1.1rem;font-weight:600;color:var(--gold);}
+.mood-rating{display:flex;gap:6px;}
+.mood-btn{
+  width:32px;height:32px;border-radius:8px;
+  border:1px solid var(--border-light);background:var(--surface-3);
+  cursor:pointer;font-size:1rem;transition:var(--transition);
+}
+.mood-btn.active,.mood-btn:hover{border-color:var(--gold);background:rgba(212,175,55,0.1);}
+/* PRINT */
+@media print{
+  .nav,.btn,.collapsible-arrow,.entry-actions,.modal-overlay,.toast-container{display:none!important;}
+  body{background:#fff;color:#000;}
+  .card{border:1px solid #ccc;break-inside:avoid;}
+}
+/* RESPONSIVE */
+@media(max-width:1024px){
+  .main{padding:24px 16px;}
+  .grid-4{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));}
+}
+@media(max-width:768px){
+  .main{padding:16px;}
+  .hero{padding:36px 16px 26px;}
+  .hero-stats{gap:18px;}
+  .grid-2,.grid-3,.grid-4{grid-template-columns:1fr;}
+  .nav{padding:0 12px;}
+  .nav-inner{height:56px;}
+  .nav-brand span:not(.crown){display:none;}
+  .nav-links{
+    display:none;
+    position:absolute;
+    top:56px;left:0;right:0;
+    flex-direction:column;
+    align-items:stretch;
+    gap:2px;
+    background:var(--surface);
+    border-bottom:1px solid var(--border);
+    box-shadow:var(--shadow);
+    padding:8px;
+    max-height:calc(100vh - 56px);
+    overflow-y:auto;
+    z-index:999;
+  }
+  .nav-links.mobile-open{display:flex;}
+  .nav-link{width:100%;text-align:left;padding:12px 14px;font-size:0.85rem;}
+  .nav-toggle{display:flex;}
+  .nav-actions{gap:6px;}
+  .btn-icon{width:32px;height:32px;font-size:0.9rem;}
+  .modal{padding:24px;}
+  .toast-container{left:12px;right:12px;bottom:16px;}
+  .toast{min-width:0;width:100%;}
+  .day-num{width:34px;height:34px;font-size:0.8rem;}
+  .score-big{font-size:2.4rem;}
+  .mood-rating{flex-wrap:wrap;}
+  .habit-table{min-width:520px;}
+}
+@media(max-width:480px){
+  .hero h1{font-size:1.7rem;}
+  .hero-sub{font-size:0.95rem;}
+  .hero-stat-val{font-size:1.5rem;}
+  .hero-stats{gap:14px 22px;}
+  .section-title{font-size:1.2rem;}
+  .card{padding:16px;}
+  .btn{padding:9px 14px;font-size:0.8rem;}
+  .modal{padding:18px;}
+  .modal-actions{flex-direction:column-reverse;}
+  .modal-actions .btn{width:100%;justify-content:center;}
+  .day-header{gap:8px;}
+  .tabs{gap:4px;}
+  .tab{padding:7px 12px;font-size:0.76rem;flex:1;text-align:center;}
+  canvas[width="300"]{max-width:240px;}
+}
+/* ANIMATIONS */
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
+.fade-in{animation:fadeIn 0.4s ease;}
+.gold-text{color:var(--gold);}
+.muted{color:var(--text-muted);}
+/* ACHIEVEMENT */
+.achievement{
+  display:flex;align-items:center;gap:10px;
+  padding:12px;background:var(--surface-2);
+  border-radius:var(--radius);border:1px solid var(--border-light);
+  transition:var(--transition);
+}
+.achievement.unlocked{border-color:rgba(212,175,55,0.4);background:rgba(212,175,55,0.06);}
+.achievement-icon{font-size:1.5rem;width:36px;text-align:center;}
+.achievement-name{font-size:0.85rem;font-weight:600;}
+.achievement-desc{font-size:0.72rem;color:var(--text-muted);}
+.locked-overlay{opacity:0.4;}
+/* CUSTOM ITEMS */
+.custom-item{
+  display:flex;align-items:flex-start;gap:8px;
+  padding:10px;background:var(--surface-2);
+  border-radius:8px;border:1px solid var(--border-light);
+  margin-bottom:8px;
+}
+.custom-item-text{flex:1;font-size:0.88rem;line-height:1.5;}
+/* COMPARISON */
+.comparison-bar{margin-bottom:16px;}
+.comparison-labels{display:flex;justify-content:space-between;margin-bottom:6px;}
+.comparison-label{font-size:0.78rem;font-family:system-ui,sans-serif;color:var(--text-muted);}
+.comparison-bars{display:flex;gap:4px;height:12px;}
+.comp-bar-before{
+  height:100%;border-radius:3px;
+  background:rgba(212,175,55,0.3);transition:width 0.8s ease;
+}
+.comp-bar-after{
+  height:100%;border-radius:3px;
+  background:var(--gold);transition:width 0.8s ease;
+}
+/* SECTION PAGE */
+.section-page{display:none;}
+.section-page.active{display:block;animation:fadeIn 0.3s ease;}
+/* VISION ITEM */
+.vision-item{
+  background:var(--surface-2);border:1px solid var(--border-light);
+  border-radius:var(--radius);padding:16px;margin-bottom:12px;
+}
+.vision-item-header{
+  display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;
+}
+.vision-item-title{font-size:0.85rem;font-weight:600;color:var(--gold);}
+/* REVIEW */
+.review-section{
+  padding:16px;background:var(--surface-3);border-radius:8px;margin-bottom:12px;
+}
+.review-section-title{
+  font-size:0.78rem;font-family:system-ui,sans-serif;
+  font-weight:700;color:var(--gold);letter-spacing:0.08em;
+  text-transform:uppercase;margin-bottom:10px;
+}
+/* SCROLLBAR */
+::-webkit-scrollbar{width:6px;height:6px;}
+::-webkit-scrollbar-track{background:var(--surface);}
+::-webkit-scrollbar-thumb{background:var(--surface-3);border-radius:3px;}
+::-webkit-scrollbar-thumb:hover{background:var(--gold-dark);}
+/* 90-DAY PLANNER */
+.milestone{
+  display:flex;align-items:center;gap:12px;
+  padding:12px;background:var(--surface-2);
+  border-radius:8px;border:1px solid var(--border-light);
+  margin-bottom:8px;
+}
+.milestone-dot{
+  width:12px;height:12px;border-radius:50%;
+  background:var(--gold);flex-shrink:0;
+}
+</style>
+</head>
+<body>
+<!-- NAV -->
+<nav class="nav" role="navigation" aria-label="Main navigation">
+  <div class="nav-inner">
+    <div class="nav-brand"><span class="crown">♛</span><span>Life Reset</span></div>
+    <div class="nav-links" role="tablist">
+      <button class="nav-link active" onclick="showPage('dashboard')" role="tab">Dashboard</button>
+      <button class="nav-link" onclick="showPage('guide')" role="tab">Guide</button>
+      <button class="nav-link" onclick="showPage('assessment')" role="tab">Assessment</button>
+      <button class="nav-link" onclick="showPage('program')" role="tab">30 Days</button>
+      <button class="nav-link" onclick="showPage('habits')" role="tab">Habits</button>
+      <button class="nav-link" onclick="showPage('journal')" role="tab">Journal</button>
+      <button class="nav-link" onclick="showPage('planner')" role="tab">Planner</button>
+      <button class="nav-link" onclick="showPage('reviews')" role="tab">Reviews</button>
+      <button class="nav-link" onclick="showPage('bonuses')" role="tab">Bonuses</button>
+      <button class="nav-link" onclick="showPage('history')" role="tab">History</button>
+    </div>
+    <div class="nav-actions">
+      <button class="btn-icon" onclick="toggleTheme()" title="Toggle theme" aria-label="Toggle theme">☀</button>
+      <button class="btn-icon" onclick="exportBackup()" title="Export backup" aria-label="Export backup">↓</button>
+      <button class="btn-icon" onclick="document.getElementById('importFile').click()" title="Import backup" aria-label="Import backup">↑</button>
+      <input type="file" id="importFile" accept=".json" style="display:none" onchange="importBackup(event)">
+      <button class="btn-icon" onclick="window.print()" title="Print" aria-label="Print">⎙</button>
+      <button class="btn-icon nav-toggle" id="navToggle" onclick="toggleMobileNav()" title="Menu" aria-label="Toggle navigation menu" aria-expanded="false">☰</button>
+    </div>
+  </div>
+</nav>
+<!-- TOAST CONTAINER -->
+<div class="toast-container" id="toastContainer" aria-live="polite"></div>
+<!-- RESET MODAL -->
+<div class="modal-overlay" id="resetModal" role="dialog" aria-modal="true" aria-labelledby="resetModalTitle">
+  <div class="modal">
+    <div class="modal-title" id="resetModalTitle">⚠️ Reset All Data?</div>
+    <div class="modal-text">This will permanently delete all your progress, journal entries, habit data, and settings. This action cannot be undone.</div>
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="closeModal('resetModal')">Cancel</button>
+      <button class="btn btn-danger" onclick="confirmReset()">Delete Everything</button>
+    </div>
+  </div>
+</div>
+<!-- ADD ITEM MODAL -->
+<div class="modal-overlay" id="addItemModal" role="dialog" aria-modal="true">
+  <div class="modal">
+    <div class="modal-title" id="addItemTitle">Add Item</div>
+    <div class="form-group">
+      <label for="addItemInput" id="addItemLabel">Item</label>
+      <textarea class="textarea" id="addItemInput" rows="3" placeholder="Enter here..."></textarea>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="closeModal('addItemModal')">Cancel</button>
+      <button class="btn btn-gold" onclick="confirmAddItem()">Save</button>
+    </div>
+  </div>
+</div>
+<!-- MAIN -->
+<main class="main" id="appMain">
+<!-- ==================== DASHBOARD ==================== -->
+<div class="section-page active" id="page-dashboard">
+  <div class="hero">
+    <div class="hero-eyebrow">Your Transformation Journey</div>
+    <h1>30-Day Life Reset <span class="accent">Blueprint</span></h1>
+    <div class="hero-sub">Transform your mind, habits, energy, confidence, and direction — one day at a time.</div>
+    <div class="hero-stats">
+      <div class="hero-stat"><div class="hero-stat-val" id="dashOverall">0%</div><div class="hero-stat-label">Overall</div></div>
+      <div class="hero-stat"><div class="hero-stat-val" id="dashDaysCompleted">0</div><div class="hero-stat-label">Days Done</div></div>
+      <div class="hero-stat"><div class="hero-stat-val" id="dashDaysRemaining">30</div><div class="hero-stat-label">Days Left</div></div>
+      <div class="hero-stat"><div class="hero-stat-val" id="dashStreak">0🔥</div><div class="hero-stat-label">Streak</div></div>
+      <div class="hero-stat"><div class="hero-stat-val" id="dashLifeScore">0</div><div class="hero-stat-label">Life Score</div></div>
+    </div>
+  </div>
+  <!-- Privacy -->
+  <div class="privacy-box">
+    <div class="privacy-item"><span class="lock">🔒</span><span>Your data is 100% private and stored only on your device.</span></div>
+    <div class="privacy-item"><span class="lock">🔒</span><span>No login, no tracking, no cloud storage. Everything auto-saves in your browser.</span></div>
+    <div class="privacy-item"><span class="lock">🔒</span><span>Data never leaves your device. If browser data is cleared, progress may be lost.</span></div>
+    <div class="privacy-item"><span class="lock">🔒</span><span>Data is not synced across devices. Export backups regularly.</span></div>
+  </div>
+  <!-- Progress Overview -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-title"><span class="icon">📊</span> Progress Overview</div>
+    </div>
+    <div class="grid grid-4">
+      <div class="card card-gold">
+        <div class="ring-wrap">
+          <canvas id="ringOverall" width="100" height="100" aria-label="Overall completion ring"></canvas>
+          <div class="ring-label">Overall Completion</div>
+        </div>
+      </div>
+      <div class="card card-gold">
+        <div class="ring-wrap">
+          <canvas id="ringHabits" width="100" height="100" aria-label="Habit completion ring"></canvas>
+          <div class="ring-label">Habit Completion</div>
+        </div>
+      </div>
+      <div class="card card-gold">
+        <div class="ring-wrap">
+          <canvas id="ringWeekly" width="100" height="100" aria-label="Weekly progress ring"></canvas>
+          <div class="ring-label">Weekly Progress</div>
+        </div>
+      </div>
+      <div class="card card-gold">
+        <div class="ring-wrap">
+          <canvas id="ringLife" width="100" height="100" aria-label="Life score ring"></canvas>
+          <div class="ring-label">Life Score</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Stats Grid -->
+  <div class="section">
+    <div class="grid grid-3">
+      <div class="card">
+        <div style="font-size:0.75rem;font-family:system-ui,sans-serif;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:12px;">Streak Tracker</div>
+        <div class="streak-box" style="margin-bottom:12px;">
+          <span class="streak-fire">🔥</span>
+          <div><div class="streak-val" id="dashCurrentStreak">0 days</div><div class="streak-label">Current Streak</div></div>
+        </div>
+        <div class="streak-box">
+          <span class="streak-fire">🏆</span>
+          <div><div class="streak-val" id="dashBestStreak">0 days</div><div class="streak-label">Best Streak</div></div>
+        </div>
+      </div>
+      <div class="card">
+        <div style="font-size:0.75rem;font-family:system-ui,sans-serif;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:12px;">Weekly Progress</div>
+        <div id="weeklyProgressBars"></div>
+      </div>
+      <div class="card">
+        <div style="font-size:0.75rem;font-family:system-ui,sans-serif;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:12px;">Last Backup</div>
+        <div style="font-size:0.9rem;color:var(--text-secondary)" id="lastBackupDisplay">Never</div>
+        <div style="margin-top:16px;display:flex;gap:8px;flex-wrap:wrap;">
+          <button class="btn btn-gold btn-sm" onclick="exportBackup()">Export Backup</button>
+          <button class="btn btn-outline btn-sm" onclick="document.getElementById('importFile').click()">Import</button>
+          <button class="btn btn-danger btn-sm" onclick="openModal('resetModal')">Reset All</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Achievements -->
+  <div class="section">
+    <div class="section-header"><div class="section-title"><span class="icon">🏅</span> Achievement Badges</div></div>
+    <div class="grid grid-4" id="achievementsGrid"></div>
+  </div>
+  <!-- Why Most People Feel Stuck -->
+  <div class="section">
+    <div class="card">
+      <h2 style="font-size:1.4rem;margin-bottom:20px;color:var(--gold)">Why Most People Feel Stuck</h2>
+      <p style="color:var(--text-secondary);margin-bottom:16px;">Many people aren't lazy. They're <em>overwhelmed.</em></p>
+      <p style="color:var(--text-secondary);margin-bottom:16px;">They know they want a better life, but:</p>
+      <ul style="list-style:none;margin-bottom:20px;">
+        <li class="check-item"><span class="check-text">• They lack direction</span></li>
+        <li class="check-item"><span class="check-text">• They feel mentally exhausted</span></li>
+        <li class="check-item"><span class="check-text">• They procrastinate</span></li>
+        <li class="check-item"><span class="check-text">• They compare themselves to others</span></li>
+        <li class="check-item"><span class="check-text">• They don't know where to start</span></li>
+      </ul>
+      <p style="color:var(--ivory);font-size:1.05rem;font-weight:600;">The purpose of this blueprint is simple: <span class="gold-text">Reset your life in 30 days.</span></p>
+      <p style="color:var(--text-secondary);margin-top:8px;">Not through motivation. Through <strong>daily action.</strong></p>
+    </div>
+  </div>
+  <!-- 4 Week Framework -->
+  <div class="section">
+    <div class="section-header"><div class="section-title"><span class="icon">🗓</span> 30-Day Framework</div></div>
+    <div class="grid grid-2">
+      <div class="week-card"><div class="week-num">Week 1</div><div class="week-title">Clear The Chaos</div><div class="week-desc">Remove mental clutter, identify what's holding you back, and create space for transformation.</div></div>
+      <div class="week-card"><div class="week-num">Week 2</div><div class="week-title">Build Strong Foundations</div><div class="week-desc">Create better habits, establish daily routines, and build the systems that support your goals.</div></div>
+      <div class="week-card"><div class="week-num">Week 3</div><div class="week-title">Reinvent Your Identity</div><div class="week-desc">Become the person you want to be by shifting your beliefs, mindset, and self-concept.</div></div>
+      <div class="week-card"><div class="week-num">Week 4</div><div class="week-title">Design Your Future</div><div class="week-desc">Create your next 90-day vision, set powerful goals, and build your action plan for lasting change.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== GUIDE ==================== -->
+<div class="section-page" id="page-guide">
+  <div class="section">
+    <div class="section-title" style="margin-bottom:24px;font-size:1.8rem;"><span class="icon">📖</span> User Guide</div>
+    <div class="card" style="margin-bottom:20px;">
+      <h3 style="color:var(--gold);margin-bottom:16px;">How to Use This Blueprint</h3>
+      <div class="grid grid-2">
+        <div>
+          <div class="check-item"><div class="check-box checked"></div><div class="check-text"><strong>1. Complete one day at a time</strong> — Don't skip ahead. Each day builds on the last.</div></div>
+          <div class="check-item"><div class="check-box checked"></div><div class="check-text"><strong>2. Fill worksheets honestly</strong> — Authentic answers drive real transformation.</div></div>
+          <div class="check-item"><div class="check-box checked"></div><div class="check-text"><strong>3. Track habits daily</strong> — Small consistent actions create lasting change.</div></div>
+          <div class="check-item"><div class="check-box checked"></div><div class="check-text"><strong>4. Complete weekly reviews</strong> — Reflect on wins, lessons, and next steps each week.</div></div>
+        </div>
+        <div>
+          <div class="check-item"><div class="check-box checked"></div><div class="check-text"><strong>5. Monitor your dashboard</strong> — Track overall progress and celebrate milestones.</div></div>
+          <div class="check-item"><div class="check-box checked"></div><div class="check-text"><strong>6. Review final assessment</strong> — Compare your before/after life scores at day 30.</div></div>
+          <div class="check-item"><div class="check-box checked"></div><div class="check-text"><strong>7. Export backup regularly</strong> — Protect your data by downloading JSON backups.</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="grid grid-3">
+      <div class="card"><div style="font-size:2rem;margin-bottom:12px;">🎯</div><h4 style="margin-bottom:8px;">Start with Assessment</h4><p style="font-size:0.85rem;color:var(--text-secondary);">Rate your life across 10 areas to get your baseline Life Score. This is your starting point.</p></div>
+      <div class="card"><div style="font-size:2rem;margin-bottom:12px;">📅</div><h4 style="margin-bottom:8px;">Daily Commitment</h4><p style="font-size:0.85rem;color:var(--text-secondary);">Spend 20-30 minutes per day working through the program. Consistency beats intensity.</p></div>
+      <div class="card"><div style="font-size:2rem;margin-bottom:12px;">💾</div><h4 style="margin-bottom:8px;">Auto-Save</h4><p style="font-size:0.85rem;color:var(--text-secondary);">Everything saves automatically. But export a backup weekly to avoid losing progress.</p></div>
+      <div class="card"><div style="font-size:2rem;margin-bottom:12px;">✏️</div><h4 style="margin-bottom:8px;">Customise Everything</h4><p style="font-size:0.85rem;color:var(--text-secondary);">Add your own goals, habits, journal prompts, and worksheet items to make it personal.</p></div>
+      <div class="card"><div style="font-size:2rem;margin-bottom:12px;">📊</div><h4 style="margin-bottom:8px;">Track Progress</h4><p style="font-size:0.85rem;color:var(--text-secondary);">Your dashboard shows streaks, completion rates, and life scores in real time.</p></div>
+      <div class="card"><div style="font-size:2rem;margin-bottom:12px;">🔒</div><h4 style="margin-bottom:8px;">100% Private</h4><p style="font-size:0.85rem;color:var(--text-secondary);">All data stays on your device. No accounts, no servers, no tracking.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== ASSESSMENT ==================== -->
+<div class="section-page" id="page-assessment">
+  <div class="section">
+    <div class="section-title" style="margin-bottom:8px;font-size:1.8rem;"><span class="icon">📋</span> Life Audit Assessment</div>
+    <p style="color:var(--text-secondary);margin-bottom:24px;">Rate each area of your life honestly from 1–10. This gives you your baseline Life Score.</p>
+    <div class="tabs">
+      <div class="tab active" onclick="switchAssessTab('before')">Before (Day 1)</div>
+      <div class="tab" onclick="switchAssessTab('after')">After (Day 30)</div>
+      <div class="tab" onclick="switchAssessTab('compare')">Comparison</div>
+    </div>
+    <div class="tab-panel active" id="assess-before">
+      <div class="grid grid-2">
+        <div class="card">
+          <h3 style="margin-bottom:20px;color:var(--gold);">Rate Your Life Areas</h3>
+          <div id="beforeSliders"></div>
+        </div>
+        <div class="card">
+          <h3 style="margin-bottom:20px;color:var(--gold);">Your Life Score</h3>
+          <canvas id="radarBefore" width="300" height="300" aria-label="Life audit radar chart"></canvas>
+          <div class="score-display" style="margin-top:16px;">
+            <div class="score-big" id="beforeScoreDisplay">0</div>
+            <div class="score-label">out of 100 · <span id="beforePctDisplay">0%</span></div>
+            <div class="progress-bar" style="margin-top:12px;"><div class="progress-fill" id="beforeScoreBar" style="width:0%"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="tab-panel" id="assess-after">
+      <div class="grid grid-2">
+        <div class="card">
+          <h3 style="margin-bottom:20px;color:var(--gold);">Rate Your Life Areas (After)</h3>
+          <div id="afterSliders"></div>
+        </div>
+        <div class="card">
+          <h3 style="margin-bottom:20px;color:var(--gold);">Your Life Score (After)</h3>
+          <canvas id="radarAfter" width="300" height="300" aria-label="After life audit radar chart"></canvas>
+          <div class="score-display" style="margin-top:16px;">
+            <div class="score-big" id="afterScoreDisplay">0</div>
+            <div class="score-label">out of 100 · <span id="afterPctDisplay">0%</span></div>
+            <div class="progress-bar" style="margin-top:12px;"><div class="progress-fill" id="afterScoreBar" style="width:0%"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="tab-panel" id="assess-compare">
+      <div class="card">
+        <h3 style="color:var(--gold);margin-bottom:20px;">Your Transformation</h3>
+        <div class="grid grid-3" style="margin-bottom:24px;">
+          <div class="score-display"><div class="score-big" id="compareBefore">0</div><div class="score-label">Before Score</div></div>
+          <div class="score-display"><div class="score-big gold-text" id="compareAfter">0</div><div class="score-label">After Score</div></div>
+          <div class="score-display"><div class="score-big" id="compareImprovement" style="color:#4ade80">+0</div><div class="score-label">Improvement</div></div>
+        </div>
+        <div id="comparisonBars"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== PROGRAM (30 Days) ==================== -->
+<div class="section-page" id="page-program">
+  <div class="section">
+    <div class="section-header">
+      <div class="section-title"><span class="icon">📅</span> 30-Day Program</div>
+      <div class="streak-box" style="font-size:0.8rem"><span>🔥</span><span id="programStreak" class="streak-val">0</span><span class="streak-label">day streak</span></div>
+    </div>
+    <!-- Vision Section -->
+    <div class="card" style="margin-bottom:24px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px;">
+        <h3 style="color:var(--gold);">Reset Vision</h3>
+        <button class="btn btn-outline btn-sm" onclick="addVisionItem()">+ Add Vision</button>
+      </div>
+      <div class="form-group">
+        <label>What do I want my life to look like in one year?</label>
+        <textarea class="textarea" id="vision1" placeholder="Paint a vivid picture of your ideal life..." oninput="autoSave('vision','vision1',this.value)"></textarea>
+      </div>
+      <div class="form-group">
+        <label>What habits are destroying my progress?</label>
+        <textarea class="textarea" id="vision2" placeholder="Be brutally honest..." oninput="autoSave('vision','vision2',this.value)"></textarea>
+      </div>
+      <div class="form-group">
+        <label>What habits would improve my life?</label>
+        <textarea class="textarea" id="vision3" placeholder="Think long-term..." oninput="autoSave('vision','vision3',this.value)"></textarea>
+      </div>
+      <div id="customVisions"></div>
+    </div>
+    <!-- Days -->
+    <div id="daysList"></div>
+  </div>
+</div>
+
+<!-- ==================== HABITS ==================== -->
+<div class="section-page" id="page-habits">
+  <div class="section">
+    <div class="section-header">
+      <div class="section-title"><span class="icon">✅</span> 30-Day Habit Tracker</div>
+      <button class="btn btn-gold btn-sm" onclick="addHabit()">+ Add Habit</button>
+    </div>
+    <div class="card" style="margin-bottom:20px;">
+      <div class="grid grid-4">
+        <div><div class="muted" style="font-size:0.72rem;font-family:system-ui,sans-serif;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:4px;">Completion Rate</div><div style="font-size:1.5rem;font-weight:700;color:var(--gold)" id="habitCompletionRate">0%</div></div>
+        <div><div class="muted" style="font-size:0.72rem;font-family:system-ui,sans-serif;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:4px;">Current Streak</div><div style="font-size:1.5rem;font-weight:700;color:var(--gold)" id="habitCurrentStreak">0</div></div>
+        <div><div class="muted" style="font-size:0.72rem;font-family:system-ui,sans-serif;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:4px;">Best Streak</div><div style="font-size:1.5rem;font-weight:700;color:var(--gold)" id="habitBestStreak">0</div></div>
+        <div><div class="muted" style="font-size:0.72rem;font-family:system-ui,sans-serif;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:4px;">Weekly Score</div><div style="font-size:1.5rem;font-weight:700;color:var(--gold)" id="habitWeeklyScore">0%</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="habit-grid">
+        <table class="habit-table" id="habitTable" aria-label="Habit tracking grid">
+          <thead id="habitTableHead"></thead>
+          <tbody id="habitTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== JOURNAL ==================== -->
+<div class="section-page" id="page-journal">
+  <div class="section">
+    <div class="section-header">
+      <div class="section-title"><span class="icon">📝</span> Reflection Journal</div>
+    </div>
+    <div class="card" style="margin-bottom:20px;">
+      <h3 style="color:var(--gold);margin-bottom:16px;">Daily Reflection</h3>
+      <div class="grid grid-2">
+        <div class="form-group"><label>What went well today?</label><textarea class="textarea" id="j1" placeholder="Celebrate your wins..." oninput="updateJournalEntry()"></textarea></div>
+        <div class="form-group"><label>What challenged me?</label><textarea class="textarea" id="j2" placeholder="Face it honestly..." oninput="updateJournalEntry()"></textarea></div>
+        <div class="form-group"><label>What did I learn?</label><textarea class="textarea" id="j3" placeholder="Every day is a lesson..." oninput="updateJournalEntry()"></textarea></div>
+        <div class="form-group"><label>What will I improve tomorrow?</label><textarea class="textarea" id="j4" placeholder="One commitment..." oninput="updateJournalEntry()"></textarea></div>
+      </div>
+      <button class="btn btn-gold" onclick="saveJournalEntry()">Save Entry</button>
+    </div>
+    <!-- Custom Prompts -->
+    <div class="card" style="margin-bottom:20px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px;">
+        <h3 style="color:var(--gold);">Custom Prompts</h3>
+        <button class="btn btn-outline btn-sm" onclick="addJournalPrompt()">+ Add Prompt</button>
+      </div>
+      <div id="customPromptsContainer"></div>
+    </div>
+    <!-- Past Entries -->
+    <div class="card">
+      <h3 style="color:var(--gold);margin-bottom:16px;">Journal History</h3>
+      <div id="journalHistory"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== PLANNER ==================== -->
+<div class="section-page" id="page-planner">
+  <div class="section">
+    <div class="section-header">
+      <div class="section-title"><span class="icon">🗒</span> Daily Planner</div>
+    </div>
+    <div class="grid grid-2">
+      <div>
+        <div class="card" style="margin-bottom:20px;">
+          <div class="planner-header">
+            <div class="planner-date" id="plannerDate"></div>
+            <div>
+              <label style="font-size:0.72rem;font-family:system-ui,sans-serif;color:var(--text-muted);margin-right:6px;">MOOD</label>
+              <span class="mood-rating" id="moodRating">
+                <button class="mood-btn" onclick="setMood(1)" title="Terrible">😞</button>
+                <button class="mood-btn" onclick="setMood(2)" title="Bad">😕</button>
+                <button class="mood-btn" onclick="setMood(3)" title="Okay">😐</button>
+                <button class="mood-btn" onclick="setMood(4)" title="Good">😊</button>
+                <button class="mood-btn" onclick="setMood(5)" title="Great">😄</button>
+              </span>
+            </div>
+          </div>
+          <div class="form-group"><label>Top 3 Priorities</label><textarea class="textarea" id="plannerPriorities" placeholder="1. &#10;2. &#10;3. " rows="4" oninput="savePlanner()"></textarea></div>
+          <div class="form-group"><label>Notes</label><textarea class="textarea" id="plannerNotes" placeholder="Any notes, ideas, reminders..." oninput="savePlanner()"></textarea></div>
+          <div class="form-group"><label>Reflection</label><textarea class="textarea" id="plannerReflection" placeholder="End of day reflection..." oninput="savePlanner()"></textarea></div>
+        </div>
+      </div>
+      <div>
+        <div class="card">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+            <h3 style="color:var(--gold);">Task List</h3>
+            <button class="btn btn-outline btn-sm" onclick="addPlannerTask()">+ Task</button>
+          </div>
+          <div id="plannerTasks"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== REVIEWS ==================== -->
+<div class="section-page" id="page-reviews">
+  <div class="section">
+    <div class="section-title" style="margin-bottom:24px;font-size:1.8rem;"><span class="icon">🔄</span> Weekly Reviews</div>
+    <div id="weeklyReviews"></div>
+  </div>
+</div>
+
+<!-- ==================== BONUSES ==================== -->
+<div class="section-page" id="page-bonuses">
+  <div class="section">
+    <div class="section-title" style="margin-bottom:24px;font-size:1.8rem;"><span class="icon">⭐</span> Bonus Resources</div>
+    <div class="tabs">
+      <div class="tab active" onclick="switchBonusTab('b1')">Journal Prompts</div>
+      <div class="tab" onclick="switchBonusTab('b2')">90-Day Planner</div>
+      <div class="tab" onclick="switchBonusTab('b3')">Habit Tracker</div>
+      <div class="tab" onclick="switchBonusTab('b4')">Emergency Guide</div>
+    </div>
+    <!-- BONUS 1 -->
+    <div class="tab-panel active" id="bonus-b1">
+      <div class="section-header">
+        <div class="section-title"><span class="icon">💬</span> 50 Life Reset Journal Prompts</div>
+        <button class="btn btn-outline btn-sm" onclick="addCustomPrompt()">+ Add Prompt</button>
+      </div>
+      <div id="journalPrompts50"></div>
+    </div>
+    <!-- BONUS 2 -->
+    <div class="tab-panel" id="bonus-b2">
+      <div class="grid grid-2">
+        <div class="card">
+          <h3 style="color:var(--gold);margin-bottom:16px;">90-Day Goal Tracker</h3>
+          <div id="ninetyDayGoals"></div>
+          <button class="btn btn-outline btn-sm" style="margin-top:10px" onclick="addNinetyGoal()">+ Add Goal</button>
+        </div>
+        <div class="card">
+          <h3 style="color:var(--gold);margin-bottom:16px;">Milestone Tracker</h3>
+          <div id="milestoneTracker"></div>
+          <button class="btn btn-outline btn-sm" style="margin-top:10px" onclick="addMilestone()">+ Add Milestone</button>
+        </div>
+      </div>
+      <div class="card" style="margin-top:20px;">
+        <h3 style="color:var(--gold);margin-bottom:16px;">Monthly Review</h3>
+        <div class="grid grid-3">
+          <div class="form-group"><label>Month 1 Highlights</label><textarea class="textarea" id="monthly1" placeholder="Key wins and lessons..." oninput="autoSave('bonuses','monthly1',this.value)"></textarea></div>
+          <div class="form-group"><label>Month 2 Highlights</label><textarea class="textarea" id="monthly2" placeholder="Key wins and lessons..." oninput="autoSave('bonuses','monthly2',this.value)"></textarea></div>
+          <div class="form-group"><label>Month 3 Highlights</label><textarea class="textarea" id="monthly3" placeholder="Key wins and lessons..." oninput="autoSave('bonuses','monthly3',this.value)"></textarea></div>
+        </div>
+      </div>
+    </div>
+    <!-- BONUS 3 -->
+    <div class="tab-panel" id="bonus-b3">
+      <div class="card">
+        <h3 style="color:var(--gold);margin-bottom:16px;">Bonus 30-Day Habit Tracker</h3>
+        <p style="color:var(--text-secondary);margin-bottom:16px;font-size:0.88rem;">Your main habit tracker is in the Habits tab. Use this section to track additional bonus habits.</p>
+        <div id="bonusHabitsGrid"></div>
+        <button class="btn btn-outline btn-sm" style="margin-top:12px" onclick="addBonusHabit()">+ Add Bonus Habit</button>
+      </div>
+    </div>
+    <!-- BONUS 4 -->
+    <div class="tab-panel" id="bonus-b4">
+      <div class="card card-gold">
+        <h3 style="color:var(--gold);margin-bottom:20px;font-size:1.3rem;">🚨 Emergency Motivation Guide</h3>
+        <p style="color:var(--text-secondary);margin-bottom:20px;">When you feel like giving up, follow these steps in order:</p>
+        <div class="check-item" style="padding:16px 0;"><div style="width:32px;height:32px;border-radius:50%;background:rgba(212,175,55,0.2);display:flex;align-items:center;justify-content:center;color:var(--gold);font-weight:700;flex-shrink:0;">1</div><div class="check-text"><strong>Clean your environment</strong><br><span style="color:var(--text-muted);font-size:0.85rem;">Your outer world reflects your inner state. Tidy up immediately.</span></div></div>
+        <div class="check-item" style="padding:16px 0;"><div style="width:32px;height:32px;border-radius:50%;background:rgba(212,175,55,0.2);display:flex;align-items:center;justify-content:center;color:var(--gold);font-weight:700;flex-shrink:0;">2</div><div class="check-text"><strong>Move your body</strong><br><span style="color:var(--text-muted);font-size:0.85rem;">10 minutes of movement shifts your state completely.</span></div></div>
+        <div class="check-item" style="padding:16px 0;"><div style="width:32px;height:32px;border-radius:50%;background:rgba(212,175,55,0.2);display:flex;align-items:center;justify-content:center;color:var(--gold);font-weight:700;flex-shrink:0;">3</div><div class="check-text"><strong>Review your goals</strong><br><span style="color:var(--text-muted);font-size:0.85rem;">Read your vision. Remember why you started.</span></div></div>
+        <div class="check-item" style="padding:16px 0;"><div style="width:32px;height:32px;border-radius:50%;background:rgba(212,175,55,0.2);display:flex;align-items:center;justify-content:center;color:var(--gold);font-weight:700;flex-shrink:0;">4</div><div class="check-text"><strong>Take one small action</strong><br><span style="color:var(--text-muted);font-size:0.85rem;">Action creates motivation, not the other way around.</span></div></div>
+        <div class="check-item" style="padding:16px 0;border-bottom:none;"><div style="width:32px;height:32px;border-radius:50%;background:rgba(212,175,55,0.2);display:flex;align-items:center;justify-content:center;color:var(--gold);font-weight:700;flex-shrink:0;">5</div><div class="check-text"><strong>Focus on progress, not perfection</strong><br><span style="color:var(--text-muted);font-size:0.85rem;">1% better every day = 37x better in a year.</span></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== HISTORY ==================== -->
+<div class="section-page" id="page-history">
+  <div class="section">
+    <div class="section-title" style="margin-bottom:24px;font-size:1.8rem;"><span class="icon">🗂</span> History Dashboard</div>
+    <div class="tabs">
+      <div class="tab active" onclick="switchHistoryTab('hdays')">Completed Days</div>
+      <div class="tab" onclick="switchHistoryTab('hhabits')">Habits</div>
+      <div class="tab" onclick="switchHistoryTab('hjournals')">Journal</div>
+      <div class="tab" onclick="switchHistoryTab('hreviews')">Reviews</div>
+      <div class="tab" onclick="switchHistoryTab('htimeline')">Timeline</div>
+    </div>
+    <div class="tab-panel active" id="hist-hdays">
+      <div class="card"><div id="historyDays"></div></div>
+    </div>
+    <div class="tab-panel" id="hist-hhabits">
+      <div class="card"><div id="historyHabits"></div></div>
+    </div>
+    <div class="tab-panel" id="hist-hjournals">
+      <div class="card"><div id="historyJournals"></div></div>
+    </div>
+    <div class="tab-panel" id="hist-hreviews">
+      <div class="card"><div id="historyReviews"></div></div>
+    </div>
+    <div class="tab-panel" id="hist-htimeline">
+      <div class="card"><div id="historyTimeline"></div></div>
+    </div>
+  </div>
+</div>
+</main>
+
+<script>
+// ===================== DATA STORE =====================
+const STORAGE_KEY = 'lifeResetBlueprint';
+
+function getData(){
+  try{
+    return JSON.parse(localStorage.getItem(STORAGE_KEY))||getDefaultData();
+  }catch(e){return getDefaultData();}
+}
+
+function getDefaultData(){
+  return {
+    assessment:{before:{},after:{}},
+    vision:{},
+    dailyProgram:{},
+    customGoals:{},
+    customHabits:{items:[
+      {id:'h1',name:'Drink Water'},{id:'h2',name:'Exercise'},
+      {id:'h3',name:'Reading'},{id:'h4',name:'Sleep 8hrs'},
+      {id:'h5',name:'Gratitude'},{id:'h6',name:'Journaling'},
+      {id:'h7',name:'Meditation'}
+    ],grid:{}},
+    journal:{entries:[],prompts:[],today:{j1:'',j2:'',j3:'',j4:''}},
+    planner:{tasks:[],priorities:'',notes:'',reflection:'',mood:0},
+    reviews:{},
+    history:{events:[]},
+    progress:{daysCompleted:[],streak:0,bestStreak:0},
+    dashboard:{lastBackup:null},
+    bonuses:{ninetyGoals:[],milestones:[],bonusHabits:{items:[],grid:{}}}
+  };
+}
+
+function saveData(d){
+  try{localStorage.setItem(STORAGE_KEY,JSON.stringify(d));}catch(e){showToast('Storage full!','error');}
+}
+
+function autoSave(section,key,val){
+  const d=getData();
+  if(!d[section])d[section]={};
+  d[section][key]=val;
+  saveData(d);
+}
+
+// ===================== NAVIGATION =====================
+function showPage(name){
+  document.querySelectorAll('.section-page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-link').forEach(l=>l.classList.remove('active'));
+  const pg=document.getElementById('page-'+name);
+  if(pg)pg.classList.add('active');
+  const links=document.querySelectorAll('.nav-link');
+  links.forEach(l=>{if(l.getAttribute('onclick')&&l.getAttribute('onclick').includes("'"+name+"'"))l.classList.add('active');});
+  updateDashboard();
+  if(name==='habits')renderHabitTable();
+  if(name==='journal')renderJournalHistory();
+  if(name==='history')renderHistory();
+  if(name==='assessment')updateAssessmentCharts();
+  if(name==='planner')initPlanner();
+  closeMobileNav();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// ===================== MOBILE NAV =====================
+function toggleMobileNav(){
+  const nl=document.querySelector('.nav-links');
+  const btn=document.getElementById('navToggle');
+  const open=nl.classList.toggle('mobile-open');
+  if(btn)btn.setAttribute('aria-expanded',open?'true':'false');
+}
+function closeMobileNav(){
+  const nl=document.querySelector('.nav-links');
+  const btn=document.getElementById('navToggle');
+  if(nl)nl.classList.remove('mobile-open');
+  if(btn)btn.setAttribute('aria-expanded','false');
+}
+document.addEventListener('click',function(e){
+  const nav=document.querySelector('.nav');
+  if(nav && !nav.contains(e.target))closeMobileNav();
+});
+
+// ===================== THEME =====================
+function toggleTheme(){
+  const cur=document.documentElement.getAttribute('data-theme')||'dark';
+  const next=cur==='dark'?'light':'dark';
+  document.documentElement.setAttribute('data-theme',next);
+  document.querySelector('.btn-icon[onclick="toggleTheme()"]').textContent=next==='dark'?'☀':'🌙';
+  localStorage.setItem('theme',next);
+}
+function loadTheme(){
+  const t=localStorage.getItem('theme')||'dark';
+  document.documentElement.setAttribute('data-theme',t);
+  const btn=document.querySelector('.btn-icon[onclick="toggleTheme()"]');
+  if(btn)btn.textContent=t==='dark'?'☀':'🌙';
+}
+
+// ===================== MODAL =====================
+function openModal(id){document.getElementById(id).classList.add('open');}
+function closeModal(id){document.getElementById(id).classList.remove('open');}
+document.querySelectorAll('.modal-overlay').forEach(m=>{
+  m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('open');});
+});
+
+// ===================== TOAST =====================
+function showToast(msg,type='gold'){
+  const c=document.getElementById('toastContainer');
+  const t=document.createElement('div');
+  t.className=`toast ${type}`;
+  t.innerHTML=`<span>${type==='gold'?'✨':type==='success'?'✅':'❌'}</span><span>${msg}</span>`;
+  c.appendChild(t);
+  setTimeout(()=>{t.style.opacity='0';t.style.transform='translateX(100%)';t.style.transition='all 0.3s';setTimeout(()=>t.remove(),300);},3000);
+}
+
+// ===================== BACKUP =====================
+function exportBackup(){
+  const d=getData();
+  d.dashboard.lastBackup=new Date().toISOString();
+  saveData(d);
+  const blob=new Blob([JSON.stringify(d,null,2)],{type:'application/json'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;a.download=`life-reset-backup-${new Date().toISOString().split('T')[0]}.json`;
+  a.click();URL.revokeObjectURL(url);
+  showToast('Backup downloaded successfully!','success');
+  updateDashboard();
+}
+
+function importBackup(e){
+  const file=e.target.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=ev=>{
+    try{
+      const d=JSON.parse(ev.target.result);
+      saveData(d);showToast('Backup restored!','success');
+      setTimeout(()=>location.reload(),1000);
+    }catch(err){showToast('Invalid backup file','error');}
+  };
+  reader.readAsText(file);
+  e.target.value='';
+}
+
+function confirmReset(){
+  localStorage.removeItem(STORAGE_KEY);
+  closeModal('resetModal');
+  showToast('All data cleared','gold');
+  setTimeout(()=>location.reload(),1000);
+}
+
+// ===================== PROGRESS RINGS =====================
+function drawRing(canvasId,pct,color='#D4AF37',label=''){
+  const c=document.getElementById(canvasId);if(!c)return;
+  const ctx=c.getContext('2d');
+  const w=c.width,h=c.height,r=38,cx=w/2,cy=h/2-12;
+  ctx.clearRect(0,0,w,h);
+  ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);
+  ctx.strokeStyle='rgba(255,255,255,0.06)';ctx.lineWidth=8;ctx.stroke();
+  const start=-Math.PI/2;
+  const end=start+(Math.PI*2*(pct/100));
+  ctx.beginPath();ctx.arc(cx,cy,r,start,end);
+  ctx.strokeStyle=color;ctx.lineWidth=8;ctx.lineCap='round';ctx.stroke();
+  ctx.fillStyle=color;ctx.font='bold 16px Georgia';ctx.textAlign='center';ctx.textBaseline='middle';
+  ctx.fillText(Math.round(pct)+'%',cx,cy);
+  ctx.fillStyle='rgba(255,255,255,0.4)';ctx.font='10px system-ui';
+  ctx.fillText(label,cx,cy+r+14);
+}
+
+// ===================== RADAR CHART =====================
+const ASSESS_AREAS=['Health','Mental Health','Confidence','Productivity','Career','Finances','Relationships','Growth','Happiness','Purpose'];
+
+function drawRadar(canvasId,values,color='#D4AF37'){
+  const c=document.getElementById(canvasId);if(!c)return;
+  const ctx=c.getContext('2d');
+  const w=c.width,h=c.height;
+  ctx.clearRect(0,0,w,h);
+  const n=ASSESS_AREAS.length;
+  const cx=w/2,cy=h/2;
+  const maxR=Math.min(cx,cy)-40;
+  const angleStep=(Math.PI*2)/n;
+  // grid
+  for(let r=1;r<=5;r++){
+    ctx.beginPath();
+    for(let i=0;i<n;i++){
+      const a=angleStep*i-Math.PI/2;
+      const x=cx+Math.cos(a)*(maxR/5*r);
+      const y=cy+Math.sin(a)*(maxR/5*r);
+      i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+    }
+    ctx.closePath();ctx.strokeStyle='rgba(255,255,255,0.06)';ctx.stroke();
+  }
+  // axes
+  for(let i=0;i<n;i++){
+    const a=angleStep*i-Math.PI/2;
+    ctx.beginPath();ctx.moveTo(cx,cy);
+    ctx.lineTo(cx+Math.cos(a)*maxR,cy+Math.sin(a)*maxR);
+    ctx.strokeStyle='rgba(255,255,255,0.08)';ctx.stroke();
+    // labels
+    const lx=cx+Math.cos(a)*(maxR+20);
+    const ly=cy+Math.sin(a)*(maxR+20);
+    ctx.fillStyle='rgba(200,185,160,0.7)';ctx.font='9px system-ui';ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.fillText(ASSESS_AREAS[i],lx,ly);
+  }
+  // shape
+  ctx.beginPath();
+  for(let i=0;i<n;i++){
+    const a=angleStep*i-Math.PI/2;
+    const v=(values[i]||0)/10;
+    const x=cx+Math.cos(a)*maxR*v;
+    const y=cy+Math.sin(a)*maxR*v;
+    i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+  }
+  ctx.closePath();
+  ctx.fillStyle=color.replace('#','rgba(').replace(')',',0.15)').replace('rgba(','rgba(#'.replace('#','')).replace('rgba(D4AF37,0.15)','rgba(212,175,55,0.15)');
+  ctx.fillStyle='rgba(212,175,55,0.15)';ctx.fill();
+  ctx.strokeStyle=color;ctx.lineWidth=2;ctx.stroke();
+}
+
+// ===================== ASSESSMENT =====================
+function buildSliders(containerId,prefix,savedVals){
+  const c=document.getElementById(containerId);if(!c)return;
+  c.innerHTML='';
+  ASSESS_AREAS.forEach((area,i)=>{
+    const val=savedVals[area]||5;
+    const div=document.createElement('div');
+    div.className='slider-wrap';
+    div.innerHTML=`
+      <div class="slider-header">
+        <span class="slider-label">${area}</span>
+        <span class="slider-val" id="${prefix}Val${i}">${val}</span>
+      </div>
+      <input type="range" min="1" max="10" value="${val}" 
+        oninput="onSlider(this,'${prefix}',${i},'${area}')" aria-label="${area} rating">
+    `;
+    c.appendChild(div);
+  });
+  updateAssessScore(prefix);
+  updateAssessmentCharts();
+}
+
+function onSlider(el,prefix,idx,area){
+  const v=parseInt(el.value);
+  document.getElementById(prefix+'Val'+idx).textContent=v;
+  const d=getData();
+  const which=prefix==='bef'?'before':'after';
+  d.assessment[which][area]=v;
+  saveData(d);
+  updateAssessScore(prefix);
+  updateAssessmentCharts();
+  updateDashboard();
+}
+
+function updateAssessScore(prefix){
+  const d=getData();
+  const which=prefix==='bef'?'before':'after';
+  const vals=ASSESS_AREAS.map(a=>d.assessment[which][a]||5);
+  const total=vals.reduce((a,b)=>a+b,0);
+  const pct=Math.round((total/100)*100);
+  if(prefix==='bef'){
+    document.getElementById('beforeScoreDisplay').textContent=total;
+    document.getElementById('beforePctDisplay').textContent=pct+'%';
+    document.getElementById('beforeScoreBar').style.width=pct+'%';
+  } else {
+    document.getElementById('afterScoreDisplay').textContent=total;
+    document.getElementById('afterPctDisplay').textContent=pct+'%';
+    document.getElementById('afterScoreBar').style.width=pct+'%';
+  }
+  updateCompare();
+}
+
+function updateCompare(){
+  const d=getData();
+  const bVals=ASSESS_AREAS.map(a=>d.assessment.before[a]||5);
+  const aVals=ASSESS_AREAS.map(a=>d.assessment.after[a]||5);
+  const bTotal=bVals.reduce((a,b)=>a+b,0);
+  const aTotal=aVals.reduce((a,b)=>a+b,0);
+  document.getElementById('compareBefore').textContent=bTotal;
+  document.getElementById('compareAfter').textContent=aTotal;
+  const imp=aTotal-bTotal;
+  const impEl=document.getElementById('compareImprovement');
+  impEl.textContent=(imp>=0?'+':'')+imp;
+  impEl.style.color=imp>=0?'#4ade80':'#f87171';
+  // comparison bars
+  const barsEl=document.getElementById('comparisonBars');
+  barsEl.innerHTML='';
+  ASSESS_AREAS.forEach((area,i)=>{
+    const bv=bVals[i];const av=aVals[i];
+    barsEl.innerHTML+=`
+      <div class="comparison-bar">
+        <div class="comparison-labels">
+          <span class="comparison-label">${area}</span>
+          <span class="comparison-label">Before: ${bv} → After: ${av}</span>
+        </div>
+        <div class="comparison-bars" style="background:var(--surface-3);border-radius:3px;height:10px;position:relative;overflow:hidden;">
+          <div style="position:absolute;top:0;left:0;height:100%;width:${bv*10}%;background:rgba(212,175,55,0.3);border-radius:3px;"></div>
+          <div style="position:absolute;top:0;left:0;height:100%;width:${av*10}%;background:var(--gold);border-radius:3px;opacity:0.8;"></div>
+        </div>
+      </div>`;
+  });
+}
+
+function updateAssessmentCharts(){
+  const d=getData();
+  const bVals=ASSESS_AREAS.map(a=>d.assessment.before[a]||5);
+  const aVals=ASSESS_AREAS.map(a=>d.assessment.after[a]||5);
+  drawRadar('radarBefore',bVals);
+  drawRadar('radarAfter',aVals,'#60a5fa');
+}
+
+function switchAssessTab(tab){
+  document.querySelectorAll('#page-assessment .tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('#page-assessment .tab-panel').forEach(p=>p.classList.remove('active'));
+  event.target.classList.add('active');
+  document.getElementById('assess-'+tab).classList.add('active');
+  if(tab==='compare')updateCompare();
+  setTimeout(()=>updateAssessmentCharts(),100);
+}
+
+// ===================== DAILY PROGRAM =====================
+const DAY_DATA=[
+  {day:1,title:"The Truth Audit",theme:"Week 1 · Clear The Chaos",tasks:["Write your current life story honestly","Identify 3 areas causing the most pain","List what you've been avoiding","Define what 'reset' means to you"],reflection:"What is the real cost of not changing?"},
+  {day:2,title:"Environment Detox",theme:"Week 1 · Clear The Chaos",tasks:["Declutter your workspace for 30 minutes","Remove 10 things you don't need","Organize your digital files/desktop","Set up your blueprint workspace"],reflection:"How does your environment reflect your mindset?"},
+  {day:3,title:"The Drain List",theme:"Week 1 · Clear The Chaos",tasks:["List every energy drain in your life","Identify toxic habits and relationships","Write what you're tolerating","Commit to eliminating one drain today"],reflection:"What would life feel like without these drains?"},
+  {day:4,title:"Values Excavation",theme:"Week 1 · Clear The Chaos",tasks:["List your top 10 personal values","Rank them in order of importance","Check if your life reflects those values","Identify the biggest value gap"],reflection:"Where are you living out of alignment with your values?"},
+  {day:5,title:"Fear Inventory",theme:"Week 1 · Clear The Chaos",tasks:["List every fear holding you back","Rate each fear: rational or irrational","Choose one small fear to face this week","Write what you'd do if you weren't afraid"],reflection:"What is fear costing you?"},
+  {day:6,title:"The Forgiveness Reset",theme:"Week 1 · Clear The Chaos",tasks:["Write a letter to your past self","List people you need to forgive (including yourself)","Release one grudge in writing","Identify resentments draining your energy"],reflection:"What would releasing this burden feel like?"},
+  {day:7,title:"Week 1 Review",theme:"Week 1 · Clear The Chaos",tasks:["Complete Week 1 review","Celebrate 3 wins from this week","Identify key lessons learned","Set intentions for Week 2"],reflection:"How have you shifted in the past 7 days?"},
+  {day:8,title:"Morning Ritual Design",theme:"Week 2 · Build Foundations",tasks:["Design your ideal morning routine","Start tomorrow 30 minutes earlier","Include movement, mindfulness, and learning","Write your morning ritual and commit to it"],reflection:"How would a powerful morning change your life?"},
+  {day:9,title:"The Habit Architecture",theme:"Week 2 · Build Foundations",tasks:["Choose 3 keystone habits to build","Use habit stacking: tie habits to existing ones","Set up your environment to support habits","Track your habits for the rest of the program"],reflection:"What habit would create the most positive domino effect?"},
+  {day:10,title:"Body Reset",theme:"Week 2 · Build Foundations",tasks:["Drink 8 glasses of water today","Move your body for 30+ minutes","Eat at least 3 whole foods","Sleep 7-8 hours tonight"],reflection:"How is your physical health affecting every other area of your life?"},
+  {day:11,title:"Mind Diet",theme:"Week 2 · Build Foundations",tasks:["Audit your media consumption","Eliminate one negative input today","Add one positive educational input","Journal for 10 minutes uninterrupted"],reflection:"What are you feeding your mind daily?"},
+  {day:12,title:"Relationships Audit",theme:"Week 2 · Build Foundations",tasks:["List your top 10 most important relationships","Rate the health of each relationship","Identify who lifts you up and who drains you","Reach out to one person you've been neglecting"],reflection:"Are your relationships helping or hindering your growth?"},
+  {day:13,title:"Financial Foundation",theme:"Week 2 · Build Foundations",tasks:["Review your monthly income vs. expenses","Identify one financial leak to stop","Set one savings goal","Read about one money concept for 15 minutes"],reflection:"What financial habits do you need to develop?"},
+  {day:14,title:"Week 2 Review",theme:"Week 2 · Build Foundations",tasks:["Complete Week 2 review","Assess your habit consistency","Identify what is and isn't working","Double down on what's working"],reflection:"What foundations are you proud to have built?"},
+  {day:15,title:"Identity Shift",theme:"Week 3 · Reinvent Identity",tasks:["Write who you are becoming (present tense)","List 5 beliefs that are holding you back","Replace each with an empowering belief","Act as your ideal self for one hour today"],reflection:"Who must you become to achieve your goals?"},
+  {day:16,title:"Story Rewrite",theme:"Week 3 · Reinvent Identity",tasks:["Identify your core limiting story","Write the old story and its impact","Write your new empowering story","Read your new story aloud 3 times"],reflection:"How has your old story been protecting you from growth?"},
+  {day:17,title:"Confidence Architecture",theme:"Week 3 · Reinvent Identity",tasks:["List 10 things you've accomplished","Identify your core strengths","Do one thing outside your comfort zone","Practice a power pose for 2 minutes"],reflection:"Where does your lack of confidence originate?"},
+  {day:18,title:"Purpose Discovery",theme:"Week 3 · Reinvent Identity",tasks:["Answer: What would I do if money weren't an issue?","Identify what angers you most in the world","Find where your strengths meet the world's needs","Write your purpose statement draft"],reflection:"What legacy do you want to leave?"},
+  {day:19,title:"Mindset Mastery",theme:"Week 3 · Reinvent Identity",tasks:["Catch yourself in negative self-talk today","Replace each negative thought with a positive one","Read about growth mindset for 15 minutes","Celebrate a failure as a learning experience"],reflection:"What would be possible with an unshakeable mindset?"},
+  {day:20,title:"Presence Practice",theme:"Week 3 · Reinvent Identity",tasks:["Meditate for 10 minutes","Put your phone away for 2 hours","Practice deep listening in one conversation","Be fully present for one complete meal"],reflection:"How often are you truly present in your own life?"},
+  {day:21,title:"Week 3 Review",theme:"Week 3 · Reinvent Identity",tasks:["Complete Week 3 review","Assess your identity shifts","Celebrate your personal evolution","Set powerful intentions for final week"],reflection:"Who are you now compared to Day 1?"},
+  {day:22,title:"Vision Architecture",theme:"Week 4 · Design Your Future",tasks:["Write your 1-year vision in vivid detail","Describe your ideal day in your future life","Create a vision statement for each life area","Review and refine your life audit goals"],reflection:"If you achieved your 1-year vision, what would be different?"},
+  {day:23,title:"Goal Engineering",theme:"Week 4 · Design Your Future",tasks:["Set 3 major 90-day goals","Break each goal into monthly milestones","Identify the 1 most important next action for each","Add goals to your 90-Day Planner"],reflection:"What does success look like at the 90-day mark?"},
+  {day:24,title:"System Design",theme:"Week 4 · Design Your Future",tasks:["Design your weekly review system","Create your accountability framework","Set up your tracking systems","Plan your environment for success"],reflection:"What systems need to be in place for you to succeed automatically?"},
+  {day:25,title:"Obstacle Navigation",theme:"Week 4 · Design Your Future",tasks:["List every potential obstacle to your goals","Create a 'if-then' plan for each obstacle","Identify who can help you overcome each","Build a support network strategy"],reflection:"What obstacles have you been using as excuses?"},
+  {day:26,title:"Accountability Architecture",theme:"Week 4 · Design Your Future",tasks:["Choose an accountability partner","Share your 90-day goals with someone","Create your personal review schedule","Set up daily/weekly check-in rituals"],reflection:"Who believes in your potential as much as you should?"},
+  {day:27,title:"Energy Management",theme:"Week 4 · Design Your Future",tasks:["Map your peak energy hours","Schedule high-importance work in peak hours","Identify energy management strategies","Create your personal energy protocol"],reflection:"How can you engineer your energy for maximum performance?"},
+  {day:28,title:"Legacy Planning",theme:"Week 4 · Design Your Future",tasks:["Write your personal mission statement","Define your core life principles","Create your personal code of conduct","Write a letter to your future self"],reflection:"What story do you want told about your life?"},
+  {day:29,title:"Integration Day",theme:"Week 4 · Design Your Future",tasks:["Review all 28 days of your journey","Identify your top 5 transformations","Write your personal reset success story","Share your journey with someone who needs it"],reflection:"What is the most important lesson from your 30-day reset?"},
+  {day:30,title:"Launch Day",theme:"Week 4 · Design Your Future",tasks:["Complete your Final Life Assessment","Compare before and after scores","Write your 90-day action plan","Celebrate your transformation — you made it!"],reflection:"What does your future self want you to know right now?"}
+];
+
+function buildDaysList(){
+  const d=getData();
+  const container=document.getElementById('daysList');
+  if(!container)return;
+  container.innerHTML='';
+  DAY_DATA.forEach(day=>{
+    const completed=d.progress.daysCompleted.includes(day.day);
+    const dayData=d.dailyProgram['day'+day.day]||{tasks:{},notes:'',customTasks:[],reflectionEntry:''};
+    const div=document.createElement('div');
+    div.className='collapsible';
+    div.id='day-collapsible-'+day.day;
+    div.innerHTML=`
+      <div class="collapsible-header" onclick="toggleCollapse(this.parentElement)" aria-expanded="false">
+        <div class="day-header">
+          <div class="day-num ${completed?'completed':''}" id="dayNum${day.day}">${completed?'✓':day.day}</div>
+          <div>
+            <div class="day-title">Day ${day.day}: ${day.title}</div>
+            <div class="day-theme muted">${day.theme}</div>
+          </div>
+          ${completed?'<span class="badge badge-green">Completed</span>':''}
+        </div>
+        <span class="collapsible-arrow">▼</span>
+      </div>
+      <div class="collapsible-body">
+        <h4 style="margin-bottom:12px;color:var(--gold)">Daily Tasks</h4>
+        <div id="dayTasks${day.day}"></div>
+        <div style="margin:16px 0;border-top:1px solid var(--border-light);padding-top:16px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+            <h4 style="color:var(--gold)">Custom Tasks</h4>
+            <button class="btn btn-outline btn-xs" onclick="addDayTask(${day.day})">+ Add Task</button>
+          </div>
+          <div id="dayCustomTasks${day.day}"></div>
+        </div>
+        <div style="margin:16px 0;border-top:1px solid var(--border-light);padding-top:16px;">
+          <h4 style="color:var(--gold);margin-bottom:10px">Reflection: <em style="color:var(--text-secondary);font-style:italic;font-size:0.9rem">${day.reflection}</em></h4>
+          <textarea class="textarea" id="dayReflection${day.day}" placeholder="Write your reflection here..." rows="3" oninput="saveDayData(${day.day},'reflection',this.value)">${dayData.reflectionEntry||''}</textarea>
+        </div>
+        <div style="margin:16px 0;border-top:1px solid var(--border-light);padding-top:16px;">
+          <h4 style="color:var(--gold);margin-bottom:10px">Notes</h4>
+          <textarea class="textarea" id="dayNotes${day.day}" placeholder="Personal notes, insights, ideas..." rows="3" oninput="saveDayData(${day.day},'notes',this.value)">${dayData.notes||''}</textarea>
+        </div>
+        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:16px;">
+          <button class="btn btn-gold" onclick="markDayComplete(${day.day})">
+            ${completed?'✓ Completed':'Mark as Complete'}
+          </button>
+          ${completed?'<span class="badge badge-green">Day '+day.day+' Complete!</span>':''}
+        </div>
+      </div>`;
+    container.appendChild(div);
+    renderDayTasks(day.day,day.tasks);
+    renderDayCustomTasks(day.day);
+  });
+}
+
+function renderDayTasks(dayNum,taskList){
+  const d=getData();
+  const dayData=d.dailyProgram['day'+dayNum]||{tasks:{}};
+  const c=document.getElementById('dayTasks'+dayNum);
+  if(!c)return;
+  c.innerHTML='';
+  taskList.forEach((task,i)=>{
+    const checked=dayData.tasks['t'+i]||false;
+    const div=document.createElement('div');
+    div.className='check-item'+(checked?' done':'');
+    div.innerHTML=`
+      <div class="check-box ${checked?'checked':''}" onclick="toggleDayTask(${dayNum},${i},this)" role="checkbox" aria-checked="${checked}" tabindex="0"></div>
+      <span class="check-text">${task}</span>`;
+    c.appendChild(div);
+  });
+}
+
+function toggleDayTask(dayNum,taskIdx,el){
+  const d=getData();
+  if(!d.dailyProgram['day'+dayNum])d.dailyProgram['day'+dayNum]={tasks:{},notes:'',customTasks:[],reflectionEntry:''};
+  const cur=d.dailyProgram['day'+dayNum].tasks['t'+taskIdx]||false;
+  d.dailyProgram['day'+dayNum].tasks['t'+taskIdx]=!cur;
+  saveData(d);
+  el.classList.toggle('checked');
+  el.setAttribute('aria-checked',!cur);
+  el.parentElement.classList.toggle('done');
+  updateDashboard();
+}
+
+function saveDayData(dayNum,field,val){
+  const d=getData();
+  if(!d.dailyProgram['day'+dayNum])d.dailyProgram['day'+dayNum]={tasks:{},notes:'',customTasks:[],reflectionEntry:''};
+  if(field==='reflection')d.dailyProgram['day'+dayNum].reflectionEntry=val;
+  else if(field==='notes')d.dailyProgram['day'+dayNum].notes=val;
+  saveData(d);
+}
+
+function addDayTask(dayNum){
+  openAddItemModal('Add Custom Task','Task description',val=>{
+    const d=getData();
+    if(!d.dailyProgram['day'+dayNum])d.dailyProgram['day'+dayNum]={tasks:{},notes:'',customTasks:[],reflectionEntry:''};
+    if(!d.dailyProgram['day'+dayNum].customTasks)d.dailyProgram['day'+dayNum].customTasks=[];
+    d.dailyProgram['day'+dayNum].customTasks.push({id:Date.now(),text:val,done:false});
+    saveData(d);renderDayCustomTasks(dayNum);
+  });
+}
+
+function renderDayCustomTasks(dayNum){
+  const d=getData();
+  const c=document.getElementById('dayCustomTasks'+dayNum);if(!c)return;
+  const tasks=(d.dailyProgram['day'+dayNum]||{}).customTasks||[];
+  c.innerHTML='';
+  if(!tasks.length){c.innerHTML='<p style="font-size:0.8rem;color:var(--text-muted)">No custom tasks yet.</p>';return;}
+  tasks.forEach((t,i)=>{
+    const div=document.createElement('div');
+    div.className='check-item'+(t.done?' done':'');
+    div.innerHTML=`
+      <div class="check-box ${t.done?'checked':''}" onclick="toggleCustomDayTask(${dayNum},${i},this)" role="checkbox" aria-checked="${t.done}" tabindex="0"></div>
+      <span class="check-text">${t.text}</span>
+      <button class="btn btn-xs btn-danger" onclick="deleteCustomDayTask(${dayNum},${i})">×</button>`;
+    c.appendChild(div);
+  });
+}
+
+function toggleCustomDayTask(dayNum,idx,el){
+  const d=getData();
+  d.dailyProgram['day'+dayNum].customTasks[idx].done=!d.dailyProgram['day'+dayNum].customTasks[idx].done;
+  saveData(d);
+  el.classList.toggle('checked');
+  el.parentElement.classList.toggle('done');
+}
+
+function deleteCustomDayTask(dayNum,idx){
+  const d=getData();
+  d.dailyProgram['day'+dayNum].customTasks.splice(idx,1);
+  saveData(d);renderDayCustomTasks(dayNum);
+}
+
+function markDayComplete(dayNum){
+  const d=getData();
+  if(!d.progress.daysCompleted.includes(dayNum)){
+    d.progress.daysCompleted.push(dayNum);
+    d.history.events.push({type:'day',day:dayNum,title:'Day '+dayNum+' completed',time:new Date().toISOString()});
+    // Update streak
+    calcStreak(d);
+    saveData(d);
+    showToast('Day '+dayNum+' completed! 🎉','success');
+    const numEl=document.getElementById('dayNum'+dayNum);
+    if(numEl){numEl.textContent='✓';numEl.classList.add('completed');}
+    buildDaysList();
+    updateDashboard();
+  } else {
+    showToast('Day '+dayNum+' already completed','gold');
+  }
+}
+
+function calcStreak(d){
+  const completed=d.progress.daysCompleted.sort((a,b)=>a-b);
+  if(!completed.length){d.progress.streak=0;return;}
+  let maxDay=Math.max(...completed);
+  let streak=1;
+  for(let i=maxDay;i>1;i--){
+    if(completed.includes(i-1))streak++;
+    else break;
+  }
+  d.progress.streak=streak;
+  if(streak>d.progress.bestStreak)d.progress.bestStreak=streak;
+}
+
+function toggleCollapse(el){
+  el.classList.toggle('open');
+  const header=el.querySelector('.collapsible-header');
+  if(header)header.setAttribute('aria-expanded',el.classList.contains('open'));
+}
+
+// ===================== VISION =====================
+function addVisionItem(){
+  openAddItemModal('Add Vision Statement','Your vision...',val=>{
+    const d=getData();
+    if(!d.vision.customItems)d.vision.customItems=[];
+    d.vision.customItems.push({id:Date.now(),title:'My Vision',text:val});
+    saveData(d);renderCustomVisions();
+  });
+}
+
+function renderCustomVisions(){
+  const d=getData();
+  const c=document.getElementById('customVisions');if(!c)return;
+  const items=d.vision.customItems||[];
+  c.innerHTML='';
+  items.forEach((item,i)=>{
+    const div=document.createElement('div');
+    div.className='vision-item';
+    div.innerHTML=`
+      <div class="vision-item-header">
+        <span class="vision-item-title">${item.title}</span>
+        <div style="display:flex;gap:6px;">
+          <button class="btn btn-xs btn-outline" onclick="editVisionItem(${i})">Edit</button>
+          <button class="btn btn-xs btn-danger" onclick="deleteVisionItem(${i})">Delete</button>
+        </div>
+      </div>
+      <div style="font-size:0.88rem;color:var(--text-secondary)">${item.text}</div>`;
+    c.appendChild(div);
+  });
+}
+
+function editVisionItem(idx){
+  const d=getData();
+  const item=d.vision.customItems[idx];
+  openAddItemModal('Edit Vision',item.text,val=>{
+    d.vision.customItems[idx].text=val;
+    saveData(d);renderCustomVisions();
+  },item.text);
+}
+
+function deleteVisionItem(idx){
+  const d=getData();
+  d.vision.customItems.splice(idx,1);
+  saveData(d);renderCustomVisions();
+}
+
+// ===================== HABITS =====================
+function renderHabitTable(){
+  const d=getData();
+  const habits=d.customHabits.items;
+  const thead=document.getElementById('habitTableHead');
+  const tbody=document.getElementById('habitTableBody');
+  if(!thead||!tbody)return;
+  // Header
+  let headHtml='<tr><th>Habit</th>';
+  for(let i=1;i<=30;i++)headHtml+=`<th>${i}</th>`;
+  headHtml+='<th>%</th></tr>';
+  thead.innerHTML=headHtml;
+  // Body
+  tbody.innerHTML='';
+  habits.forEach(habit=>{
+    const row=document.createElement('tr');
+    let cells=`<td style="display:flex;align-items:center;gap:6px;min-width:120px;">
+      <span style="flex:1">${habit.name}</span>
+      <button class="btn btn-xs btn-danger" onclick="deleteHabit('${habit.id}')" aria-label="Delete habit">×</button>
+    </td>`;
+    let count=0;
+    for(let i=1;i<=30;i++){
+      const key=habit.id+'_'+i;
+      const done=d.customHabits.grid[key]||false;
+      if(done)count++;
+      cells+=`<td><div class="habit-cell ${done?'done':''}" onclick="toggleHabit('${habit.id}',${i},this)" role="checkbox" aria-checked="${done}" tabindex="0" aria-label="${habit.name} day ${i}"></div></td>`;
+    }
+    cells+=`<td style="font-weight:600;color:var(--gold)">${Math.round((count/30)*100)}%</td>`;
+    row.innerHTML=cells;
+    tbody.appendChild(row);
+  });
+  updateHabitStats();
+}
+
+function toggleHabit(habitId,day,el){
+  const d=getData();
+  const key=habitId+'_'+day;
+  const cur=d.customHabits.grid[key]||false;
+  d.customHabits.grid[key]=!cur;
+  saveData(d);
+  el.classList.toggle('done');
+  el.setAttribute('aria-checked',!cur);
+  updateHabitStats();
+  updateDashboard();
+  d.history.events.push({type:'habit',title:`Habit completed (Day ${day})`,time:new Date().toISOString()});
+  saveData(d);
+}
+
+function addHabit(){
+  openAddItemModal('Add New Habit','Habit name',val=>{
+    const d=getData();
+    const id='h'+Date.now();
+    d.customHabits.items.push({id,name:val});
+    saveData(d);renderHabitTable();showToast('Habit added!','success');
+  });
+}
+
+function deleteHabit(id){
+  const d=getData();
+  d.customHabits.items=d.customHabits.items.filter(h=>h.id!==id);
+  // Remove grid entries
+  Object.keys(d.customHabits.grid).forEach(k=>{if(k.startsWith(id+'_'))delete d.customHabits.grid[k];});
+  saveData(d);renderHabitTable();
+}
+
+function updateHabitStats(){
+  const d=getData();
+  const habits=d.customHabits.items;
+  if(!habits.length)return;
+  let total=0,done=0;
+  habits.forEach(h=>{
+    for(let i=1;i<=30;i++){
+      total++;
+      if(d.customHabits.grid[h.id+'_'+i])done++;
+    }
+  });
+  const pct=total?Math.round((done/total)*100):0;
+  // Streak: check last 7 days habits
+  const weekDone=habits.reduce((sum,h)=>{
+    let c=0;for(let i=24;i<=30;i++){if(d.customHabits.grid[h.id+'_'+i])c++;}return sum+c;
+  },0);
+  const weekTotal=habits.length*7;
+  const weekPct=weekTotal?Math.round((weekDone/weekTotal)*100):0;
+  const elCR=document.getElementById('habitCompletionRate');if(elCR)elCR.textContent=pct+'%';
+  const elCS=document.getElementById('habitCurrentStreak');if(elCS)elCS.textContent=d.progress.streak;
+  const elBS=document.getElementById('habitBestStreak');if(elBS)elBS.textContent=d.progress.bestStreak;
+  const elWS=document.getElementById('habitWeeklyScore');if(elWS)elWS.textContent=weekPct+'%';
+}
+
+// ===================== JOURNAL =====================
+function updateJournalEntry(){} // auto-save handled by oninput
+
+function saveJournalEntry(){
+  const j1=document.getElementById('j1').value;
+  const j2=document.getElementById('j2').value;
+  const j3=document.getElementById('j3').value;
+  const j4=document.getElementById('j4').value;
+  if(!j1&&!j2&&!j3&&!j4){showToast('Write something first','error');return;}
+  const d=getData();
+  if(!d.journal.entries)d.journal.entries=[];
+  d.journal.entries.unshift({
+    id:Date.now(),
+    date:new Date().toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'}),
+    j1,j2,j3,j4,
+    time:new Date().toISOString()
+  });
+  d.history.events.push({type:'journal',title:'Journal entry saved',time:new Date().toISOString()});
+  saveData(d);
+  document.getElementById('j1').value='';
+  document.getElementById('j2').value='';
+  document.getElementById('j3').value='';
+  document.getElementById('j4').value='';
+  renderJournalHistory();
+  showToast('Journal entry saved!','success');
+}
+
+function renderJournalHistory(){
+  const d=getData();
+  const c=document.getElementById('journalHistory');if(!c)return;
+  const entries=d.journal.entries||[];
+  if(!entries.length){c.innerHTML='<p style="color:var(--text-muted);font-size:0.88rem">No journal entries yet. Start writing above.</p>';return;}
+  c.innerHTML='';
+  entries.forEach((e,i)=>{
+    const div=document.createElement('div');
+    div.className='journal-entry';
+    div.innerHTML=`
+      <div class="journal-date">${e.date}</div>
+      ${e.j1?`<div style="margin-bottom:8px"><span style="color:var(--gold);font-size:0.75rem">WENT WELL</span><div class="journal-text">${e.j1}</div></div>`:''}
+      ${e.j2?`<div style="margin-bottom:8px"><span style="color:var(--gold);font-size:0.75rem">CHALLENGES</span><div class="journal-text">${e.j2}</div></div>`:''}
+      ${e.j3?`<div style="margin-bottom:8px"><span style="color:var(--gold);font-size:0.75rem">LEARNED</span><div class="journal-text">${e.j3}</div></div>`:''}
+      ${e.j4?`<div style="margin-bottom:8px"><span style="color:var(--gold);font-size:0.75rem">TOMORROW</span><div class="journal-text">${e.j4}</div></div>`:''}
+      <div class="entry-actions">
+        <button class="btn btn-xs btn-danger" onclick="deleteJournalEntry(${i})">Delete</button>
+      </div>`;
+    c.appendChild(div);
+  });
+}
+
+function deleteJournalEntry(idx){
+  const d=getData();
+  d.journal.entries.splice(idx,1);
+  saveData(d);renderJournalHistory();
+}
+
+function addJournalPrompt(){
+  openAddItemModal('Add Journal Prompt','Your custom prompt',val=>{
+    const d=getData();
+    if(!d.journal.prompts)d.journal.prompts=[];
+    d.journal.prompts.push({id:Date.now(),text:val});
+    saveData(d);renderCustomPrompts();
+  });
+}
+
+function renderCustomPrompts(){
+  const d=getData();
+  const c=document.getElementById('customPromptsContainer');if(!c)return;
+  const prompts=d.journal.prompts||[];
+  if(!prompts.length){c.innerHTML='<p style="font-size:0.8rem;color:var(--text-muted)">No custom prompts yet.</p>';return;}
+  c.innerHTML='';
+  prompts.forEach((p,i)=>{
+    const div=document.createElement('div');
+    div.className='custom-item';
+    div.innerHTML=`
+      <div class="custom-item-text">${p.text}</div>
+      <button class="btn btn-xs btn-outline" onclick="editCustomPrompt(${i})">Edit</button>
+      <button class="btn btn-xs btn-danger" onclick="deleteCustomPrompt(${i})">×</button>`;
+    c.appendChild(div);
+  });
+}
+
+function editCustomPrompt(idx){
+  const d=getData();
+  const p=d.journal.prompts[idx];
+  openAddItemModal('Edit Prompt',p.text,val=>{
+    d.journal.prompts[idx].text=val;saveData(d);renderCustomPrompts();
+  },p.text);
+}
+
+function deleteCustomPrompt(idx){
+  const d=getData();d.journal.prompts.splice(idx,1);saveData(d);renderCustomPrompts();
+}
+
+// ===================== PLANNER =====================
+function initPlanner(){
+  const now=new Date();
+  const el=document.getElementById('plannerDate');
+  if(el)el.textContent=now.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'});
+  const d=getData();
+  const pp=document.getElementById('plannerPriorities');if(pp)pp.value=d.planner.priorities||'';
+  const pn=document.getElementById('plannerNotes');if(pn)pn.value=d.planner.notes||'';
+  const pr=document.getElementById('plannerReflection');if(pr)pr.value=d.planner.reflection||'';
+  // mood
+  const mood=d.planner.mood||0;
+  document.querySelectorAll('.mood-btn').forEach((btn,i)=>{
+    btn.classList.toggle('active',i+1===mood);
+  });
+  renderPlannerTasks();
+}
+
+function savePlanner(){
+  const d=getData();
+  d.planner.priorities=document.getElementById('plannerPriorities')?.value||'';
+  d.planner.notes=document.getElementById('plannerNotes')?.value||'';
+  d.planner.reflection=document.getElementById('plannerReflection')?.value||'';
+  saveData(d);
+}
+
+function setMood(val){
+  const d=getData();d.planner.mood=val;saveData(d);
+  document.querySelectorAll('.mood-btn').forEach((btn,i)=>{btn.classList.toggle('active',i+1===val);});
+}
+
+function addPlannerTask(){
+  openAddItemModal('Add Task','Task description',val=>{
+    const d=getData();
+    if(!d.planner.tasks)d.planner.tasks=[];
+    d.planner.tasks.push({id:Date.now(),text:val,done:false});
+    saveData(d);renderPlannerTasks();
+  });
+}
+
+function renderPlannerTasks(){
+  const d=getData();
+  const c=document.getElementById('plannerTasks');if(!c)return;
+  const tasks=d.planner.tasks||[];
+  if(!tasks.length){c.innerHTML='<p style="font-size:0.85rem;color:var(--text-muted)">No tasks yet. Add your first task.</p>';return;}
+  c.innerHTML='';
+  tasks.forEach((t,i)=>{
+    const div=document.createElement('div');
+    div.className='check-item'+(t.done?' done':'');
+    div.innerHTML=`
+      <div class="check-box ${t.done?'checked':''}" onclick="togglePlannerTask(${i},this)" role="checkbox" aria-checked="${t.done}" tabindex="0"></div>
+      <span class="check-text">${t.text}</span>
+      <button class="btn btn-xs btn-danger" onclick="deletePlannerTask(${i})" aria-label="Delete task">×</button>`;
+    c.appendChild(div);
+  });
+}
+
+function togglePlannerTask(idx,el){
+  const d=getData();
+  d.planner.tasks[idx].done=!d.planner.tasks[idx].done;
+  saveData(d);
+  el.classList.toggle('checked');
+  el.setAttribute('aria-checked',d.planner.tasks[idx].done);
+  el.parentElement.classList.toggle('done');
+}
+
+function deletePlannerTask(idx){
+  const d=getData();d.planner.tasks.splice(idx,1);saveData(d);renderPlannerTasks();
+}
+
+// ===================== REVIEWS =====================
+function buildWeeklyReviews(){
+  const weeks=[
+    {num:1,title:'Clear The Chaos',days:'Days 1-7'},
+    {num:2,title:'Build Foundations',days:'Days 8-14'},
+    {num:3,title:'Reinvent Identity',days:'Days 15-21'},
+    {num:4,title:'Design Your Future',days:'Days 22-28'}
+  ];
+  const c=document.getElementById('weeklyReviews');if(!c)return;
+  const d=getData();
+  c.innerHTML='';
+  weeks.forEach(w=>{
+    const wr=d.reviews['week'+w.num]||{wins:'',lessons:'',improvements:'',nextActions:'',customNotes:[]};
+    const div=document.createElement('div');
+    div.className='collapsible';
+    div.innerHTML=`
+      <div class="collapsible-header" onclick="toggleCollapse(this.parentElement)" aria-expanded="false">
+        <div class="collapsible-title">
+          <span class="badge badge-gold">Week ${w.num}</span>
+          <span>${w.title}</span>
+          <span class="muted" style="font-size:0.78rem;font-weight:400">${w.days}</span>
+        </div>
+        <span class="collapsible-arrow">▼</span>
+      </div>
+      <div class="collapsible-body">
+        <div class="grid grid-2">
+          <div class="review-section">
+            <div class="review-section-title">🏆 Wins</div>
+            <textarea class="textarea" placeholder="What did you achieve this week?" rows="4" oninput="saveReview(${w.num},'wins',this.value)">${wr.wins}</textarea>
+          </div>
+          <div class="review-section">
+            <div class="review-section-title">💡 Lessons</div>
+            <textarea class="textarea" placeholder="What did you learn this week?" rows="4" oninput="saveReview(${w.num},'lessons',this.value)">${wr.lessons}</textarea>
+          </div>
+          <div class="review-section">
+            <div class="review-section-title">📈 Improvements</div>
+            <textarea class="textarea" placeholder="What will you do better?" rows="4" oninput="saveReview(${w.num},'improvements',this.value)">${wr.improvements}</textarea>
+          </div>
+          <div class="review-section">
+            <div class="review-section-title">⚡ Next Actions</div>
+            <textarea class="textarea" placeholder="What are your top actions for next week?" rows="4" oninput="saveReview(${w.num},'nextActions',this.value)">${wr.nextActions}</textarea>
+          </div>
+        </div>
+        <div style="margin-top:16px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+            <h4 style="color:var(--gold)">Custom Notes</h4>
+            <button class="btn btn-outline btn-xs" onclick="addReviewNote(${w.num})">+ Add Note</button>
+          </div>
+          <div id="reviewNotes${w.num}"></div>
+        </div>
+        <button class="btn btn-gold btn-sm" style="margin-top:12px" onclick="saveReviewFull(${w.num})">Save Review</button>
+      </div>`;
+    c.appendChild(div);
+    renderReviewNotes(w.num);
+  });
+}
+
+function saveReview(weekNum,field,val){
+  const d=getData();
+  if(!d.reviews['week'+weekNum])d.reviews['week'+weekNum]={wins:'',lessons:'',improvements:'',nextActions:'',customNotes:[]};
+  d.reviews['week'+weekNum][field]=val;
+  saveData(d);
+}
+
+function saveReviewFull(weekNum){
+  const d=getData();
+  d.history.events.push({type:'review',title:`Week ${weekNum} review saved`,time:new Date().toISOString()});
+  saveData(d);showToast(`Week ${weekNum} review saved!`,'success');
+}
+
+function addReviewNote(weekNum){
+  openAddItemModal('Add Review Note','Your note',val=>{
+    const d=getData();
+    if(!d.reviews['week'+weekNum])d.reviews['week'+weekNum]={wins:'',lessons:'',improvements:'',nextActions:'',customNotes:[]};
+    if(!d.reviews['week'+weekNum].customNotes)d.reviews['week'+weekNum].customNotes=[];
+    d.reviews['week'+weekNum].customNotes.push({id:Date.now(),text:val});
+    saveData(d);renderReviewNotes(weekNum);
+  });
+}
+
+function renderReviewNotes(weekNum){
+  const d=getData();
+  const c=document.getElementById('reviewNotes'+weekNum);if(!c)return;
+  const notes=(d.reviews['week'+weekNum]||{}).customNotes||[];
+  if(!notes.length){c.innerHTML='<p style="font-size:0.8rem;color:var(--text-muted)">No custom notes.</p>';return;}
+  c.innerHTML='';
+  notes.forEach((n,i)=>{
+    const div=document.createElement('div');
+    div.className='custom-item';
+    div.innerHTML=`
+      <div class="custom-item-text">${n.text}</div>
+      <button class="btn btn-xs btn-outline" onclick="editReviewNote(${weekNum},${i})">Edit</button>
+      <button class="btn btn-xs btn-danger" onclick="deleteReviewNote(${weekNum},${i})">×</button>`;
+    c.appendChild(div);
+  });
+}
+
+function editReviewNote(weekNum,idx){
+  const d=getData();
+  const n=d.reviews['week'+weekNum].customNotes[idx];
+  openAddItemModal('Edit Note',n.text,val=>{
+    d.reviews['week'+weekNum].customNotes[idx].text=val;saveData(d);renderReviewNotes(weekNum);
+  },n.text);
+}
+
+function deleteReviewNote(weekNum,idx){
+  const d=getData();d.reviews['week'+weekNum].customNotes.splice(idx,1);saveData(d);renderReviewNotes(weekNum);
+}
+
+// ===================== HISTORY =====================
+function renderHistory(){
+  const d=getData();
+  // Days
+  const hd=document.getElementById('historyDays');
+  if(hd){
+    const days=d.progress.daysCompleted.sort((a,b)=>a-b);
+    if(!days.length){hd.innerHTML='<p style="color:var(--text-muted)">No days completed yet.</p>';}
+    else{
+      hd.innerHTML='<div style="display:flex;flex-wrap:wrap;gap:8px;">';
+      days.forEach(day=>{
+        const dayInfo=DAY_DATA.find(dd=>dd.day===day);
+        hd.innerHTML+=`<div class="badge badge-gold" style="padding:6px 12px">Day ${day}: ${dayInfo?dayInfo.title:'Complete'}</div>`;
+      });
+      hd.innerHTML+='</div>';
+    }
+  }
+  // Habits
+  const hh=document.getElementById('historyHabits');
+  if(hh){
+    const habits=d.customHabits.items;
+    let html='';
+    habits.forEach(h=>{
+      let count=0;for(let i=1;i<=30;i++){if(d.customHabits.grid[h.id+'_'+i])count++;}
+      html+=`<div class="history-item"><div class="history-dot"></div><div class="history-content"><div class="history-title">${h.name}</div><div class="history-time">${count}/30 days completed (${Math.round(count/30*100)}%)</div></div></div>`;
+    });
+    hh.innerHTML=html||'<p style="color:var(--text-muted)">No habit data yet.</p>';
+  }
+  // Journals
+  const hj=document.getElementById('historyJournals');
+  if(hj){
+    const entries=d.journal.entries||[];
+    if(!entries.length){hj.innerHTML='<p style="color:var(--text-muted)">No journal entries yet.</p>';}
+    else{
+      hj.innerHTML='';
+      entries.forEach(e=>{
+        hj.innerHTML+=`<div class="history-item"><div class="history-dot"></div><div class="history-content"><div class="history-title">Journal Entry</div><div class="history-time">${e.date}</div><div style="font-size:0.82rem;color:var(--text-secondary);margin-top:4px">${e.j1?e.j1.substring(0,80)+'...':''}</div></div></div>`;
+      });
+    }
+  }
+  // Reviews
+  const hr=document.getElementById('historyReviews');
+  if(hr){
+    let html='';
+    for(let w=1;w<=4;w++){
+      const wr=d.reviews['week'+w];
+      if(wr&&(wr.wins||wr.lessons)){
+        html+=`<div class="history-item"><div class="history-dot"></div><div class="history-content"><div class="history-title">Week ${w} Review</div><div class="history-time">${wr.wins?'Wins recorded · ':''} ${wr.lessons?'Lessons captured':''}</div></div></div>`;
+      }
+    }
+    hr.innerHTML=html||'<p style="color:var(--text-muted)">No reviews saved yet.</p>';
+  }
+  // Timeline
+  const ht=document.getElementById('historyTimeline');
+  if(ht){
+    const events=(d.history.events||[]).reverse().slice(0,30);
+    if(!events.length){ht.innerHTML='<p style="color:var(--text-muted)">No events yet. Start working through the program!</p>';}
+    else{
+      ht.innerHTML='';
+      events.forEach(e=>{
+        const icon=e.type==='day'?'📅':e.type==='habit'?'✅':e.type==='journal'?'📝':'🔄';
+        ht.innerHTML+=`<div class="history-item"><div class="history-dot"></div><div class="history-content"><div class="history-title">${icon} ${e.title}</div><div class="history-time">${new Date(e.time).toLocaleString()}</div></div></div>`;
+      });
+    }
+  }
+}
+
+function switchHistoryTab(tab){
+  document.querySelectorAll('#page-history .tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('#page-history .tab-panel').forEach(p=>p.classList.remove('active'));
+  event.target.classList.add('active');
+  document.getElementById('hist-'+tab).classList.add('active');
+  renderHistory();
+}
+
+// ===================== BONUSES =====================
+const JOURNAL_PROMPTS_50=[
+  // Confidence
+  {cat:'Confidence',text:'What would you do today if you knew you could not fail?'},
+  {cat:'Confidence',text:'Describe a moment when you felt truly unstoppable.'},
+  {cat:'Confidence',text:'What do others see in you that you often overlook?'},
+  {cat:'Confidence',text:'What past success can you draw courage from right now?'},
+  {cat:'Confidence',text:'If your best friend described your strengths, what would they say?'},
+  // Productivity
+  {cat:'Productivity',text:'What single task, if completed today, would move you forward the most?'},
+  {cat:'Productivity',text:'Where do you waste the most time, and why do you keep going back?'},
+  {cat:'Productivity',text:'Describe your ideal productive day from start to finish.'},
+  {cat:'Productivity',text:'What is the cost of your biggest procrastination habit?'},
+  {cat:'Productivity',text:'What boundaries would help you protect your focus time?'},
+  // Purpose
+  {cat:'Purpose',text:'What would you do with your life if money were unlimited?'},
+  {cat:'Purpose',text:'What makes you lose track of time in the best possible way?'},
+  {cat:'Purpose',text:'What legacy do you want to leave behind?'},
+  {cat:'Purpose',text:'When do you feel most alive and fully yourself?'},
+  {cat:'Purpose',text:'What causes or problems in the world make you angry enough to want to fix them?'},
+  // Habits
+  {cat:'Habits',text:'Which habit has had the greatest positive impact on your life?'},
+  {cat:'Habits',text:'What small habit, if started today, would transform your life in a year?'},
+  {cat:'Habits',text:'Which habit are you most ashamed of, and what need does it serve?'},
+  {cat:'Habits',text:'Design your perfect morning routine in detail.'},
+  {cat:'Habits',text:'What would your life look like after 30 days of perfect habits?'},
+  // Mindset
+  {cat:'Mindset',text:'What limiting belief has been holding you back most in life?'},
+  {cat:'Mindset',text:'What is your inner critic most afraid of?'},
+  {cat:'Mindset',text:'Rewrite your most painful experience as a defining strength.'},
+  {cat:'Mindset',text:'What would you attempt if self-doubt were impossible?'},
+  {cat:'Mindset',text:'What does your inner voice say when you are about to grow?'},
+  {cat:'Mindset',text:'How is fear trying to protect you, and is it actually helping?'},
+  {cat:'Mindset',text:'What does success truly mean to you — not what others expect?'},
+  {cat:'Mindset',text:'What would you need to believe about yourself to achieve your biggest goal?'},
+  // Growth
+  {cat:'Growth',text:'What skill, if mastered, would dramatically improve your life?'},
+  {cat:'Growth',text:'Who is one person you admire and what specific quality of theirs inspires you?'},
+  {cat:'Growth',text:'What experience are you avoiding that would likely transform you?'},
+  {cat:'Growth',text:'Describe the person you want to be in exactly one year.'},
+  {cat:'Growth',text:'What book or concept changed how you see the world?'},
+  {cat:'Growth',text:'What feedback have you received that was hard to hear but true?'},
+  {cat:'Growth',text:'What area of life have you been coasting in, and why?'},
+  {cat:'Growth',text:'What relationship in your life needs the most attention right now?'},
+  {cat:'Growth',text:'If you could give your younger self one piece of advice, what would it be?'},
+  {cat:'Growth',text:'What uncomfortable conversation have you been avoiding?'},
+  {cat:'Growth',text:'How would your life change if you fully embraced who you really are?'},
+  {cat:'Growth',text:'What does self-discipline mean to you, and where do you lack it most?'},
+  {cat:'Growth',text:'What is one thing you could stop doing that would improve your life immediately?'},
+  {cat:'Growth',text:'Write about a time you surprised yourself. What did you discover?'},
+  {cat:'Confidence',text:'What compliment do you struggle to accept, and why?'},
+  {cat:'Purpose',text:'If you could solve one problem in the world, what would it be?'},
+  {cat:'Habits',text:'What environment changes would make your goals nearly effortless?'},
+  {cat:'Mindset',text:'What does failure actually teach you that success never could?'},
+  {cat:'Productivity',text:'What would happen if you worked on your #1 goal for just 1 hour a day?'},
+  {cat:'Purpose',text:'Who in your life needs the version of you that you are becoming?'},
+  {cat:'Growth',text:'What chapters of your story are you ready to finally close?'},
+  {cat:'Growth',text:'What is the most important commitment you can make to yourself today?'}
+];
+
+function buildJournalPrompts(){
+  const c=document.getElementById('journalPrompts50');if(!c)return;
+  const cats=['Confidence','Productivity','Purpose','Habits','Mindset','Growth'];
+  const catColors={Confidence:'badge-gold',Productivity:'badge-blue',Purpose:'badge-green',Habits:'badge-gold',Mindset:'badge-blue',Growth:'badge-green'};
+  c.innerHTML='';
+  cats.forEach(cat=>{
+    const prompts=JOURNAL_PROMPTS_50.filter(p=>p.cat===cat);
+    const div=document.createElement('div');
+    div.className='collapsible';
+    div.innerHTML=`
+      <div class="collapsible-header" onclick="toggleCollapse(this.parentElement)" aria-expanded="false">
+        <div class="collapsible-title">
+          <span class="badge ${catColors[cat]}">${cat}</span>
+          <span>${prompts.length} prompts</span>
+        </div>
+        <span class="collapsible-arrow">▼</span>
+      </div>
+      <div class="collapsible-body">
+        ${prompts.map((p,i)=>`<div class="custom-item" style="margin-bottom:8px;">
+          <div class="custom-item-text">${p.text}</div>
+          <button class="btn btn-xs btn-gold" onclick="usePrompt('${p.text.replace(/'/g,"\\'")}')">Use</button>
+        </div>`).join('')}
+      </div>`;
+    c.appendChild(div);
+  });
+}
+
+function usePrompt(text){
+  showPage('journal');
+  setTimeout(()=>{
+    const j1=document.getElementById('j1');
+    if(j1){j1.value=text+'\n\n';j1.focus();}
+  },300);
+}
+
+function addCustomPrompt(){
+  openAddItemModal('Add Custom Prompt','Your journal prompt',val=>{
+    const d=getData();
+    if(!d.journal.prompts)d.journal.prompts=[];
+    d.journal.prompts.push({id:Date.now(),text:val});
+    saveData(d);
+    showToast('Prompt added!','success');
+  });
+}
+
+function addNinetyGoal(){
+  openAddItemModal('Add 90-Day Goal','Your goal',val=>{
+    const d=getData();
+    d.bonuses.ninetyGoals.push({id:Date.now(),text:val,done:false});
+    saveData(d);renderNinetyGoals();
+  });
+}
+
+function renderNinetyGoals(){
+  const d=getData();
+  const c=document.getElementById('ninetyDayGoals');if(!c)return;
+  const goals=d.bonuses.ninetyGoals||[];
+  if(!goals.length){c.innerHTML='<p style="font-size:0.8rem;color:var(--text-muted)">No goals yet.</p>';return;}
+  c.innerHTML='';
+  goals.forEach((g,i)=>{
+    const div=document.createElement('div');
+    div.className='check-item'+(g.done?' done':'');
+    div.innerHTML=`
+      <div class="check-box ${g.done?'checked':''}" onclick="toggleNinetyGoal(${i},this)" role="checkbox" aria-checked="${g.done}" tabindex="0"></div>
+      <span class="check-text">${g.text}</span>
+      <button class="btn btn-xs btn-outline" onclick="editNinetyGoal(${i})">Edit</button>
+      <button class="btn btn-xs btn-danger" onclick="deleteNinetyGoal(${i})">×</button>`;
+    c.appendChild(div);
+  });
+}
+
+function toggleNinetyGoal(idx,el){
+  const d=getData();d.bonuses.ninetyGoals[idx].done=!d.bonuses.ninetyGoals[idx].done;
+  saveData(d);el.classList.toggle('checked');el.parentElement.classList.toggle('done');
+}
+
+function editNinetyGoal(idx){
+  const d=getData();const g=d.bonuses.ninetyGoals[idx];
+  openAddItemModal('Edit Goal',g.text,val=>{d.bonuses.ninetyGoals[idx].text=val;saveData(d);renderNinetyGoals();},g.text);
+}
+
+function deleteNinetyGoal(idx){
+  const d=getData();d.bonuses.ninetyGoals.splice(idx,1);saveData(d);renderNinetyGoals();
+}
+
+function addMilestone(){
+  openAddItemModal('Add Milestone','Milestone description',val=>{
+    const d=getData();
+    d.bonuses.milestones.push({id:Date.now(),text:val,done:false});
+    saveData(d);renderMilestones();
+  });
+}
+
+function renderMilestones(){
+  const d=getData();
+  const c=document.getElementById('milestoneTracker');if(!c)return;
+  const ms=d.bonuses.milestones||[];
+  if(!ms.length){c.innerHTML='<p style="font-size:0.8rem;color:var(--text-muted)">No milestones yet.</p>';return;}
+  c.innerHTML='';
+  ms.forEach((m,i)=>{
+    const div=document.createElement('div');
+    div.className='milestone';
+    div.innerHTML=`
+      <div class="milestone-dot" style="background:${m.done?'#4ade80':'var(--gold)'}"></div>
+      <span style="flex:1;font-size:0.88rem;${m.done?'text-decoration:line-through;color:var(--text-muted)':''}">${m.text}</span>
+      <div class="check-box ${m.done?'checked':''}" onclick="toggleMilestone(${i},this)" role="checkbox" aria-checked="${m.done}" tabindex="0" style="width:22px;height:22px"></div>
+      <button class="btn btn-xs btn-danger" onclick="deleteMilestone(${i})">×</button>`;
+    c.appendChild(div);
+  });
+}
+
+function toggleMilestone(idx,el){
+  const d=getData();d.bonuses.milestones[idx].done=!d.bonuses.milestones[idx].done;
+  saveData(d);el.classList.toggle('checked');renderMilestones();
+}
+
+function deleteMilestone(idx){
+  const d=getData();d.bonuses.milestones.splice(idx,1);saveData(d);renderMilestones();
+}
+
+function addBonusHabit(){
+  openAddItemModal('Add Bonus Habit','Habit name',val=>{
+    const d=getData();
+    if(!d.bonuses.bonusHabits)d.bonuses.bonusHabits={items:[],grid:{}};
+    d.bonuses.bonusHabits.items.push({id:'bh'+Date.now(),name:val});
+    saveData(d);renderBonusHabits();
+  });
+}
+
+function renderBonusHabits(){
+  const d=getData();
+  const c=document.getElementById('bonusHabitsGrid');if(!c)return;
+  const habits=(d.bonuses.bonusHabits||{}).items||[];
+  if(!habits.length){c.innerHTML='<p style="font-size:0.85rem;color:var(--text-muted)">Add bonus habits to track.</p>';return;}
+  let html='<div style="overflow-x:auto"><table class="habit-table" style="min-width:500px"><thead><tr><th>Habit</th>';
+  for(let i=1;i<=30;i++)html+=`<th>${i}</th>`;
+  html+='</tr></thead><tbody>';
+  habits.forEach(h=>{
+    html+=`<tr><td>${h.name}</td>`;
+    for(let i=1;i<=30;i++){
+      const key=h.id+'_'+i;
+      const done=(d.bonuses.bonusHabits.grid||{})[key]||false;
+      html+=`<td><div class="habit-cell ${done?'done':''}" onclick="toggleBonusHabit('${h.id}',${i},this)" role="checkbox" aria-checked="${done}" tabindex="0"></div></td>`;
+    }
+    html+='</tr>';
+  });
+  html+='</tbody></table></div>';
+  c.innerHTML=html;
+}
+
+function toggleBonusHabit(id,day,el){
+  const d=getData();
+  if(!d.bonuses.bonusHabits)d.bonuses.bonusHabits={items:[],grid:{}};
+  if(!d.bonuses.bonusHabits.grid)d.bonuses.bonusHabits.grid={};
+  const key=id+'_'+day;
+  d.bonuses.bonusHabits.grid[key]=!d.bonuses.bonusHabits.grid[key];
+  saveData(d);el.classList.toggle('done');
+}
+
+function switchBonusTab(tab){
+  document.querySelectorAll('#page-bonuses .tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('#page-bonuses .tab-panel').forEach(p=>p.classList.remove('active'));
+  event.target.classList.add('active');
+  document.getElementById('bonus-'+tab).classList.add('active');
+}
+
+// ===================== DASHBOARD =====================
+const ACHIEVEMENTS=[
+  {id:'first_day',name:'First Step',desc:'Complete Day 1',icon:'🌱',check:d=>d.progress.daysCompleted.includes(1)},
+  {id:'week1',name:'Week 1 Done',desc:'Complete 7 days',icon:'🔥',check:d=>d.progress.daysCompleted.length>=7},
+  {id:'halfway',name:'Halfway There',desc:'Complete 15 days',icon:'⚡',check:d=>d.progress.daysCompleted.length>=15},
+  {id:'week3',name:'Identity Shift',desc:'Complete 21 days',icon:'🦋',check:d=>d.progress.daysCompleted.length>=21},
+  {id:'finisher',name:'Transformation',desc:'Complete all 30 days',icon:'👑',check:d=>d.progress.daysCompleted.length>=30},
+  {id:'habit_7',name:'Habit Streak',desc:'7 days of habits',icon:'✅',check:d=>d.progress.streak>=7},
+  {id:'journal_5',name:'Reflective',desc:'5+ journal entries',icon:'📝',check:d=>(d.journal.entries||[]).length>=5},
+  {id:'assessed',name:'Self-Aware',desc:'Complete life assessment',icon:'🎯',check:d=>Object.keys(d.assessment.before).length>=10}
+];
+
+function updateDashboard(){
+  const d=getData();
+  calcStreak(d);
+  const dc=d.progress.daysCompleted.length;
+  const totalTasks=dc*5;let doneTasks=0;
+  Object.values(d.dailyProgram).forEach(dd=>{
+    if(dd.tasks)Object.values(dd.tasks).forEach(v=>{if(v)doneTasks++;});
+  });
+  const overall=dc>0?Math.round((dc/30)*100):0;
+  // Habit completion
+  const habits=d.customHabits.items;
+  let hTotal=0,hDone=0;
+  habits.forEach(h=>{for(let i=1;i<=30;i++){hTotal++;if(d.customHabits.grid[h.id+'_'+i])hDone++;}});
+  const habitPct=hTotal?Math.round((hDone/hTotal)*100):0;
+  // Life score
+  const bVals=ASSESS_AREAS.map(a=>d.assessment.before[a]||5);
+  const lifeScore=Math.round((bVals.reduce((a,b)=>a+b,0)/100)*100);
+  // Update DOM
+  const set=(id,v)=>{const el=document.getElementById(id);if(el)el.textContent=v;};
+  set('dashOverall',overall+'%');
+  set('dashDaysCompleted',dc);
+  set('dashDaysRemaining',30-dc);
+  set('dashStreak',d.progress.streak+'🔥');
+  set('dashLifeScore',lifeScore);
+  set('dashCurrentStreak',d.progress.streak+' days');
+  set('dashBestStreak',d.progress.bestStreak+' days');
+  set('programStreak',d.progress.streak);
+  // Rings
+  drawRing('ringOverall',overall,'#D4AF37','Overall');
+  drawRing('ringHabits',habitPct,'#60a5fa','Habits');
+  const weeklyPct=dc>0?Math.round(((Math.min(dc,7))/7)*100):0;
+  drawRing('ringWeekly',weeklyPct,'#4ade80','Weekly');
+  drawRing('ringLife',lifeScore,'#D4AF37','Life');
+  // Weekly bars
+  const wbEl=document.getElementById('weeklyProgressBars');
+  if(wbEl){
+    wbEl.innerHTML='';
+    for(let w=1;w<=4;w++){
+      const wDays=Array.from({length:7},(_,i)=>(w-1)*7+i+1);
+      const wComplete=wDays.filter(dd=>d.progress.daysCompleted.includes(dd)).length;
+      const wPct=Math.round((wComplete/7)*100);
+      wbEl.innerHTML+=`<div style="margin-bottom:10px"><div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:0.78rem;font-family:system-ui,sans-serif;color:var(--text-secondary)">Week ${w}</span><span style="font-size:0.78rem;font-family:system-ui,sans-serif;color:var(--gold)">${wComplete}/7</span></div><div class="progress-bar"><div class="progress-fill" style="width:${wPct}%"></div></div></div>`;
+    }
+  }
+  // Last backup
+  const lbEl=document.getElementById('lastBackupDisplay');
+  if(lbEl)lbEl.textContent=d.dashboard.lastBackup?new Date(d.dashboard.lastBackup).toLocaleString():'Never';
+  // Achievements
+  renderAchievements(d);
+  saveData(d);
+}
+
+function renderAchievements(d){
+  const c=document.getElementById('achievementsGrid');if(!c)return;
+  c.innerHTML='';
+  ACHIEVEMENTS.forEach(a=>{
+    const unlocked=a.check(d);
+    const div=document.createElement('div');
+    div.className='achievement'+(unlocked?' unlocked':'');
+    div.innerHTML=`
+      <div class="achievement-icon ${unlocked?'':'locked-overlay'}">${a.icon}</div>
+      <div>
+        <div class="achievement-name">${a.name}</div>
+        <div class="achievement-desc">${a.desc}</div>
+        ${unlocked?'<span class="badge badge-green" style="margin-top:4px">Unlocked</span>':'<span class="badge" style="margin-top:4px;opacity:0.5">Locked</span>'}
+      </div>`;
+    c.appendChild(div);
+  });
+}
+
+// ===================== ADD ITEM MODAL HELPER =====================
+let _addItemCallback=null;
+function openAddItemModal(title,label,callback,defaultVal=''){
+  document.getElementById('addItemTitle').textContent=title;
+  document.getElementById('addItemLabel').textContent=label;
+  document.getElementById('addItemInput').value=defaultVal;
+  _addItemCallback=callback;
+  openModal('addItemModal');
+  setTimeout(()=>document.getElementById('addItemInput').focus(),100);
+}
+function confirmAddItem(){
+  const val=document.getElementById('addItemInput').value.trim();
+  if(!val){showToast('Please enter something','error');return;}
+  if(_addItemCallback)_addItemCallback(val);
+  closeModal('addItemModal');
+  _addItemCallback=null;
+}
+document.getElementById('addItemInput')?.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();confirmAddItem();}});
+
+// ===================== LOAD SAVED VALUES =====================
+function loadSavedValues(){
+  const d=getData();
+  // Vision
+  const v=d.vision;
+  ['vision1','vision2','vision3'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el&&v[id])el.value=v[id];
+  });
+  // Bonuses
+  const b=d.bonuses;
+  ['monthly1','monthly2','monthly3'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el&&b&&b[id])el.value=b[id];
+  });
+}
+
+// ===================== KEYBOARD ACCESSIBILITY =====================
+document.addEventListener('keydown',e=>{
+  if(e.key==='Enter'||e.key===' '){
+    const el=e.target;
+    if(el.classList.contains('check-box')||el.classList.contains('habit-cell')){
+      e.preventDefault();el.click();
+    }
+  }
+});
+
+// ===================== INIT =====================
+function init(){
+  loadTheme();
+  buildSliders('beforeSliders','bef',getData().assessment.before);
+  buildSliders('afterSliders','aft',getData().assessment.after);
+  buildDaysList();
+  buildWeeklyReviews();
+  buildJournalPrompts();
+  renderCustomVisions();
+  renderCustomPrompts();
+  renderNinetyGoals();
+  renderMilestones();
+  renderBonusHabits();
+  renderHabitTable();
+  renderJournalHistory();
+  initPlanner();
+  loadSavedValues();
+  updateDashboard();
+  updateAssessmentCharts();
+}
+
+window.addEventListener('DOMContentLoaded',init);
+</script>
+</body>
+</html>
