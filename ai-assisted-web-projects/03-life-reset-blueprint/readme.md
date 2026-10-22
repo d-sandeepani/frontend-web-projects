@@ -33,6 +33,10 @@ An AI-assisted, responsive front-end web application designed to help users orga
 
 The application stores user data locally in the browser. Data is not automatically synchronised across devices. Users should export backups regularly.
 
+## Screenshots
+
+![Desktop](Dashboard.png)
+
 ## Project Links
 
 - Live Demo: Add your GitHub Pages URL here
