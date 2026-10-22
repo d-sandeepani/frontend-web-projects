@@ -33,7 +33,7 @@ A collection of responsive websites, landing pages, business interfaces, and AI-
 | 08 | [SaaS Landing Page](saas-landing-page/) | Frontend Landing Page | HTML, CSS | Completed | [Live Demo](https://d-sandeepani.github.io/frontend-web-projects/saas-landing-page/) |
 | 09 | [Email Activity Tracker](https://github.com/d-sandeepani/frontend-web-projects/tree/main/ai-assisted-web-projects/01-email-tracking-tool) | AI-Assisted Web Project | HTML, CSS, JavaScript, localStorage | Completed — AI-Assisted | [Live Demo](https://d-sandeepani.github.io/frontend-web-projects/ai-assisted-web-projects/01-email-tracking-tool/) |
 | 10 | [Word Counter](https://github.com/d-sandeepani/frontend-web-projects/tree/main/ai-assisted-web-projects/02-word-counter) | AI-Assisted Web Project | HTML, CSS, JavaScript | Completed — AI-Assisted | [Live Demo](https://d-sandeepani.github.io/frontend-web-projects/ai-assisted-web-projects/02-word-counter/) |
-| 11 | [Wallpaper Website (Wallora)](https://github.com/d-sandeepani/frontend-web-projects/tree/main/ai-assisted-web-projects/03-wallpaper-website) | AI-Assisted Web Project | HTML, CSS, JavaScript, localStorage | Completed — AI-Assisted | [Live Demo](https://d-sandeepani.github.io/frontend-web-projects/ai-assisted-web-projects/03-wallpaper-website/) |
+| 11 | [life-reset-blueprint)](https://github.com/d-sandeepani/frontend-web-projects/tree/main/ai-assisted-web-projects/03-life-reset-blueprint) | AI-Assisted Web Project | HTML, CSS, JavaScript, localStorage | Completed — AI-Assisted | [Live Demo](https://d-sandeepani.github.io/frontend-web-projects/ai-assisted-web-projects/03-life-reset-blueprint/) |
 
 > Live Demo links are placeholders until GitHub Pages is enabled.
 
