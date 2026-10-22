@@ -39,8 +39,8 @@ The application stores user data locally in the browser. Data is not automatical
 
 ## Project Links
 
-- Live Demo: Add your GitHub Pages URL here
-- Source Code: Add your GitHub repository URL here
+- [Live Demo](https://d-sandeepani.github.io/frontend-web-projects/ai-assisted-web-projects/03-life-reset-blueprint/)
+
 
 ## Development Note
 
